@@ -1,11 +1,12 @@
 import { mongoose } from 'mongoose'
-import { Cat } from './mongo.mjs'
-
-let kitty = new Cat({ name: "Giovanni"});
+import app from './app/app.mjs'
+import './routers/user.mjs'
 
 try {
-    await kitty.save();
-    console.log("meow");
+    await mongoose.connect('mongodb://casataramelli.duckdns.org:270/test');
+    console.log("Connected to database");
 } catch (error) {
-    console.error(`Error saving kitty: ${error}`);
+    console.error(`Error connecting to database: ${error}`);
 }
+
+app.listen(8080, () => console.log('Listening on port 8080'));
