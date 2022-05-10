@@ -1,0 +1,23 @@
+{
+  "name": "is_gestio_backend",
+  "version": "1.0.0",
+  "description": "Backend of Gestio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fedebone00/IS_Gestio.git"
+  },
+  "author": "Giovanni Lunardi Federico Carbone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fedebone00/IS_Gestio/issues"
+  },
+  "homepage": "https://github.com/fedebone00/IS_Gestio#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.3.3"
+  }
+}
