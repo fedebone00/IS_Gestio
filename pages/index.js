@@ -13,35 +13,35 @@ export default function Home() {
           <h1 className={styles.sidebarTitle}>Area dipendente</h1>
         </li>
         <li >
-          <Link href="/">
+          <a href="/login.js">
             <h3 className={styles.sidebarElement1}>Pagina iniziale</h3>
-          </Link>
+          </a>
         </li>
         <li>
-          <Link href="/">
+          <a href="/">
             <h3 className={styles.sidebarElement1}>Timbra presenze</h3>
-          </Link>
+          </a>
         </li>
         <li>
 
-          <Link href="/">
+          <a href="/">
             <h3 className={styles.sidebarElement1}>Gestione ferie</h3>
-          </Link>
+          </a>
         </li>
         <li>
-          <Link href="/">
+          <a href="/">
             <h3 className={styles.sidebarElement1}>Notifica malattia</h3>
-          </Link>
+          </a>
         </li>
         <li>
-          <Link href="/">
+          <a href="/">
             <h3 className={styles.sidebarElement1}>Contatta colleghi</h3>
-          </Link>
+          </a>
         </li>
         <li>
-          <Link href="/">
+          <a href="/">
             <h3 className={styles.sidebarElement1}>Cloud aziendale</h3>
-          </Link>
+          </a>
         </li>
     </ul>
 
