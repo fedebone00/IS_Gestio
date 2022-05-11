@@ -2,6 +2,7 @@ import { mongoose } from 'mongoose'
 import app from './app/app.mjs'
 import './routers/user.mjs'
 import './routers/menu.mjs'
+import './routers/prenotamensa.mjs'
 
 try {
     await mongoose.connect('mongodb://casataramelli.duckdns.org:270/test');
