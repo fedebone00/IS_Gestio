@@ -10,10 +10,10 @@ export default function Home() {
     <div className={styles.sidebar}>
       <ul>
         <li>
-          <h1 className={styles.sidebarTitle}>Area dipendente</h1>
+          <div><h1 className={styles.sidebarTitle}>Area dipendente</h1></div>
         </li>
         <li >
-          <a href="/login.js">
+          <a href="login">
             <h3 className={styles.sidebarElement1}>Pagina iniziale</h3>
           </a>
         </li>
