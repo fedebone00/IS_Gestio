@@ -13,6 +13,7 @@ export function LoginForm() {
 
     try {
       setIsLoading(true);
+      const data = await NomeApi(username, password); //NomeApi vedere come la hanno chiamata
       console.log("Username --> ", username);
       console.log("Password --> ", password);
 
