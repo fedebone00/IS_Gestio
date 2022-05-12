@@ -26,9 +26,9 @@ export default function Home() {
         <h3 className="   text-gray-400 ">Contatta colleghi</h3>
       </a>
       <a href="/">
-        <h3 className="   text-gray-400 ">Cloud aziendale</h3>
+        <h3 className="  text-gray-400 ">Cloud aziendale</h3>
       </a>
-      <div>
+      <div className='py-96'>
       <Image
       src="/../public/logo.png"
       alt="GESTIO"
