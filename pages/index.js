@@ -30,10 +30,10 @@ export default function Home() {
       </a>
       <div>
       <Image
-      src="/public/logo.png"
-      alt="logo"
-      width={500}
-      height={500}
+      src="/../public/logo.png"
+      alt="GESTIO"
+      width={150}
+      height={130}
       /> 
       </div>
     </div>
