@@ -13,7 +13,13 @@ export function LoginForm() {
 
     try {
       setIsLoading(true);
-      const data = await NomeApi(username, password); //NomeApi vedere come la hanno chiamata
+
+      fetch('http://localhost:8080/users', {
+        mode:'no-cors',
+        method: 'POST',
+        body: 'email={ (username) }'
+      })
+
       console.log("Username --> ", username);
       console.log("Password --> ", password);
 
