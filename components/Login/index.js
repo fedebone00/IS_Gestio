@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-//import { NomeFunziona } from "CARTELLA IN CUI ABBIAMO LE API"; //API
+import axios from 'axios'
 
 export function LoginForm() {
   const [username, setUsername] = useState("");
@@ -14,11 +14,38 @@ export function LoginForm() {
     try {
       setIsLoading(true);
 
-      fetch('http://localhost:8080/users', {
+      const axios = require('axios');
+
+axios
+  .post('http://localhost:8080/users', {
+    email: { username },
+  })
+  .then(res => {
+    console.log(`statusCode: ${res.status}`);
+    console.log(res);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
+
+
+      /*fetch("http://localhost:8080/users", {
+        "mode":"no-cors",
+        "method": "post",
+        "body": JSON.stringify({
+           "test": {username}
+        })
+      })
+      console.log(req.body)*/
+
+      /*fetch('http://localhost:8080/users', {
         mode:'no-cors',
         method: 'POST',
-        body: 'email={ (username) }'
-      })
+        body: JSON.stringify({
+          "email": "lorenzo@lorenzo.com"
+       })
+      })*/
 
       console.log("Username --> ", username);
       console.log("Password --> ", password);
