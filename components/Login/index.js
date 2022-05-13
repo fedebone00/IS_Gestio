@@ -8,13 +8,16 @@ export function LoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
 
 
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
       setIsLoading(true);
+      const qs = require('qs')
+      const axios = require('axios')
 
-      const axios = require('axios');
+      /*const axios = require('axios');
 
 axios
   .post('http://localhost:8080/users', {
@@ -26,19 +29,19 @@ axios
   })
   .catch(error => {
     console.error(error);
-  });
+  });*/
 
 
-
-      /*fetch("http://localhost:8080/users", {
-        "mode":"no-cors",
-        "method": "post",
-        "body": JSON.stringify({
-           "test": {username}
-        })
-      })
-      console.log(req.body)*/
-
+      /*
+            fetch("http://localhost:8080/users", {
+              "mode": "no-cors",
+              "method": "post",
+              "headers": { "Content-Type": "x-www-form-urlencoded" },
+              "body": JSON.stringify({
+                "test": { username }
+              })
+            })
+      */
       /*fetch('http://localhost:8080/users', {
         mode:'no-cors',
         method: 'POST',
@@ -46,6 +49,19 @@ axios
           "email": "lorenzo@lorenzo.com"
        })
       })*/
+
+      axios({
+        method: 'post',
+        url: 'http://localhost:8080/users',
+        data: qs.stringify({
+          email: { username }
+        }),
+        headers: {
+          'content-type': 'x-www-form-urlencoded'
+        }
+      })
+
+
 
       console.log("Username --> ", username);
       console.log("Password --> ", password);
