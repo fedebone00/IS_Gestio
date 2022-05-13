@@ -3,7 +3,6 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import home from '../public/home-outline.png'
-import { IoHomeOutline } from 'react-icons/io';
 
 
 export default function Home() {
@@ -12,7 +11,7 @@ export default function Home() {
       <div></div>
       <h1 className=" font-extrabold text-2xl text-gray-400 py-4">Area dipendente</h1>
       <a href="login">
-        <h3 className= " text-gray-400 "><IoHomeOutline/>Pagina iniziale</h3>
+        <h3 className= " text-gray-400 ">Pagina iniziale</h3>
       </a>
       <a href="/">
         <h3 className="   text-gray-400 ">Timbra presenze</h3>
