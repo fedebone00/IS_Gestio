@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 export function LoginForm() {
-  const [username, setUsername] = useState("");
+  const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,53 +19,20 @@ export function LoginForm() {
       const qs = require('qs')
       const axios = require('axios')
 
-      /*const axios = require('axios');
 
-axios
-  .post('http://localhost:8080/users', {
-    email: { username },
-  })
-  .then(res => {
-    console.log(`statusCode: ${res.status}`);
-    console.log(res);
-  })
-  .catch(error => {
-    console.error(error);
-  });*/
-
-
-      /*
-            fetch("http://localhost:8080/users", {
-              "mode": "no-cors",
-              "method": "post",
-              "headers": { "Content-Type": "x-www-form-urlencoded" },
-              "body": JSON.stringify({
-                "test": { username }
-              })
-            })
-      */
-      /*fetch('http://localhost:8080/users', {
-        mode:'no-cors',
-        method: 'POST',
-        body: JSON.stringify({
-          "email": "lorenzo@lorenzo.com"
-       })
-      })*/
-
+     FUNZIONA
       axios({
-        method: 'post',
+        method: 'POST',
         url: 'http://localhost:8080/users',
-        data: qs.stringify({
-          email: { username }
-        }),
-        headers: {
-          'content-type': 'x-www-form-urlencoded'
-        }
+        data: 
+            {
+              email
+            },
       })
 
 
 
-      console.log("Username --> ", username);
+      console.log("Username --> ", email);
       console.log("Password --> ", password);
 
     } catch (error) {
