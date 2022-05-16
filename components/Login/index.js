@@ -20,7 +20,16 @@ export function LoginForm() {
       const axios = require('axios')
 
 
-     FUNZIONA
+     /*FUNZIONA
+      axios({
+        method: 'POST',
+        url: 'http://localhost:8080/users',
+        data: 
+            {
+              email
+            },
+      })*/
+
       axios({
         method: 'POST',
         url: 'http://localhost:8080/users',
