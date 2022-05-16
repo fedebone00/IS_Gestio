@@ -3,9 +3,11 @@ import app from './app/app.mjs'
 import './routers/user.mjs'
 import './routers/menu.mjs'
 import './routers/prenotamensa.mjs'
+import './routers/malattia.mjs'
+import './routers/schema.mjs'
 
 try {
-    await mongoose.connect('mongodb://casataramelli.duckdns.org:270/test');
+    await mongoose.connect('mongodb://casataramelli.duckdns.org:270/test', {useNewUrlParser: true, useUnifiedTopology: true});
     console.log("Connected to database");
 } catch (error) {
     console.error(`Error connecting to database: ${error}`);
