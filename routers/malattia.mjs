@@ -15,11 +15,12 @@ app.post('/malattia',isAuthenticated, isAuthorized, uploadStorage.single('certif
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
-    }
+    } else{
     let m = new Malattia({certificato: req.body['certificato'], data: req.body['data']});
     m.save()
         .then(() => res.status(201).send(`Successfully uploaded`))
         .catch(() => res.status(500).send('Error while uploading'));
+    }
 });
 
 app.delete('/malattia/:id', isAuthenticated, isAuthorized, (req,res) => {
