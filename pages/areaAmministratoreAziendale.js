@@ -10,6 +10,9 @@ import { SidebarAA } from "../components/sidebarAA";
 
 export default function Home() {
   return (
-    <SidebarAA />
+    <div>
+    <SidebarAA/>
+    <TopBar/>
+  </div>
   )
 }
