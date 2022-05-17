@@ -10,7 +10,7 @@ import { MdFirstPage, MdPersonAddAlt1, MdPersonRemoveAlt1, MdOutlineModeEditOutl
 export function SidebarAA() {
     return (
         <div className="flex flex-col fixed left-0 top-0 w-64 h-screen bg-gray-700 text-center gap-6">
-            <h1 className=" font-extrabold text-2xl text-gray-400 py-4">Amministrazione Aziendale</h1>
+            <h1 className=" font-extrabold text-2xl text-gray-400 py-4 mt-4">Amministrazione Aziendale</h1>
             <a href="areaAmministratoreAziendale">
                 <h3 className=" text-gray-400 inline-flex items-center justify-center "><MdFirstPage fontSize={20} /> Pagina iniziale</h3>
             </a>
