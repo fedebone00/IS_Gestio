@@ -16,6 +16,7 @@ import { FiMoreVertical } from "react-icons/fi";
 import DatePicker from "sassy-datepicker"; //Calendar component
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
+import { TopBar } from "../components/topBar";
 
 export default function HomeDip() {
   const onChange = (date) => {
@@ -75,7 +76,7 @@ export default function HomeDip() {
                     </h1>
                   </Menu.Item>
                   <Menu.Item disabled>
-                    <h1 className="group flex w-full items-center  justify-center border-solid border border-black rounded-md px-3 py-3 ">
+                    <h1 className="group flex w-full items-center bg-gray-600 text-white justify-center rounded-md px-3 py-3 ">
                       {" "}
                       LOG OUT
                     </h1>
