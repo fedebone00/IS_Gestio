@@ -8,12 +8,12 @@ app.get('/timbratura', isAuthenticated, isAuthorized, (req,res) =>{
     Cartellino.find().then((cartellino) => res.send(cartellino))
 });
 
-app.post('/timbratura', isAuthenticated, isAuthorized, check('data').notEmpty().isDate(new Date()),check('tipo').notEmpty(), check('ora').notEmpty() ,(req,res) => {
+app.post('/timbratura', isAuthenticated, isAuthorized, check('data').notEmpty().isDate(new Date()),check('tipo').notEmpty(), check('ora').notEmpty(),check('smartworking').notEmpty() ,(req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
     }
-    let c = new Cartellino({data: req.body['data'],tipo: req.body['tipo'], ora: req.body['ora']});
+    let c = new Cartellino({data: req.body['data'],tipo: req.body['tipo'], ora: req.body['ora'], smartworking: req.body['smartworking']});
     c.save()
         .then(() => res.status(201).send(`Succesfully checked ${req.body.tipo}`))
         .catch(() => res.status(500).send(`Error checking ${req.body.tipo}`));
@@ -31,10 +31,11 @@ app.put('/timbratura/:id', isAuthenticated, isAuthorized, async (req, res) => {
         cartellino.data = req.body['data'];
         cartellino.tipo = req.body['tipo'];
         cartellino.ora = req.body['ora'];
+        cartellino.smartworking  = req.body['smartworking'];
         cartellino.save()
             .then(() => res.status(201).send(`Successfully modified: ${req.params.id}`))
             .catch(() => res.status(500).send(`Error modifiyng: ${req.params.id}`));
     } else {
-        res.status(404).send('User not found');
+        res.status(404).send('Cartellino not found');
     }
 });

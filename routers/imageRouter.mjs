@@ -1,55 +1,59 @@
 /*
 Big Error, non riesce a salvare la foto: da sistemare
-
 */
+import app from '../app/app.mjs';
+import multer, { diskStorage as _diskStorage } from 'multer';
+import Image from '../models/Image.mjs';
+import fs from 'fs'
 
-import express from "express";
-import app from '../app/app.mjs'
-import  BodyParser  from "body-parser";
-import path from 'path';
-import { readFileSync } from "fs";
-import multer, { diskStorage } from "multer";
-import mongoose from "mongoose";
-import imageSchema  from '../models/imageModel.mjs'; 
-import { urlencoded } from "express"  
-
-app.use(urlencoded(
-      { extended:true }
-))
- 
-app.set("view engine","ejs");
- 
-// SET STORAGE
-var storage = diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, '')
+var storage = _diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'test')
     },
-    filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now())
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname)
     }
-  })
- 
-var upload = multer({ storage: storage })
- 
-app.get("/",(req,res)=>{
-    res.render("index");
-})
- 
-app.post("/uploadphoto",upload.single('myImage'),(req,res)=>{
-    var img = readFileSync(req.file.path);
-    var encode_img = img.toString('base64');
-    var final_img = {
-        contentType:req.file.mimetype,
-        image:new Buffer(encode_img,'base64')
-    };
-    create(final_img,function(err,result){
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result.img.Buffer);
-            console.log("Saved To database");
-            res.contentType(final_img.contentType);
-            res.send(final_img.image);
-        }
-    })
-})
+});
+
+var upload = multer({ storage: storage });
+
+app.get('/images', (req, res) => {
+    // imageSchema.find({}, (err, items) => {
+    //     if (err) {
+    //         console.log(err);
+    //         res.status(500).send('An error occurred', err);
+    //     }
+    //     else {
+    //         res.render('imagesPage', { items: items });
+    //     }
+    // });
+    Image.find().then((image) => res.send(image))
+});
+
+app.post('/images', (req, res, next) => {
+    // console.log(req.body['image'])
+    // var obj = {
+    //     name: req.body.name,
+    //     desc: req.body.desc,
+    //     img: {
+    //         data: fs.readFileSync(path.join('/test/'+file.fieldname)),
+    //         contentType: 'image/png'
+    //     }
+    // }
+    // imageSchema.create(obj, (err, item) => {
+    //     if (err) {
+    //         console.log(err+ 'ah');
+    //     }
+    //     else {
+    //         item.save();
+    //         //res.redirect('/imagess');
+    //     }
+    // });
+
+    console.log(req.body['image']);
+
+    let image = new Image({image: req.body['image']});
+    image.save()
+        .then(() => res.status(201).send('Succesfully add file'))
+        .catch(() => res.status(500).send('Error saving file'));
+});
