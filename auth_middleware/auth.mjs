@@ -4,6 +4,7 @@ const isAuthenticated = (req, res, next) => {
     if(req.body['jwt']) {
         try {
             let payload = jwt.verify(req.body['jwt'], 'test');
+            req.body['role'] = payload.role;
         } catch(error) {
             res.status(400).json({error: error});
             return;
@@ -16,6 +17,7 @@ const isAuthenticated = (req, res, next) => {
 }
 
 const isAuthorized = (req, res, next) => {
+    
     next();
 }
 
