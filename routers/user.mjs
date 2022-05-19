@@ -4,8 +4,8 @@ import { body, validationResult } from 'express-validator'
 import { isAuthenticated, isAuthorized } from '../auth_middleware/auth.mjs';
 import crypto from 'node:crypto';
 
-app.get('/users', (req, res) => {
-    User.find()/*.select(['-password_hash', '-salt'])*/.then((users) => res.send(users));
+app.get('/users', isAuthenticated, isAuthorized, (req, res) => {
+    User.find().select(['-password_hash', '-salt']).then((users) => res.send(users));
 });
 
 app.post('/users', isAuthenticated, isAuthorized, body('email').isEmail(), body('password').isLength({min: 8}), async (req, res) => {
@@ -33,7 +33,7 @@ app.delete('/users/:id', isAuthenticated, isAuthorized, (req, res) => {
         .catch(() => res.status(500).send('Error deleting user'));
 });
 
-app.put('/users/:id', async (req, res) => {
+app.put('/users/:id', isAuthenticated, isAuthorized, async (req, res) => {
     let user = await User.findById(req.params.id);
     if(user) {
         user.email = req.body['email'];
