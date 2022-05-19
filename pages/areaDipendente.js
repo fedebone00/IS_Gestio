@@ -8,13 +8,18 @@ import {MdFirstPage, MdOutlineLogin , MdBeachAccess , MdLocalHospital , MdContac
 import { SidebarDip } from '../components/sidebarDip'
 import { SidebarAA } from '../components/sidebarAA'
 import TopBar from '../components/topBar'
+import DatePicker from 'sassy-datepicker'
+import { Mensa } from '../components/Mensa'
 
 
 export default function Home() {
   return (
     <div>
       <SidebarDip/>
-      <TopBar/>
+      <TopBar title="A colpo d'occhio"/>
+
+      <DatePicker className='absolute bottom-40 left-72'/>
+      <Mensa/>
     </div>
   )
 }

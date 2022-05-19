@@ -11,10 +11,10 @@ import DatePicker from "sassy-datepicker"; //Calendar component
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 
-function TopBar() {
+function TopBar( {title} ) {
   return (
     <div className="container flex flex-wrap justify-between items-center ml-56 m-0 font-semibold text-2xl gap-0">
-      <h1 className="relative flex items-center">Pagina iniziale</h1>
+      <h1 className="relative flex items-center">{title}</h1>
       <div className="flex flex-row text-gray-400 gap-5 items-center">
         <MdSearch fontSize={25} />
         <BsBellFill fontSize={23} />
