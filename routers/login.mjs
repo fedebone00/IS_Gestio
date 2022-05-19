@@ -25,13 +25,13 @@ app.post('/refresh', async (req, res) => {
         try{
             var refresh_payload = jwt.verify(req.body['rt'], 'test');
         } catch(error) {
-            res.status(401).send('Refresh token expired, please log in again');
+            return res.status(401).send('Refresh token expired, please log in again');
         }
 
         try {
             var jwt_payload = jwt.decode(req.body['jwt'], 'test');
         } catch(error) {
-            res.status(401).send('Error decoding jwt');
+            return res.status(401).send('Error decoding jwt');
         }
 
         if(jwt_payload.user_id == refresh_payload.user_id) {
