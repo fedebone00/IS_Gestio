@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Image from 'next/image'
 import axios from 'axios'
-import { useRouter } from 'next/router'
+import cookieCutter from 'cookie-cutter'
+
 
 
 export function LoginForm() {
@@ -9,18 +10,13 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [tokenR, setToken] = useState("");
 
-  function parseJwt(token) {
-    if (!token) { return; }
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(window.atob(base64));
-  }
+  
 
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     try {
       setIsLoading(true);
       const qs = require('qs')
@@ -39,21 +35,30 @@ export function LoginForm() {
           let token = response.data;
           console.log(response.data)
 
-          localStorage.setItem('Token', JSON.stringify(token));
+          //cookieCutter.get('myCookieName')
+          //cookieCutter.set('jwt', token.jwt);
+          //cookieCutter.set('rt', token.rt);
+          sessionStorage.setItem('jwt', token.jwt);
+          sessionStorage.setItem('rt', token.rt);
 
-          if (parseJwt(token.jwt).role == "AA") {
-            console.log("redirect to pagina AA");
-           //redirect to areaAmministratoreAziendale
-            
-          }
-          else if ((parseJwt(token.jwt).role == "DIP0") || (parseJwt(tokenR.jwt).role == "DIP1")) {
-            console.log("redirect to pagina DIP");
-            //redirect to areaDipendente
-          }
+         // console.log("JWT-->", cookieCutter.get('jwt'));
+          //console.log("RT-->", cookieCutter.get('rt'));
+
+
+
+
+
+          // localStorage.setItem('Token', JSON.stringify(token));
 
           /*if (parseJwt(token.jwt).role == "AA"){
-            console.log("Entrato nella condizione")
+            console.log("Entrato nella condizione AA")
           }*/
+
+          /*if (parseJwt(token.jwt).role == "DIP"){
+           console.log("Entrato nella condizione DIP")
+         }*/
+
+
 
 
 
@@ -61,19 +66,17 @@ export function LoginForm() {
           //console.log("REFRESH-->",token.rt)
 
         });
+
+
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
     }
 
-
-
-    //console.log("email:", email);
-    //console.log("Password: ", password)
+    console.log("email:", email);
+    console.log("Password: ", password)
   }
-
-
 
   return (
     <div>

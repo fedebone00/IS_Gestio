@@ -10,8 +10,22 @@ import { FiMoreVertical } from "react-icons/fi";
 import DatePicker from "sassy-datepicker"; //Calendar component
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
+import Link from 'next/link'
+import cookieCutter from 'cookie-cutter'
 
-function TopBar( {title} ) {
+function cleanCookies(){
+
+  console.log("Dentro Funzione");
+
+  cookieCutter.set('jwt', '', { expires: new Date(0) });
+  cookieCutter.set('rt', '', { expires: new Date(0) });
+
+  console.log(cookieCutter.get('jwt'));
+  console.log(cookieCutter.get('rt'));
+}
+
+
+export function TopBar({ title }) {
   return (
     <div className="container flex flex-wrap justify-between items-center ml-56 m-0 font-semibold text-2xl gap-0">
       <h1 className="relative flex items-center">{title}</h1>
@@ -62,8 +76,10 @@ function TopBar( {title} ) {
                 </Menu.Item>
                 <Menu.Item disabled>
                   <h1 className="group flex w-full items-center bg-gray-600 text-white justify-center rounded-md px-3 py-3 ">
+                    <a href="/" onClick={cleanCookies()}>
+                      LOGOUT
+                    </a>
                     {" "}
-                    LOG OUT
                   </h1>
                 </Menu.Item>
               </div>
