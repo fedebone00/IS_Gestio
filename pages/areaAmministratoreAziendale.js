@@ -17,7 +17,7 @@ function parseJwt(token) {
 }
 
 
-export default function Home() {
+export default function areaAmministratoreAziendale() {
 
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
@@ -54,7 +54,7 @@ export default function Home() {
     }
 
     else if (parseJwt(jwt).role == "AA") {
-      delete sessionStorage.jwt;
+      //delete sessionStorage.jwt;
       return (
         <div>
           <SidebarAA />
