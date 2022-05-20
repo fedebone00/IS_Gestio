@@ -6,7 +6,7 @@ import home from '../public/home-outline.png'
 import React, { Component, useEffect, useState } from 'react';
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
-import cookieCutter from 'cookie-cutter'
+
 
 
 function parseJwt(token) {

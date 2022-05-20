@@ -17,8 +17,8 @@ function cleanCookies(){
 
   console.log("Dentro Funzione");
 
-  //cookieCutter.set('jwt', '', { expires: new Date(0) });
-  //cookieCutter.set('rt', '', { expires: new Date(0) });
+  //sessionStorage.delete('jwt');
+  //sessionStorage.delete('rt');
 
   //console.log(cookieCutter.get('jwt'));
   //console.log(cookieCutter.get('rt'));
