@@ -7,6 +7,7 @@ import React, { Component, useEffect, useState } from 'react';
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
 import cookieCutter from 'cookie-cutter'
+import axios from 'axios';
 
 
 function parseJwt(token) {
@@ -19,11 +20,49 @@ function parseJwt(token) {
 
 export default function rimuoviDipendente() {
 
+  const [email, setUsername] = useState("");
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
 
   //const [jwt, setJwt] = useState("");
+
+
+  async function handleRemove(e) {
+    e.preventDefault();
+
+    try {
+      const qs = require('qs')
+      const axios = require('axios')
+
+      let base = "http://localhost:8080/users";
+      let id = "/628365d140db118623c8a37d";
+      let result = base.concat(id);
+
+      axios({
+        method: 'GET',
+        url: base,
+        data:
+        {
+          jwt,
+        },
+      })
+        .then(function (response) {
+          let token = response.data;
+          console.log(response.status);
+
+        }
+
+        );
+
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  }
+
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,6 +98,19 @@ export default function rimuoviDipendente() {
         <div>
           <SidebarAA />
           <TopBar />
+          <form onSubmit={handleRemove}>
+            <div className=" p-2 border  rounded flex flex-row  justify-center items-center">
+              <input
+                type="text"
+                id="usernameInput"
+                placeholder="Username Dipendente"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="py-2 inline-block px-6 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out">
+              Rimuovi!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            </button>
+          </form>
         </div>
       );
     }

@@ -65,7 +65,9 @@ export function LoginForm() {
           //console.log("TOKEN-->",token.jwt)
           //console.log("REFRESH-->",token.rt)
 
-        });
+        }
+        
+        );
 
 
     } catch (error) {
