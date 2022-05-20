@@ -23,20 +23,15 @@ export default function Home() {
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
 
-
-  const onChange = (date) => {
-    console.log(date.toString());
-  }
-
-
   //const [jwt, setJwt] = useState("");
 
   useEffect(() => {
     setTimeout(() => {
-      setJwt(cookieCutter.get('jwt'));
-      setJwt(cookieCutter.get('rt'));
+      setJwt(sessionStorage.getItem('jwt'));
+      setRt(sessionStorage.getItem('rt'));
+      console.log("JWT-->", jwt);
       setSet(0);
-    }, 2);
+    }, 50);
   }, []);
 
   if (set) {
@@ -45,16 +40,29 @@ export default function Home() {
       </div>
     );
   }
+
   else {
-    if (parseJwt(jwt).role == "AA") {
-      
-        return (
-          <div>
-            <SidebarAA />
-            <TopBar />
-          </div>
-        );
+    console.log("JWT-->", jwt);
+
+    if (jwt == undefined) {
+      return (
+        <div>
+          <h1>Devi prima effettuare il login!</h1>
+          <a href='/'>Vai alla pagina di login</a>
+        </div>
+      );
     }
+
+    else if (parseJwt(jwt).role == "AA") {
+      delete sessionStorage.jwt;
+      return (
+        <div>
+          <SidebarAA />
+          <TopBar />
+        </div>
+      );
+    }
+
     else {
       return (
         <div>
@@ -62,71 +70,5 @@ export default function Home() {
         </div>
       );
     }
-
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
-  useEffect(() => {
-    setJwt(cookieCutter.get('jwt'));
-    setRt(cookieCutter.get('rt'));
-
-    console.log("JWT-->", cookieCutter.get('jwt'));
-    console.log("RT-->", cookieCutter.get('rt'));
-
-
-
-    return () => {
-      
-    }
-  });
-*/
-
-
-  /*useEffect(() => {
-
-    console.log("JWT-->", cookieCutter.get('jwt'));
-    console.log("RT-->", cookieCutter.get('rt'));
-
-    setJwt(cookieCutter.get('jwt'));
-    setRt(cookieCutter.get('rt'));
-    //console.log(parseJwt(jwt).role);
-
-    return (
-      <h1>WAITING...</h1>
-    );
-
-    //console.log("JWT-->", sessionStorage.getItem('jwt'));
-    //console.log("RT-->", sessionStorage.getItem('rt'));
-    //jwt = sessionStorage.getItem('jwt');
-    setJwt(sessionStorage.getItem('jwt'));
-    setRt(sessionStorage.getItem('rt'));
-    console.log("JWT-->", jwt);
-    console.log("RT-->", rt);
-
-
-  });*/
-
-  /*if (parseJwt(jwt).role == "AA") {*/
-
-  /*}
-  else {
-    return (<h1>Non sei autorizzato!</h1>);
-  }*/
-  return (<h1>WAITING...</h1>)
-
 }
