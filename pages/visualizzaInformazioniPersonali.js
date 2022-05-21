@@ -51,7 +51,6 @@ export default function visualizzaInformazioniPersonali() {
     }
 
     else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
-      //delete sessionStorage.jwt;
       return (
         <div>
           <SidebarDip/>

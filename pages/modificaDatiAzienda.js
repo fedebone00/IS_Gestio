@@ -6,7 +6,6 @@ import home from '../public/home-outline.png'
 import React, { Component, useEffect, useState } from 'react';
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
-import cookieCutter from 'cookie-cutter'
 
 
 function parseJwt(token) {
@@ -22,8 +21,6 @@ export default function modificaDatiAzienda() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
-
-  //const [jwt, setJwt] = useState("");
 
   useEffect(() => {
     setTimeout(() => {
@@ -54,7 +51,6 @@ export default function modificaDatiAzienda() {
     }
 
     else if (parseJwt(jwt).role == "AA") {
-      //delete sessionStorage.jwt;
       return (
         <div>
           <SidebarAA />

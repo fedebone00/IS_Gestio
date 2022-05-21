@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
-import Image from 'next/image'
-import axios from 'axios'
-import cookieCutter from 'cookie-cutter'
+import Image from "next/image";
+import axios from "axios";
+import cookieCutter from "cookie-cutter";
+import { redirect } from "next/dist/server/api-utils";
+import Router from "next/router";
 
+
+function parseJwt(token) {
+  if (!token) { return; }
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(window.atob(base64));
+}
 
 
 export function LoginForm() {
@@ -11,7 +20,7 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  
+
 
 
   async function handleSubmit(e) {
@@ -19,57 +28,47 @@ export function LoginForm() {
 
     try {
       setIsLoading(true);
-      const qs = require('qs')
-      const axios = require('axios')
+      const qs = require("qs");
+      const axios = require("axios");
 
       axios({
-        method: 'POST',
-        url: 'http://localhost:8080/login',
-        data:
-        {
+        method: "POST",
+        url: "http://localhost:8080/login",
+        data: {
           email,
           password,
         },
-      })
-        .then(function (response) {
-          let token = response.data;
-          console.log(response.data)
+      }).then(function (response) {
+        let token = response.data;
+        //console.log(response.data);
 
-          //cookieCutter.get('myCookieName')
-          //cookieCutter.set('jwt', token.jwt);
-          //cookieCutter.set('rt', token.rt);
-          sessionStorage.setItem('jwt', token.jwt);
-          sessionStorage.setItem('rt', token.rt);
-
-         // console.log("JWT-->", cookieCutter.get('jwt'));
-          //console.log("RT-->", cookieCutter.get('rt'));
+        //cookieCutter.get('myCookieName')
+        //cookieCutter.set('jwt', token.jwt);
+        //cookieCutter.set('rt', token.rt);
+        sessionStorage.setItem("jwt", token.jwt);
+        sessionStorage.setItem("rt", token.rt);
 
 
 
+        // console.log("JWT-->", cookieCutter.get('jwt'));
+        //console.log("RT-->", cookieCutter.get('rt'));
 
+        // localStorage.setItem('Token', JSON.stringify(token));
 
-          // localStorage.setItem('Token', JSON.stringify(token));
+        if (parseJwt(token.jwt).role == "AA"){
+          console.log("Entrato nella condizione AA");
+          Router.push("/areaAmministratoreAziendale");
+            
+          }
 
-          /*if (parseJwt(token.jwt).role == "AA"){
-            console.log("Entrato nella condizione AA")
-          }*/
+        if (parseJwt(token.jwt).role == "DIP"){
+           console.log("Entrato nella condizione DIP");
+           Router.push("/areaDipendente");
+         }
 
-          /*if (parseJwt(token.jwt).role == "DIP"){
-           console.log("Entrato nella condizione DIP")
-         }*/
-
-
-
-
-
-          //console.log("TOKEN-->",token.jwt)
-          //console.log("REFRESH-->",token.rt)
-
-        }
-        
-        );
-
-
+        //console.log("TOKEN-->",token.jwt)
+        //console.log("REFRESH-->",token.rt)
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,7 +76,7 @@ export function LoginForm() {
     }
 
     console.log("email:", email);
-    console.log("Password: ", password)
+    console.log("Password: ", password);
   }
 
   return (
@@ -89,7 +88,7 @@ export function LoginForm() {
         alt="title"
       />
       <form onSubmit={handleSubmit}>
-        <fieldset className="  relative z-1  p-3 flex flex-col space-y-3 justify-center items-center  h-screen" >
+        <fieldset className="  relative z-1  p-3 flex flex-col space-y-3 justify-center items-center  h-screen">
           <Image
             src="/../public/logo1.png"
             alt="GESTIO"
@@ -112,12 +111,12 @@ export function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {errorMessage && (
-            <div role="alert">
-              {errorMessage}
-            </div>
-          )}
-          <button type="submit" disabled={isLoading} className="py-2 inline-block px-6 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out">
+          {errorMessage && <div role="alert">{errorMessage}</div>}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="py-2 inline-block px-6 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+          >
             LOGIN
           </button>
         </fieldset>

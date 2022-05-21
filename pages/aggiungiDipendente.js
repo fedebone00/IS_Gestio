@@ -6,7 +6,6 @@ import home from '../public/home-outline.png'
 import React, { Component, useEffect, useState } from 'react';
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
-import cookieCutter from 'cookie-cutter'
 
 
 function parseJwt(token) {
@@ -16,14 +15,11 @@ function parseJwt(token) {
   return JSON.parse(window.atob(base64));
 }
 
-
 export default function aggiungiDipendente() {
 
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
-
-  //const [jwt, setJwt] = useState("");
 
   useEffect(() => {
     setTimeout(() => {

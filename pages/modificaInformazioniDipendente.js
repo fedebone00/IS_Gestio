@@ -23,8 +23,6 @@ export default function modificaInformazioniDipendnete() {
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
 
-  //const [jwt, setJwt] = useState("");
-
   useEffect(() => {
     setTimeout(() => {
       setJwt(sessionStorage.getItem('jwt'));
@@ -54,7 +52,6 @@ export default function modificaInformazioniDipendnete() {
     }
 
     else if (parseJwt(jwt).role == "AA") {
-      //delete sessionStorage.jwt;
       return (
         <div>
           <SidebarAA />
