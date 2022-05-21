@@ -1,8 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import axios from "axios";
-import cookieCutter from "cookie-cutter";
-import { redirect } from "next/dist/server/api-utils";
 import Router from "next/router";
 
 
@@ -61,7 +58,7 @@ export function LoginForm() {
             
           }
 
-        if (parseJwt(token.jwt).role == "DIP"){
+        if ((parseJwt(token.jwt).role == "DIP0") || (parseJwt(token.jwt).role == "DIP1")){
            console.log("Entrato nella condizione DIP");
            Router.push("/areaDipendente");
          }
