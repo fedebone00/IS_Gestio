@@ -20,8 +20,6 @@ export default function visualizzaInformazioniPersonali() {
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
 
-  //const [jwt, setJwt] = useState("");
-
   useEffect(() => {
     setTimeout(() => {
       setJwt(sessionStorage.getItem('jwt'));

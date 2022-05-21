@@ -9,7 +9,7 @@ import {MdFirstPage, MdOutlineLogin , MdBeachAccess , MdLocalHospital , MdContac
 
 export function SidebarDip() {
   return (
-    <div className="flex flex-col fixed left-0 top-0 w-80 h-screen bg-gray-700 text-center gap-6">
+    <div className="flex flex-col fixed left-0 top-0 w-64 h-screen bg-gray-700 text-center gap-6">
       
       <h1 className=" font-extrabold text-2xl text-gray-400 py-5 mt-4">Dipendente</h1>
       <a href="areaDipendente">
