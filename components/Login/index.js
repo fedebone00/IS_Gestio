@@ -114,7 +114,9 @@ export function LoginForm() {
             >
               LOGIN
             </button>
+            <a href="/recuperoCredenziali">
             <h6 className="text-right">Password dimenticata?</h6>
+            </a>
           </div>
         </fieldset>
       </form>
