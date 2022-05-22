@@ -6,7 +6,6 @@ import home from "../public/home-outline.png";
 import React, { Component, useEffect, useState } from "react";
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
-import axios from "axios";
 
 function parseJwt(token) {
   if (!token) {
@@ -30,86 +29,57 @@ export default function rimuoviDipendente() {
 
   async function handleRemove(e) {
     e.preventDefault();
-    try {
-      const qs = require("qs");
-      const axios = require("axios");
+    // Default options are marked with *
 
-      axios({
-        method: "POST",
-        url: "http://localhost:8080/refresh",
+    const getUsers = await fetch("http://localhost:8080/users",
+      {
+        method: 'GET',
+
         headers: {
-          "x-access-token": jwt,
+          'x-access-token': jwt,
         },
-        data: {
-          rt,
-        },
-      }).then(function (response) {
-        setToken(response.data);
 
-        sessionStorage.setItem("jwt", token.jwt);
-        sessionStorage.setItem("rt", token.rt);
-        //setJwt(token.jwt);
-        //setRt(token.rt);
-        console.log("JWT-->", jwt);
-        console.log("RT-->", rt);
-        console.log("ROLE-->", parseJwt(jwt).role);
+      }).then(response => response.json())
+      .then(data => {
+        console.log(data);
 
-        try {
-          const qs = require("qs");
-          const axios = require("axios");
+        var found = data.filter(function (item) { return item.email === email; });
+        console.log('found', found[0]);
 
-          axios({
-            method: "GET",
-            url: base,
-            headers: {
-              "x-access-token": sessionStorage.getItem("jwt"),
-            },
-          }).then(function (response) {
-            let data = response.data;
-            var found = data.filter(function (item) {
-              return item.email === email;
+        if(found[0] != undefined){
+          let id = (found[0]._id);
+          //console.log(id);
+  
+          let result = base.concat(slash);
+  
+          result = result.concat(id);
+          //console.log("ID-->", result);
+  
+  
+          fetch(result,
+            {
+              method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+              //mode: 'cors', // no-cors, *cors, same-origin
+              //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+              //credentials: 'same-origin', // include, *same-origin, omit
+              headers: {
+                'x-access-token': jwt,
+              },
+              //body: JSON.stringify(data) // body data type must match "Content-Type" header
+            })
+            .then(function (response) {
+              let result = response.data;
+              //console.log(result);
+  
             });
-            console.log("found", found[0]);
-            if (found !== undefined) {
-              setId(found[0]._id);
-              let result = base.concat(slash);
-              result = result.concat(id);
-              console.log("ID-->", result);
-
-              try {
-                const qs = require("qs");
-                const axios = require("axios");
-
-                axios({
-                  method: "DELETE",
-                  url: result,
-                  headers: {
-                    "x-access-token": sessionStorage.getItem("jwt"),
-                  },
-                }).then(function (response) {
-                  let result = response.data;
-                  console.log(result);
-                });
-              } catch (error) {
-                console.log(error);
-              } finally {
-              }
-            } else {
-              console.log("Utente non trovato!");
-              setError(true);
-            }
-          });
-        } catch (error) {
-          console.log(error);
-        } finally {
         }
-      });
-    } catch (error) {
-      //console.log(error);
-      console.log("RIFAI IL LOGIN!!");
-    } finally {
-    }
+
+
+  
+
+      })
   }
+
 
   useEffect(() => {
     setTimeout(() => {
