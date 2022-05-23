@@ -42,8 +42,8 @@ app.post('/api/v1/refresh', async (req, res) => {
                 res.status(401).send('No user found with this id');
             }
 
-            let token = jwt.sign({user_id: user._id, role: user.role}, JWT_SIGN_KEY, {expiresIn: '30m'});
-            let refresh = jwt.sign({user_id: user._id}, JWT_SIGN_KEY, {expiresIn: '1h'});
+            let token = jwt.sign({user_id: user._id, role: user.role}, process.env.JWT_SIGN_KEY, {expiresIn: '30m'});
+            let refresh = jwt.sign({user_id: user._id}, process.env.JWT_SIGN_KEY, {expiresIn: '1h'});
             res.status(201).json({jwt: token, rt: refresh});
         } else {
             res.status(401).send('Refresh token and jwt not corresponding');
