@@ -2,11 +2,11 @@ const app = require('../app/app.js')
 const Dipendente = require('../models/Dipendenti.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 
-app.get('/dipendente', isAuthenticated, isAuthorized, (req,res) =>{
+app.get('/api/v1/dipendente', isAuthenticated, isAuthorized, (req,res) =>{
     Dipendente.find().then((dipendente) => res.send(dipendente))
 });
 
-app.post('/dipendente', isAuthenticated, isAuthorized , async (req,res) => {
+app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , async (req,res) => {
 
     let user = await Dipendente.findOne({email: req.body['email']});
     if(user) {
@@ -19,13 +19,13 @@ app.post('/dipendente', isAuthenticated, isAuthorized , async (req,res) => {
         .catch(() => res.status(500).send(`Error saving ${req.body.email}`));
 });
 
-app.delete('/dipendente/:id', isAuthenticated, isAuthorized, (req,res) => {
+app.delete('/api/v1/dipendente/:id', isAuthenticated, isAuthorized, (req,res) => {
     Dipendente.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Succesfully removed: ${req.body.email}`))
         .catch(() => res.status(500).send(`Error deleting: ${req.body.email}`));
 });
 
-app.patch('/dipendente/:id', isAuthenticated, isAuthorized, async (req, res) => {
+app.patch('/api/v1/dipendente/:id', isAuthenticated, isAuthorized, async (req, res) => {
 
     const dipendente = await Dipendente.findOne({email: req.body.email});
     if(dipendente) return res.status(400).send('Email already exists');
