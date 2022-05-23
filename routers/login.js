@@ -30,7 +30,7 @@ app.post('/api/v1/refresh', async (req, res) => {
         }
 
         try {
-            var jwt_payload = jwt.decode(token, JWT_SIGN_KEY);
+            var jwt_payload = jwt.decode(token, process.env.JWT_SIGN_KEY);
         } catch(error) {
             return res.status(401).send('Error decoding jwt');
         }
