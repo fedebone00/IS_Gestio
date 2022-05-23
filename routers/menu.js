@@ -25,13 +25,13 @@ app.post('/api/v1/menu', isAuthenticated, isAuthorized,check('data').notEmpty(),
         .catch(() => res.status(500).send('Error saving Menu'));
 });
 
-app.delete('/api/v1/menu/:data', isAuthenticated, isAuthorized, check('id').notEmpty(), (req,res) => {
+app.delete('/api/v1/menu/:id', isAuthenticated, isAuthorized, check('id').notEmpty(), (req,res) => {
     Menu.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send('Succesfully deleted menu'))
         .catch(() => res.status(500).send('Error deleted Menu'));
 });
 
-app.patch('/api/v1/menu/:data', isAuthenticated, isAuthorized, async (req, res) => {
+app.patch('/api/v1/menu/:id', isAuthenticated, isAuthorized, async (req, res) => {
     
     const menu = await Menu.findOne({data: req.body.data});
     if(menu) return res.status(400).send('Menu for this date already exists, delete it first');
