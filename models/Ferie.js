@@ -1,4 +1,4 @@
-import { mongoose } from 'mongoose';
+const mongoose = require('mongoose');
 
 const ferieSchema = mongoose.Schema({
     id:{
@@ -19,4 +19,4 @@ const ferieSchema = mongoose.Schema({
 
 const Ferie = mongoose.model("ferie",ferieSchema);
 
-export default Ferie;
+module.exports = Ferie;
