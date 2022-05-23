@@ -5,7 +5,9 @@ const { isAuthenticated, isAuthorized } = require('../middlewares/auth.js');
 const crypto = require('node:crypto');
 
 app.get('/users', isAuthenticated, isAuthorized, (req, res) => {
-    User.find().select(['-password_hash', '-salt']).then((users) => res.send(users));
+    User.find().select(['-password_hash', '-salt'])
+        .then((users) => res.status(201).json({users: users}))
+        .catch((error) => res.status(500).json({error: error}));
 });
 
 app.post('/users', isAuthenticated, isAuthorized, body('email').isEmail(), body('password').isLength({min: 8}), async (req, res) => {
