@@ -39,8 +39,8 @@ export function LoginForm() {
         //cookieCutter.get('myCookieName')
         //cookieCutter.set('jwt', token.jwt);
         //cookieCutter.set('rt', token.rt);
-        sessionStorage.setItem("jwt", token.jwt);
-        sessionStorage.setItem("rt", token.rt);
+        localStorage.setItem("jwt", token.jwt);
+        localStorage.setItem("rt", token.rt);
 
         // console.log("JWT-->", cookieCutter.get('jwt'));
         //console.log("RT-->", cookieCutter.get('rt'));

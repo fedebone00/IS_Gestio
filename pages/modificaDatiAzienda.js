@@ -24,8 +24,8 @@ export default function modificaDatiAzienda() {
 
   useEffect(() => {
     setTimeout(() => {
-      setJwt(sessionStorage.getItem('jwt'));
-      setRt(sessionStorage.getItem('rt'));
+      setJwt(localStorage.getItem('jwt'));
+      setRt(localStorage.getItem('rt'));
       console.log("JWT-->", jwt);
       setSet(0);
     }, 50);

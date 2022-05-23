@@ -115,8 +115,8 @@ export default function Home() {
         }).then(function (response) {
           let token = response.data;
           console.log("RESPONSE-->", token);
-          sessionStorage.setItem("jwt", token.jwt);
-          sessionStorage.setItem("rt", token.rt);
+          localStorage.setItem("jwt", token.jwt);
+          localStorage.setItem("rt", token.rt);
           setJwt(token.jwt);
           setRt(token.rt);
           console.log("JWT-->", jwt);
@@ -153,8 +153,8 @@ export default function Home() {
 
      
       setTimeout(() => {
-        setJwt(sessionStorage.getItem("jwt"));
-        setRt(sessionStorage.getItem("rt"));
+        setJwt(localStorage.getItem("jwt"));
+        setRt(localStorage.getItem("rt"));
         console.log("JWT-->", jwt);
       }, 50);
 
@@ -196,7 +196,7 @@ export default function Home() {
         </div>
       );
     } else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
-      //delete sessionStorage.jwt;
+      //delete localStorage.jwt;
       return (
         <div>
           <SidebarDip />

@@ -24,8 +24,8 @@ export default function Home() {
 
   useEffect(() => {
     setTimeout(() => {
-      setJwt(sessionStorage.getItem('jwt'));
-      setRt(sessionStorage.getItem('rt'));
+      setJwt(localStorage.getItem('jwt'));
+      setRt(localStorage.getItem('rt'));
       console.log("JWT-->", jwt);
       setSet(0);
     }, 50);
@@ -51,7 +51,7 @@ export default function Home() {
     }
 
     else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
-      //delete sessionStorage.jwt;
+      //delete localStorage.jwt;
       return (
         <div>
           <SidebarDip/>

@@ -25,8 +25,8 @@ export default function cloudAziedale() {
 
   useEffect(() => {
     setTimeout(() => {
-      setJwt(sessionStorage.getItem('jwt'));
-      setRt(sessionStorage.getItem('rt'));
+      setJwt(localStorage.getItem('jwt'));
+      setRt(localStorage.getItem('rt'));
       console.log("JWT-->", jwt);
       setSet(0);
     }, 50);
@@ -52,7 +52,7 @@ export default function cloudAziedale() {
     }
 
     else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
-      //delete sessionStorage.jwt;
+      //delete localStorage.jwt;
       return (
         <div>
           <SidebarDip/>
