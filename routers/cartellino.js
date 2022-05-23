@@ -2,11 +2,11 @@ const app = require('../app/app.js')
 const Cartellino = require('../models/Cartellino.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 
-app.get('/timbratura', isAuthenticated, isAuthorized, (req,res) =>{
+app.get('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) =>{
     Cartellino.find().then((cartellino) => res.send(cartellino))
 });
 
-app.post('/timbratura', isAuthenticated, isAuthorized, (req,res) => {
+app.post('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
@@ -18,14 +18,14 @@ app.post('/timbratura', isAuthenticated, isAuthorized, (req,res) => {
         .catch(() => res.status(500).send(`Error checking ${req.body.tipo}`));
 });
 
-app.delete('/timbratura/:id', isAuthenticated, isAuthorized , (req,res) => {
+app.delete('/api/v1/timbratura/:id', isAuthenticated, isAuthorized , (req,res) => {
 
     Cartellino.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Succesfully removed: ${req.params.id}`))
         .catch(() => res.status(500).send(`Error deleting: ${req.params.id}`));
 });
 
-app.patch('/timbratura/:id', isAuthenticated, isAuthorized, async (req, res) => {
+app.patch('/api/v1/timbratura/:id', isAuthenticated, isAuthorized, async (req, res) => {
 
     Cartellino.findByIdAndUpdate({
         _id:req.params.id

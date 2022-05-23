@@ -4,11 +4,11 @@ const { body, validationResult } = require('express-validator');
 const { isAuthenticated, isAuthorized } = require('../middlewares/auth.js');
 const crypto = require('node:crypto');
 
-app.get('/users', isAuthenticated, isAuthorized, (req, res) => {
+app.get('/api/v1/users', isAuthenticated, isAuthorized, (req, res) => {
     User.find().select(['-password_hash', '-salt']).then((users) => res.send(users));
 });
 
-app.post('/users', isAuthenticated, isAuthorized, body('email').isEmail(), body('password').isLength({min: 8}), async (req, res) => {
+app.post('/api/v1/users', isAuthenticated, isAuthorized, body('email').isEmail(), body('password').isLength({min: 8}), async (req, res) => {
     let errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -27,13 +27,13 @@ app.post('/users', isAuthenticated, isAuthorized, body('email').isEmail(), body(
         .catch(() => res.status(500).send('Error saving user'));
 });
 
-app.delete('/users/:id', isAuthenticated, isAuthorized, (req, res) => {
+app.delete('/api/v1/users/:id', isAuthenticated, isAuthorized, (req, res) => {
     User.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Successfully remove id ${req.params.id}`))
         .catch(() => res.status(500).send('Error deleting user'));
 });
 
-app.put('/users/:id', isAuthenticated, isAuthorized, async (req, res) => {
+app.put('/api/v1/users/:id', isAuthenticated, isAuthorized, async (req, res) => {
     let user = await User.findById(req.params.id);
     if(user) {
         user.email = req.body['email'];

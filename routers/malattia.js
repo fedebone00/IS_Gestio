@@ -2,11 +2,11 @@ const app = require('../app/app.js')
 const Malattia = require('../models/Malattia.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 
-app.get('/malattia', isAuthenticated, isAuthorized, (req, res) => {
+app.get('/api/v1/malattia', isAuthenticated, isAuthorized, (req, res) => {
     Malattia.find().then((malattia) => res.send(malattia));
 });
 
-app.post('/malattia', isAuthenticated, isAuthorized,  (req, res) => {
+app.post('/api/v1/malattia', isAuthenticated, isAuthorized,  (req, res) => {
     let errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
@@ -18,13 +18,13 @@ app.post('/malattia', isAuthenticated, isAuthorized,  (req, res) => {
     }
 });
 
-app.delete('/malattia/:id', isAuthenticated, isAuthorized, (req, res) => {
+app.delete('/api/v1/malattia/:id', isAuthenticated, isAuthorized, (req, res) => {
     Malattia.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Successfully remove id ${req.params.id}`))
         .catch(() => res.status(500).send('Error deleting user'));
 });
 
-app.patch('/malattia/:id', isAuthenticated, isAuthorized, async (req, res) => {
+app.patch('/api/v1/malattia/:id', isAuthenticated, isAuthorized, async (req, res) => {
 
     Malattia.findByIdAndUpdate({
         _id:req.params.id

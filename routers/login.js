@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const crypto = require('node:crypto');
 
-app.post('/login', body('email').isEmail(), async (req, res) => {
+app.post('/api/v1/login', body('email').isEmail(), async (req, res) => {
     let errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -20,7 +20,7 @@ app.post('/login', body('email').isEmail(), async (req, res) => {
     }
 });
 
-app.post('/refresh', async (req, res) => {
+app.post('/api/v1/refresh', async (req, res) => {
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
     if(req.body['rt'] && token) {
         try{

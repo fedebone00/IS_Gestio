@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const crypto = require('node:crypto');
 
-app.post('/recuperocredenziali', body('email').isEmail(), async (req, res) => {
+app.post('/api/v1/recuperocredenziali', body('email').isEmail(), async (req, res) => {
     let errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -53,7 +53,7 @@ app.post('/recuperocredenziali', body('email').isEmail(), async (req, res) => {
     });    
 });
 
-app.put('/recuperocredenziali', query('t').isJWT(), body('password').isLength({min: 8}), async (req, res) => {
+app.put('/api/v1/recuperocredenziali', query('t').isJWT(), body('password').isLength({min: 8}), async (req, res) => {
     let errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
