@@ -25,5 +25,4 @@ const cartellinoSchema = new mongoose.Schema({
 });
 
 const Cartellino = mongoose.model("cartellino",cartellinoSchema);
-
-export default Cartellino;
+module.exports= Cartellino;
