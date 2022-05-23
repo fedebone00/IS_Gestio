@@ -1,0 +1,19 @@
+{
+  "name": "gestio",
+  "version": "1.0.0",
+  "description": "Project repository for the Ingegneria del Software course of University of Trento",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fedebone00/Gestio.git"
+  },
+  "author": "Carlo Bottaro, Lorenzo Canciani, Federico Carbone, Giovanni Lunardi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fedebone00/Gestio/issues"
+  },
+  "homepage": "https://github.com/fedebone00/Gestio#readme"
+}
