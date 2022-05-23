@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+
 import {
   MdSearch,
   MdMenu,
@@ -6,26 +6,25 @@ import {
   MdChevronRight,
 } from "react-icons/md";
 import { BsBellFill } from "react-icons/bs";
-import { FiMoreVertical } from "react-icons/fi";
-import DatePicker from "sassy-datepicker"; //Calendar component
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useRef, useState } from "react";
-import Link from 'next/link'
-import cookieCutter from 'cookie-cutter'
+import { Fragment } from "react";
+import Router from "next/router";
 
-function cleanCookies(){
-
-  console.log("Dentro Funzione");
-
-  //sessionStorage.delete('jwt');
-  //sessionStorage.delete('rt');
-
-  //console.log(cookieCutter.get('jwt'));
-  //console.log(cookieCutter.get('rt'));
-}
 
 
 export function TopBar({ title }) {
+
+
+  async function clearSession(e) {
+    e.preventDefault();
+    
+    console.log("Dentro Funzione");
+
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("rt");
+    Router.push("/");
+  }
+
   return (
     <div className="container flex flex-wrap justify-between items-center ml-56 m-0 font-semibold text-2xl gap-0">
       <h1 className="relative flex items-center">{title}</h1>
@@ -76,10 +75,9 @@ export function TopBar({ title }) {
                 </Menu.Item>
                 <Menu.Item disabled>
                   <h1 className="group flex w-full items-center bg-gray-600 text-white justify-center rounded-md px-3 py-3 ">
-                    <a href="/" onClick={cleanCookies()}>
+                    <a href="/" onClick={clearSession}>
                       LOGOUT
-                    </a>
-                    {" "}
+                    </a>{" "}
                   </h1>
                 </Menu.Item>
               </div>
