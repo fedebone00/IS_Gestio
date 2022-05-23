@@ -1,4 +1,4 @@
-import { mongoose } from 'mongoose';
+const mongoose = require('mongoose')
 
 const malattiaSchema = mongoose.Schema({
     email:{
@@ -20,5 +20,4 @@ const malattiaSchema = mongoose.Schema({
 });
 
 const Malattia = mongoose.model("malattia", malattiaSchema);
-
-export default Malattia;
+module.exports = Malattia;
