@@ -1,12 +1,17 @@
 const app = require('../app/app.js')
 const Dipendente = require('../models/Dipendenti.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
+const {check, validationResult} = require('express-validator')
 
 app.get('/api/v1/dipendente', isAuthenticated, isAuthorized, (req,res) =>{
     Dipendente.find().then((dipendente) => res.send(dipendente))
 });
 
-app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , async (req,res) => {
+app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , check('email').notEmpty(),check('nome').notEmpty(),check('cognome').notEmpty(),check('livello').notEmpty(),async (req,res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+    }
 
     let user = await Dipendente.findOne({email: req.body['email']});
     if(user) {

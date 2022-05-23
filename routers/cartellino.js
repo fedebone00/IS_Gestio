@@ -1,12 +1,13 @@
 const app = require('../app/app.js')
 const Cartellino = require('../models/Cartellino.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
+const {check, validationResult} = require('express-validator')
 
 app.get('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) =>{
     Cartellino.find().then((cartellino) => res.send(cartellino))
 });
 
-app.post('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) => {
+app.post('/api/v1/timbratura', isAuthenticated, isAuthorized,check('data').notEmpty(), check('tipo').notEmpty(),check('ora').notEmpty(), (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})

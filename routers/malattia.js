@@ -1,12 +1,13 @@
 const app = require('../app/app.js')
 const Malattia = require('../models/Malattia.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
+const {check, validationResult} = require('express-validator')
 
 app.get('/api/v1/malattia', isAuthenticated, isAuthorized, (req, res) => {
     Malattia.find().then((malattia) => res.send(malattia));
 });
 
-app.post('/api/v1/malattia', isAuthenticated, isAuthorized,  (req, res) => {
+app.post('/api/v1/malattia', isAuthenticated, isAuthorized, check('certificato').notEmpty(),check('dataInizio').notEmpty(),check('dataFine').notEmpty(),check('email').notEmpty(), (req, res) => {
     let errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })

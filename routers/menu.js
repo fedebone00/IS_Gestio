@@ -2,13 +2,13 @@ const app = require('../app/app.js')
 const Menu = require('../models/Menu.js')
 const {check} = require('express-validator')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
+const {check, validationResult} = require('express-validator')
 
-
-app.get('/menu', isAuthenticated, isAuthorized, (req,res) =>{
+app.get('/api/v1/menu', isAuthenticated, isAuthorized, (req,res) =>{
     Menu.find().then((menu) => res.send(menu))
 });
 
-app.post('/menu', isAuthenticated, isAuthorized, async (req,res) => {
+app.post('/api/v1/menu', isAuthenticated, isAuthorized,check('data').notEmpty(),check('primo').notEmpty(),check('secondo').notEmpty() ,async (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
@@ -25,13 +25,13 @@ app.post('/menu', isAuthenticated, isAuthorized, async (req,res) => {
         .catch(() => res.status(500).send('Error saving Menu'));
 });
 
-app.delete('/menu/:data', isAuthenticated, isAuthorized, check('id').notEmpty(), (req,res) => {
+app.delete('/api/v1/menu/:data', isAuthenticated, isAuthorized, check('id').notEmpty(), (req,res) => {
     Menu.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send('Succesfully deleted menu'))
         .catch(() => res.status(500).send('Error deleted Menu'));
 });
 
-app.patch('/menu/:data', isAuthenticated, isAuthorized, async (req, res) => {
+app.patch('/api/v1/menu/:data', isAuthenticated, isAuthorized, async (req, res) => {
     
     const menu = await Menu.findOne({data: req.body.data});
     if(menu) return res.status(400).send('Menu for this date already exists, delete it first');
