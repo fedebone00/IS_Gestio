@@ -1,7 +1,6 @@
-import app from '../app/app.mjs'
-import Ferie from '../models/Ferie.mjs';
-import {isAuthenticated, isAuthorized} from '../auth_middleware/auth.mjs'
-import { check, validationResult,body }  from 'express-validator';
+const app = require('../app/app.mjs')
+const Ferie = require('../models/Ferie.mjs')
+const {isAuthenticated, isAuthorized} = require('../auth_middleware/auth.mjs')
 
 app.get('/ferie', isAuthenticated, isAuthorized, (req,res) =>{
     Ferie.find().then((ferie) => res.send(ferie))
