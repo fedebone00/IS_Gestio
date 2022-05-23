@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const app = require('./app/app.js');
-const malattia = require('./routers/malattia.js')
-const timbratura = require('./routers/cartellino.js')
+
+require('./routers/malattia.js')
+require('./routers/cartellino.js')
 require('./routers/user.js');
 require('./routers/login.js');
 require('./routers/recuperoCredenziali.js');
