@@ -19,4 +19,4 @@ const ferieSchema = mongoose.Schema({
 
 const Ferie = mongoose.model("ferie",ferieSchema);
 
-export default Ferie;
+module.exports = Ferie;

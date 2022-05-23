@@ -1,6 +1,6 @@
-const app = require('../app/app.mjs')
-const Ferie = require('../models/Ferie.mjs')
-const {isAuthenticated, isAuthorized} = require('../auth_middleware/auth.mjs')
+const app = require('../app/app.js')
+const Ferie = require('../models/Ferie.js')
+const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 
 app.get('/ferie', isAuthenticated, isAuthorized, (req,res) =>{
     Ferie.find().then((ferie) => res.send(ferie))
@@ -17,7 +17,7 @@ app.post('/ferie', isAuthenticated, isAuthorized, (req,res) => {
         .catch(() => res.status(500).send(`Error saving ${req.body.dataInizio}`));
 });
 
-app.delete('/ferie/:id', isAuthenticated, isAuthorized, check('id').notEmpty(), (req,res) => {
+app.delete('/ferie/:id', isAuthenticated, isAuthorized,  (req,res) => {
     Ferie.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Succesfully removed: ${req.params.id}`))
         .catch(() => res.status(500).send(`Error deleting: ${req.params.id}`));
