@@ -1,6 +1,6 @@
-const app = require('../app/app.mjs')
-const Cartellino = require('../models/Cartellino.mjs')
-const {isAuthenticated, isAuthorized} = require('../auth_middleware/auth.mjs')
+const app = require('../app/app.js')
+const Cartellino = require('../models/Cartellino.js')
+const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 
 app.get('/timbratura', isAuthenticated, isAuthorized, (req,res) =>{
     Cartellino.find().then((cartellino) => res.send(cartellino))
