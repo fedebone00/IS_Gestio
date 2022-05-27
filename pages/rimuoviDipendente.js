@@ -21,7 +21,7 @@ export default function rimuoviDipendente() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
-  const [base, setBase] = useState("http://localhost:8080/users");
+  const [base, setBase] = useState("https://gestio-is.herokuapp.com/api/v1/users");
   const [slash, setSlash] = useState("/");
   const [id, setId] = useState("");
   const [error, setError] = useState(false);
@@ -31,7 +31,7 @@ export default function rimuoviDipendente() {
     e.preventDefault();
     // Default options are marked with *
 
-    const getUsers = await fetch("http://localhost:8080/users",
+    const getUsers = await fetch("https://gestio-is.herokuapp.com/api/v1/users",
       {
         method: 'GET',
 

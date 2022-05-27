@@ -60,7 +60,7 @@ export default function Home() {
 
       let response = await axios({
         method: "POST",
-        url: "http://localhost:8080/timbratura",
+        url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
         headers: {
           "x-access-token": jwt,
         },
@@ -105,7 +105,7 @@ export default function Home() {
   
         let response = await axios({
           method: "POST",
-          url: "http://localhost:8080/refresh",
+          url: "https://gestio-is.herokuapp.com/api/v1/refresh",
           headers: {
             "x-access-token": jwt,
           },
@@ -163,7 +163,7 @@ export default function Home() {
   
         axios({
           method: "GET",
-          url: "http://localhost:8080/timbratura",
+          url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
           headers: {
             "x-access-token": jwt,
           },

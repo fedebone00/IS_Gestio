@@ -28,7 +28,7 @@ export default function aggiungiDipendente() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
-  const [base, setBase] = useState("http://localhost:8080/users");
+  const [base, setBase] = useState("https://gestio-is.herokuapp.com/api/v1/users");
   const [slash, setSlash] = useState("/");
   const [id, setId] = useState("");
   const [error, setError] = useState(false);
@@ -43,7 +43,7 @@ export default function aggiungiDipendente() {
 
       axios({
         method: "POST",
-        url: "http://localhost:8080/users",
+        url: "https://gestio-is.herokuapp.com/api/v1/users",
         headers: {
           'x-access-token' : jwt,
         },
