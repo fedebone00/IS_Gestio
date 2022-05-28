@@ -1,12 +1,37 @@
 import { useState } from "react";
 import Image from "next/image";
 import Router from "next/router";
+
 function recuperoCredenziali() {
   const [email, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  async function handleSubmit(e) {}
+  
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const qs = require("qs");
+      const axios = require("axios");
+
+      axios({
+        method: "POST",
+        url: "https://gestio-is.herokuapp.com/api/v1/recuperocredenziali",
+        /*headers: {
+          "x-access-token": jwt,
+        },*/
+        data: {
+          email,
+        },
+      }).then(function (response) {
+        let token = response.data;
+        console.log(response.data);
+
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  }
   return (
     <div>
       <form onSubmit={handleSubmit}>
