@@ -3,8 +3,15 @@ const Dipendente = require('../models/Dipendenti.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
+//find every workers
 app.get('/api/v1/dipendente', isAuthenticated, isAuthorized, (req,res) =>{
     Dipendente.find().then((dipendente) => res.send(dipendente))
+});
+
+//find specific worker and get check-in
+app.get('/api/v1/dipendentespecifico', isAuthenticated, isAuthorized, (req,res) =>{
+    const cartellino = await Cartellino.findOne({email: req.body.email});
+    if(cartellino) return res.status(201).send(cartellino);
 });
 
 app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , check('email').notEmpty(),check('nome').notEmpty(),check('cognome').notEmpty(),check('livello').notEmpty(),async (req,res) => {
