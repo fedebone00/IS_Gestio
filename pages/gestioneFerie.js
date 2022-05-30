@@ -16,8 +16,8 @@ export default function gestioneFerie() {
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
   const [motivazione, setMotivazione] = useState("");
-  const [dateInizio, setDateInizio] = useState("");
-  const [dateFine, setDateFine] = useState("");
+  const [dataInizio, setDataInizio] = useState("");
+  const [dataFine, setDataFine] = useState("");
 
   async function handleAdd(e) {
     e.preventDefault();
@@ -27,7 +27,7 @@ export default function gestioneFerie() {
 
       axios({
         method: "POST",
-        url: "https://gestio-is.herokuapp.com/api/v1/ferie",
+        url: "http://localhost:8080/api/v1/ferie",
         headers: {
           "x-access-token": jwt,
         },
@@ -76,6 +76,7 @@ export default function gestioneFerie() {
       return (
         <div>
           <SidebarDip />
+          <TopBar />
           <form onSubmit={handleAdd}>
             <fieldset className="  relative z-1  p-3 flex flex-col space-y-3 justify-center items-center  h-screen">
               <div className=" p-2 border  rounded flex flex-row  justify-center items-center">
@@ -91,7 +92,7 @@ export default function gestioneFerie() {
                   type="text"
                   id="dateInput"
                   placeholder="Date Inizio"
-                  onChange={(e) => setDateInizio(e.target.value)}
+                  onChange={(e) => setDataInizio(e.target.value)}
                 />
               </div>
               <div className="border p-2 rounded flex flex-row  justify-center items-center ">
@@ -99,7 +100,7 @@ export default function gestioneFerie() {
                   type="text"
                   id="dateInput"
                   placeholder="Date Fine"
-                  onChange={(e) => setDateFine(e.target.value)}
+                  onChange={(e) => setDataFine(e.target.value)}
                 />
               </div>
               <div className="flex flex-col justify-between gap-4">
@@ -112,7 +113,7 @@ export default function gestioneFerie() {
               </div>
             </fieldset>
           </form>
-          <TopBar />
+          
         </div>
       );
     } else if (parseJwt(jwt).role == "DIP1") {
