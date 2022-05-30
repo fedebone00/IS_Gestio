@@ -16,7 +16,6 @@ import { SidebarDip } from "../components/sidebarDip";
 import TopBar from "../components/topBar";
 import Router from "next/router";
 
-
 function parseJwt(token) {
   if (!token) {
     return;
@@ -33,15 +32,12 @@ export default function Home() {
   const [smartworking, setSmartworking] = useState(false);
   var [errore, setErrore] = useState("");
 
-
   async function handleCheckbox(e) {
     e.preventDefault();
     let isChecked = e.target.checked;
     console.log("CHECKED-->", isChecked);
     setSmartworking(isChecked);
-   
   }
-
 
   async function handleTimbra(e) {
     e.preventDefault();
@@ -52,7 +48,7 @@ export default function Home() {
     var dd = String(data.getDate()).padStart(2, "0");
     var mm = String(data.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyy = data.getFullYear();
-    var ora = data.getHours() + ':' + data.getMinutes();
+    var ora = data.getHours() + ":" + data.getMinutes();
     data = mm + "/" + dd + "/" + yyyy;
 
     try {
@@ -85,24 +81,21 @@ export default function Home() {
         console.log(errore);
         //console.log(error.response.headers);
       } else if (error.request) {
-        errore = 500;
+        errore = 400;
         console.log(error.request);
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.log('Error', error.message);
+        console.log("Error", error.message);
       }
     } finally {
     }
 
-    
-
-
-    if(errore == 400){
+    if (errore == 400) {
       errore = 0;
 
       try {
         const axios = require("axios");
-  
+
         let response = await axios({
           method: "POST",
           url: "https://gestio-is.herokuapp.com/api/v1/refresh",
@@ -121,7 +114,6 @@ export default function Home() {
           setRt(token.rt);
           console.log("JWT-->", jwt);
           console.log("RT-->", rt);
-
         });
       } catch (error) {
         if (error.response) {
@@ -133,53 +125,49 @@ export default function Home() {
           //console.log(error.response.headers);
         } else if (error.request) {
           console.log(error.request);
-          
         } else {
-          console.log('Error', error.message);
+          console.log("Error", error.message);
         }
       } finally {
       }
     }
 
-    if(errore == "Refresh token expired, please log in again"){
+    if (errore == "Refresh token expired, please log in again") {
       Router.push("/");
     }
-
   }
-
 
   useEffect(() => {
     setTimeout(() => {
-
-     
       setTimeout(() => {
         setJwt(localStorage.getItem("jwt"));
         setRt(localStorage.getItem("rt"));
         console.log("JWT-->", jwt);
       }, 50);
 
-      try {
-        const axios = require("axios");
-  
-        axios({
-          method: "GET",
-          url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
-          headers: {
-            "x-access-token": jwt,
-          },
-         
-        }).then(function (response) {
-          let token = response.data;
-          console.log("RESPONSE-->", token);
-        });
-      } catch (error) {
-        console.log(error);
-      } finally {
-      }
+      setTimeout(() => {
+        try {
+          const axios = require("axios");
 
-      setSet(0);
-    }, 50);
-  }, []);
+          axios({
+            method: "GET",
+            url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
+            headers: {
+              "x-access-token": jwt,
+            },
+          }).then(function (response) {
+            let token = response.data;
+            console.log("RESPONSE-->", token);
+          });
+        } catch (error) {
+          console.log(error);
+        } finally {
+        }
+
+        setSet(true);
+      }, 50);
+    }, []);
+  }, 50);
 
   if (set) {
     return <div></div>;
@@ -222,9 +210,7 @@ export default function Home() {
                 id="Smart-working"
                 onChange={handleCheckbox}
               />
-              <label
-                className="form-check-label inline-block text-gray-800"
-              >
+              <label className="form-check-label inline-block text-gray-800">
                 Smart-Working
               </label>
             </div>
@@ -240,4 +226,3 @@ export default function Home() {
     }
   }
 }
-
