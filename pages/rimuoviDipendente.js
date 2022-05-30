@@ -1,9 +1,4 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
-import home from "../public/home-outline.png";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
 
@@ -43,12 +38,13 @@ export default function rimuoviDipendente() {
         },
       }
     )
-      .then((response) => {
-        response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
+        var a = [];
         console.log(data);
-        var found = data.filter(function (item) {
+        a.push(data);
+        console.log(a);
+        var found = a.filter(function (item) {
           return item.email === email;
         });
         console.log("found", found[0]);
