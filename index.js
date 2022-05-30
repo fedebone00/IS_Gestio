@@ -11,6 +11,8 @@ require('./routers/dipendenti.js');
 require('./routers/menu.js');
 require('./routers/contatta.js')
 
+require('./routers/infoazienda.js')
+
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("Connected to database"))
     .catch((error) => console.error(`Error connecting to database: ${error}`));
