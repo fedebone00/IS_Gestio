@@ -21,7 +21,9 @@ export default function rimuoviDipendente() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
-  const [base, setBase] = useState("https://gestio-is.herokuapp.com/api/v1/users");
+  const [base, setBase] = useState(
+    "https://gestio-is.herokuapp.com/api/v1/users"
+  );
   const [slash, setSlash] = useState("/");
   const [id, setId] = useState("");
   const [error, setError] = useState(false);
@@ -31,55 +33,51 @@ export default function rimuoviDipendente() {
     e.preventDefault();
     // Default options are marked with *
 
-    const getUsers = await fetch("https://gestio-is.herokuapp.com/api/v1/users",
+    const getUsers = await fetch(
+      "https://gestio-is.herokuapp.com/api/v1/users",
       {
-        method: 'GET',
+        method: "GET",
 
         headers: {
-          'x-access-token': jwt,
+          "x-access-token": jwt,
         },
-
-      }).then(response => response.json())
-      .then(data => {
+      }
+    )
+      .then((response) => {
+        response.json();
+      })
+      .then((data) => {
         console.log(data);
+        var found = data.filter(function (item) {
+          return item.email === email;
+        });
+        console.log("found", found[0]);
 
-        var found = data.filter(function (item) { return item.email === email; });
-        console.log('found', found[0]);
-
-        if(found[0] != undefined){
-          let id = (found[0]._id);
+        if (found[0] != undefined) {
+          let id = found[0]._id;
           //console.log(id);
-  
+
           let result = base.concat(slash);
-  
+
           result = result.concat(id);
           //console.log("ID-->", result);
-  
-  
-          fetch(result,
-            {
-              method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-              //mode: 'cors', // no-cors, *cors, same-origin
-              //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-              //credentials: 'same-origin', // include, *same-origin, omit
-              headers: {
-                'x-access-token': jwt,
-              },
-              //body: JSON.stringify(data) // body data type must match "Content-Type" header
-            })
-            .then(function (response) {
-              let result = response.data;
-              //console.log(result);
-  
-            });
+
+          fetch(result, {
+            method: "DELETE", // *GET, POST, PUT, DELETE, etc.
+            //mode: 'cors', // no-cors, *cors, same-origin
+            //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            //credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              "x-access-token": jwt,
+            },
+            //body: JSON.stringify(data) // body data type must match "Content-Type" header
+          }).then(function (response) {
+            let result = response.data;
+            //console.log(result);
+          });
         }
-
-
-  
-
-      })
+      });
   }
-
 
   useEffect(() => {
     setTimeout(() => {
