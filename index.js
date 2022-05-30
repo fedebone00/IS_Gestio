@@ -9,6 +9,7 @@ require('./routers/recuperoCredenziali.js');
 require('./routers/ferie.js');
 require('./routers/dipendenti.js');
 require('./routers/menu.js');
+require('./routers/contatta.js')
 
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("Connected to database"))

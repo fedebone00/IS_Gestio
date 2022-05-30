@@ -6,6 +6,7 @@ const {check, validationResult} = require('express-validator')
 const Messaggio = require('../models/Messaggio.js')
 
 //get messaggi --> email here is the person who has received messages
+
 app.get('/api/v1/messaggi', isAuthenticated, isAuthorized, check('email').notEmpty(), (req,res) =>{
     
     let errors = validationResult(req)
