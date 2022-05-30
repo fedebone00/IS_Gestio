@@ -181,8 +181,6 @@ export default function Home() {
     }, 50);
   }, []);
 
-  setTimeout(() => {}, 50);
-
   if (set) {
     return <div></div>;
   } else {
