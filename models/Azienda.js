@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const aziendaSchema = new mongoose.Schema({
+const companySchema = new mongoose.Schema({
     logo:{
         type: Image,
         required: true
@@ -15,5 +15,5 @@ const aziendaSchema = new mongoose.Schema({
     } 
 });
 
-const Azienda = mongoose.model("azienda",aziendaSchema);
+const Azienda = mongoose.model("azienda",companySchema);
 module.exports= Azienda;

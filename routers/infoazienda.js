@@ -3,6 +3,7 @@ const Azienda = require('../models/Azienda.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
+
 //retrieve info company
 app.get('/api/v1/infoazienda', isAuthenticated, isAuthorized, (req,res) =>{
     Azienda.find().then((azienda) => res.send(azienda))

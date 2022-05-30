@@ -9,6 +9,9 @@ require('./routers/recuperoCredenziali.js');
 require('./routers/ferie.js');
 require('./routers/dipendenti.js');
 require('./routers/menu.js');
+require('./routers/contatta.js')
+
+require('./routers/infoazienda.js')
 
 mongoose.connect(process.env.MONGO_URL ? process.env.MONGO_URL : 'mongodb://casataramelli.duckdns.org:270/test', {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("Connected to database"))

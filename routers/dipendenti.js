@@ -32,10 +32,21 @@ app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , check('email').no
         .catch(() => res.status(500).send(`Error saving ${req.body.email}`));
 });
 
-app.delete('/api/v1/dipendente/:id', isAuthenticated, isAuthorized, (req,res) => {
-    Dipendente.findByIdAndRemove(req.params.id)
-        .then(() => res.status(201).send(`Succesfully removed: ${req.body.email}`))
-        .catch(() => res.status(500).send(`Error deleting: ${req.body.email}`));
+app.delete('/api/v1/dipendente', isAuthenticated, isAuthorized, (req,res) => {
+
+    let user = await Dipendente.findOne({email: req.body['email']});
+    if(!user) {
+        return res.status(401).send('Email not found');
+    }else{
+        Dipendente.remove(user.id)
+            .then(() => res.status(201).send(`Successfully remove email ${req.params.email}`))
+            .catch(() => res.status(500).send('Error deleting user'));
+    }
+
+
+    Dipendente.findByIdAndRemove(user.params.id)
+        .then(() => res.status(201).send(`Successfully remove email ${req.params.email}`))
+        .catch(() => res.status(500).send('Error deleting user'));
 });
 
 app.patch('/api/v1/dipendente/:id', isAuthenticated, isAuthorized, async (req, res) => {
