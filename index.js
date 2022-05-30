@@ -9,6 +9,7 @@ require('./routers/recuperoCredenziali.js');
 require('./routers/ferie.js');
 require('./routers/dipendenti.js');
 require('./routers/menu.js');
+require('./routers/contatta.js')
 
 require('./routers/infoazienda.js')
 
