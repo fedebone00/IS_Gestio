@@ -29,13 +29,7 @@ app.post('/api/v1/users', isAuthenticated, isAuthorized, body('email').isEmail()
         .catch(() => res.status(500).send('Error saving user'));
 });
 
-<<<<<<< HEAD
-app.delete('/api/v1/users/:id', isAuthenticated, isAuthorized, (req, res) => {
-    User.deleteOne({email:req.body.email})
-    //User.findByIdAndRemove(req.params.id)
-        .then(() => res.status(201).send(`Successfully remove id ${req.params.id}`))
-=======
-app.delete('/api/v1/users', isAuthenticated, isAuthorized, check('email').notEmpty(), (req, res) => {
+app.delete('/api/v1/users', isAuthenticated, isAuthorized, check('email').notEmpty(), async (req, res) => {
 
     let user = await User.findOne({email: req.body['email']});
     if(!user) {
@@ -44,7 +38,6 @@ app.delete('/api/v1/users', isAuthenticated, isAuthorized, check('email').notEmp
 
     User.findByIdAndRemove(req.params.email)
         .then(() => res.status(201).send(`Successfully remove email ${req.params.email}`))
->>>>>>> 72ae8ec85965942ee505bce9c9b76c4f615f8ae0
         .catch(() => res.status(500).send('Error deleting user'));
 });
 

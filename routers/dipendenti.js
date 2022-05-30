@@ -32,7 +32,7 @@ app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , check('email').no
         .catch(() => res.status(500).send(`Error saving ${req.body.email}`));
 });
 
-app.delete('/api/v1/dipendente', isAuthenticated, isAuthorized, (req,res) => {
+app.delete('/api/v1/dipendente', isAuthenticated, isAuthorized, async (req,res) => {
 
     let user = await Dipendente.findOne({email: req.body['email']});
     if(!user) {

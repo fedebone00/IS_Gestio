@@ -7,7 +7,7 @@ const Messaggio = require('../models/Messaggio.js')
 
 //get messaggi --> email here is the person who has received messages
 
-app.get('/api/v1/messaggi', isAuthenticated, isAuthorized, check('email').notEmpty(), (req,res) =>{
+app.get('/api/v1/messaggi', isAuthenticated, isAuthorized, check('email').notEmpty(), async (req,res) =>{
     
     let errors = validationResult(req)
     if(!errors.isEmpty()){
@@ -32,7 +32,7 @@ app.get('/api/v1/messaggi', isAuthenticated, isAuthorized, check('email').notEmp
 });
 
 //send messages to coworkers --> email here is the person who will receive the message
-app.post('/api/v1/contatta', isAuthenticated, isAuthorized, check('email').notEmpty,check('messaggio').notEmpty(),(req,res) =>{
+app.post('/api/v1/contatta', isAuthenticated, isAuthorized, check('email').notEmpty,check('messaggio').notEmpty(),async (req,res) =>{
     
     let errors = validationResult(req)
     if(!errors.isEmpty()){

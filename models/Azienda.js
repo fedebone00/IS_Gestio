@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const companySchema = new mongoose.Schema({
     logo:{
-        type: Image,
+        type: Buffer, // TODO fix me pls
         required: true
     },  
     partiaiva:{
