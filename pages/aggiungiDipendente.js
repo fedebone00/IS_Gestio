@@ -60,13 +60,10 @@ export default function aggiungiDipendente() {
 
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.status);
     } finally {
       
     }
-
-    //console.log("email:", email);
-    //console.log("Password: ", password)
   }
 
   useEffect(() => {
