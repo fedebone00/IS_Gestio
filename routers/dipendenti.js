@@ -1,5 +1,6 @@
 const app = require('../app/app.js')
 const Dipendente = require('../models/Dipendenti.js')
+const Cartellino = require('../models/Cartellino.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
@@ -9,7 +10,7 @@ app.get('/api/v1/dipendente', isAuthenticated, isAuthorized, (req,res) =>{
 });
 
 //find specific worker and get check-in
-app.get('/api/v1/dipendentespecifico', isAuthenticated, isAuthorized, (req,res) =>{
+app.get('/api/v1/dipendentespecifico', isAuthenticated, isAuthorized, async (req,res) =>{
     const cartellino = await Cartellino.findOne({email: req.body.email});
     if(cartellino) return res.status(201).send(cartellino);
 });

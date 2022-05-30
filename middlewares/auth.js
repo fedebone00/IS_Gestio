@@ -4,7 +4,7 @@ const isAuthenticated = (req, res, next) => {
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
     if(token) {
         try {
-            let payload = jwt.verify(token, process.env.JWT_SIGN_KEY);
+            let payload = jwt.verify(token, process.env.JWT_SIGN_KEY ? process.env.JWT_SIGN_KEY : '2386TRUFBJCKIOF2398YUVBHWECJNIASCIJjsnvk');
             req.loggedUser = payload;
         } catch(error) {
             res.status(400).json({error: error});

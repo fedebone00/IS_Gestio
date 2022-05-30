@@ -12,8 +12,8 @@ app.post('/api/v1/login', body('email').isEmail(), async (req, res) => {
     
     let user = await User.findOne({email: req.body['email']});
     if(user && user.password_hash === crypto.createHash('sha256').update(req.body['password'].concat(user.salt)).digest('hex')) {
-        let token = jwt.sign({user_id: user._id, role: user.role}, process.env.JWT_SIGN_KEY, {expiresIn: '30m'});
-        let refresh = jwt.sign({user_id: user._id}, process.env.JWT_SIGN_KEY, {expiresIn: '1h'});
+        let token = jwt.sign({user_id: user._id, role: user.role}, process.env.JWT_SIGN_KEY ? process.env.JWT_SIGN_KEY : '2386TRUFBJCKIOF2398YUVBHWECJNIASCIJjsnvk', {expiresIn: '30m'});
+        let refresh = jwt.sign({user_id: user._id}, process.env.JWT_SIGN_KEY ? process.env.JWT_SIGN_KEY : '2386TRUFBJCKIOF2398YUVBHWECJNIASCIJjsnvk', {expiresIn: '1h'});
         res.status(201).json({jwt: token, rt: refresh});
     } else {
         res.status(404).send('Wrong username or password');

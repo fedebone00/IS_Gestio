@@ -30,7 +30,8 @@ app.post('/api/v1/users', isAuthenticated, isAuthorized, body('email').isEmail()
 });
 
 app.delete('/api/v1/users/:id', isAuthenticated, isAuthorized, (req, res) => {
-    User.findByIdAndRemove(req.params.id)
+    User.deleteOne({email:req.body.email})
+    //User.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Successfully remove id ${req.params.id}`))
         .catch(() => res.status(500).send('Error deleting user'));
 });

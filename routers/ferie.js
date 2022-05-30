@@ -7,12 +7,12 @@ app.get('/api/v1/ferie', isAuthenticated, isAuthorized, (req,res) =>{
     Ferie.find().then((ferie) => res.send(ferie))
 });
 
-app.post('/api/v1/ferie', isAuthenticated, isAuthorized, check('id').notEmpty(),check('dataFine').notEmpty(),check('dataInizio').notEmpty(),check('motivazione').notEmpty(),(req,res) => {
+app.post('/api/v1/ferie', isAuthenticated, isAuthorized, check('dataFine').notEmpty(),check('dataInizio').notEmpty(),check('motivazione').notEmpty(),(req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
     }
-    let ferie = new Ferie({id:req.body['id'],dataInizio: req.body['dataInizio'],dataFine: req.body['dataFine'], motivazione: req.body['motivazione']});
+    let ferie = new Ferie({id:req.loggedUser.user_id,dataInizio: req.body['dataInizio'],dataFine: req.body['dataFine'], motivazione: req.body['motivazione']});
     ferie.save()
         .then(() => res.status(201).send(`Succesfully save ${req.body.dataInizio}`))
         .catch(() => res.status(500).send(`Error saving ${req.body.dataInizio}`));
