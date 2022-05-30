@@ -1,17 +1,4 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
-import home from "../public/home-outline.png";
 import React, { Component, useEffect, useState } from "react";
-import {
-  MdFirstPage,
-  MdOutlineLogin,
-  MdBeachAccess,
-  MdLocalHospital,
-  MdContacts,
-  MdCloud,
-} from "react-icons/md";
 import { SidebarDip } from "../components/sidebarDip";
 import TopBar from "../components/topBar";
 import Router from "next/router";
@@ -39,7 +26,7 @@ export default function Home() {
     setSmartworking(isChecked);
   }
 
-  async function handleTimbra(e) {
+  async function handleTimbraPresenza(e) {
     e.preventDefault();
 
     console.log("Timbra");
@@ -137,37 +124,113 @@ export default function Home() {
     }
   }
 
+
+  async function handleTimbraUscita(e) {
+    e.preventDefault();
+
+    console.log("Timbra");
+
+    var data = new Date();
+    var dd = String(data.getDate()).padStart(2, "0");
+    var mm = String(data.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = data.getFullYear();
+    var ora = data.getHours() + ":" + data.getMinutes();
+    data = mm + "/" + dd + "/" + yyyy;
+
+    try {
+      const axios = require("axios");
+
+      let response = await axios({
+        method: "POST",
+        url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
+        headers: {
+          "x-access-token": jwt,
+        },
+        data: {
+          data,
+          ora,
+          tipo: "uscita",
+          smartworking,
+        },
+      }).then(function (response) {
+        let token = response.data;
+        console.log("RESPONSE-->", token);
+      });
+    } catch (error) {
+      if (error.response) {
+        // Request made and server responded
+        console.log("RESPONSE");
+        //console.log("NAME-->",error.response.name);
+        //console.log(error.response.status);
+        //setErrore(error.response.status);
+        errore = error.response.status;
+        console.log(errore);
+        //console.log(error.response.headers);
+      } else if (error.request) {
+        errore = 400;
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error", error.message);
+      }
+    } finally {
+    }
+
+    if (errore == 400) {
+      errore = 0;
+
+      try {
+        const axios = require("axios");
+
+        let response = await axios({
+          method: "POST",
+          url: "https://gestio-is.herokuapp.com/api/v1/refresh",
+          headers: {
+            "x-access-token": jwt,
+          },
+          data: {
+            rt,
+          },
+        }).then(function (response) {
+          let token = response.data;
+          console.log("RESPONSE-->", token);
+          localStorage.setItem("jwt", token.jwt);
+          localStorage.setItem("rt", token.rt);
+          setJwt(token.jwt);
+          setRt(token.rt);
+          console.log("JWT-->", jwt);
+          console.log("RT-->", rt);
+        });
+      } catch (error) {
+        if (error.response) {
+          //console.log(error.response.data);
+          errore = error.response.data;
+          console.log(errore);
+          //errore = error.response.status;
+          //console.log(errore);
+          //console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+      } finally {
+      }
+    }
+
+    if (errore == "Refresh token expired, please log in again") {
+      Router.push("/");
+    }
+  }
+
   useEffect(() => {
     setTimeout(() => {
-      setTimeout(() => {
-        setJwt(localStorage.getItem("jwt"));
-        setRt(localStorage.getItem("rt"));
-        console.log("JWT-->", jwt);
-      }, 50);
-
-      setTimeout(() => {
-        try {
-          const axios = require("axios");
-
-          axios({
-            method: "GET",
-            url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
-            headers: {
-              "x-access-token": jwt,
-            },
-          }).then(function (response) {
-            let token = response.data;
-            console.log("RESPONSE-->", token);
-          });
-        } catch (error) {
-          console.log(error);
-        } finally {
-        }
-
-        setSet(true);
-      }, 50);
-    }, []);
-  }, 50);
+      setJwt(localStorage.getItem("jwt"));
+      setRt(localStorage.getItem("rt"));
+      //console.log("JWT-->", jwt);
+      setSet(0);
+    }, 50);
+  }, []);
 
   if (set) {
     return <div></div>;
@@ -191,14 +254,14 @@ export default function Home() {
           <div className=" flex flex-row px-96 h-20   justify-between ">
             <button
               className="flex px-4 inline-block items-center bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
-              onClick={handleTimbra}
+              onClick={handleTimbraPresenza}
             >
               timbra presenza
             </button>
 
             <button
               className="flex px-4 inline-block  items-center bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
-              onClick={handleTimbra}
+              onClick={handleTimbraUscita}
             >
               timbra uscita
             </button>
