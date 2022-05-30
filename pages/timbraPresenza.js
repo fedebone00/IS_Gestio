@@ -16,7 +16,6 @@ export default function Home() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
-  const [tipo, setTipo] = useState("ingresso");
   const [smartworking, setSmartworking] = useState(false);
   var [errore, setErrore] = useState("");
 
