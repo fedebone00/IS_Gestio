@@ -22,14 +22,16 @@ function recuperoCredenziali() {
         data: {
           email,
         },
-      }).then(function (response) {
+      }).then(response => console.log("Response-->", response))
+      .then(function (response) {
         let token = response.data;
-        console.log(response.data);
 
       });
     } catch (error) {
-      console.log(error);
+      console.log("Errore-->", error.response.status);
+
     } finally {
+      setIsLoading(false);
     }
   }
   return (
