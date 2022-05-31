@@ -4,10 +4,10 @@ const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
 app.get('/api/v1/menu', isAuthenticated, isAuthorized, (req,res) =>{
-    Menu.find().then((menu) => res.send(menu))
+    Menu.find().then((ferie) => res.send(ferie))
 });
 
-app.post('/api/v1/menu', isAuthenticated, isAuthorized,check('data').notEmpty(),check('primo').notEmpty(),check('secondo').notEmpty() ,async (req,res) => {
+app.post('/api/v1/menu', isAuthenticated, isAuthorized,check('data').notEmpty(),check('primo').notEmpty(),check('secondo').notEmpty() , async (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
