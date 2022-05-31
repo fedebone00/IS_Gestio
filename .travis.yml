@@ -10,8 +10,8 @@ after_success:
   - git config --global user.name 'Automated CICD'
   - git config --global user.email noreply@noone.com
   - git rm -r --ignore-unmatch */*
-  - git checkout -b build
+  - git checkout -b frontend_build
   - git add -f .next
   - git commit -m "Automatically generated build"
   - git remote add origin-pages https://${GH_TOKEN}@github.com/fedebone00/IS_Gestio.git > /dev/null 2>&1
-  - git push --quiet --set-upstream origin-pages frontend__build
+  - git push origin-pages frontend__build
