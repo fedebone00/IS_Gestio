@@ -1,8 +1,8 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SidebarDip } from "../components/sidebarDip";
 import TopBar from "../components/topBar";
 import DatePicker from "sassy-datepicker";
-
+import { data } from "autoprefixer";
 
 function parseJwt(token) {
   if (!token) {
@@ -22,8 +22,8 @@ export default function areaDipendente() {
   async function handlePrenota(e) {
     e.preventDefault();
 
-    console.log("Prenota");
-    
+    console.log("PARSED TOKEN",parseJwt(jwt));
+
     setUser_id(parseJwt(jwt).user_id);
     console.log("ID-->", user_id);
 
@@ -37,7 +37,7 @@ export default function areaDipendente() {
           "x-access-token": jwt,
         },
         data: {
-          user_id : parseJwt(jwt).user_id,
+          user_id: parseJwt(jwt).user_id,
           //'prenotazione' : 'true',
         },
       }).then(function (response) {
@@ -50,7 +50,6 @@ export default function areaDipendente() {
     }
   }
 
-
   useEffect(() => {
     setTimeout(() => {
       setJwt(localStorage.getItem("jwt"));
@@ -58,7 +57,6 @@ export default function areaDipendente() {
       console.log("2JWT-->", jwt);
       setSet(0);
     }, 50);
-   
   }, []);
 
   if (set) {
@@ -78,7 +76,7 @@ export default function areaDipendente() {
 
       try {
         const axios = require("axios");
-  
+
         let response = axios({
           method: "GET",
           url: "https://gestio-is.herokuapp.com/api/v1/menu/",
@@ -88,7 +86,10 @@ export default function areaDipendente() {
         }).then(function (response) {
           let token = response.data;
           console.log(token);
-          console.log("CIAO");
+          // var found = data.filter(function (item) {
+          //   return item.data === "2022/05/22";
+          // });
+          // console.log("FOUND-->"+found[0]);
         });
       } catch (error) {
         console.log(error);
@@ -114,7 +115,6 @@ export default function areaDipendente() {
             </button>
           </div>
           <DatePicker className="absolute bottom-40 left-72" />
-          
         </div>
       );
     } else {
