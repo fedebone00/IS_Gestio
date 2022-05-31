@@ -11,5 +11,5 @@ after_success:
   - git config --global user.email noreply@noone.com
   - git rm -r --ignore-unmatch */*
   - git checkout -b build
-  - git add .next
-  - if [[ $(git status --porcelain) ]]; then git commit -am "Automatically generated files" && git push; fi
+  - git add -f .next
+  - if [[ $(git status --porcelain) ]]; then git commit -am "Automatically generated files" && git push origin build; fi
