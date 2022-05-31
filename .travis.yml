@@ -10,6 +10,6 @@ after_success:
   git config --global user.name 'Automated CICD'
   git config --global user.email noreply@noone.com
   git rm -r --ignore-unmatch */*
-  cp -r /tmp/workspace/* .
-  git add .
+  git checkout -b build
+  git add .next
   if [[ $(git status --porcelain) ]]; then git commit -am "Automatically generated files" && git push; fi
