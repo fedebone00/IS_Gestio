@@ -12,4 +12,6 @@ after_success:
   - git rm -r --ignore-unmatch */*
   - git checkout -b build
   - git add -f .next
-  - if [[ $(git status --porcelain) ]]; then git commit -am "Automatically generated files" && git push origin build; fi
+  - git commit -m "Automatically generated build"
+  - git remote add origin-pages https://${GH_TOKEN}@github.com/MVSE-outreach/resources.git > /dev/null 2>&1
+  - git push --quiet --set-upstream origin-pages gh-pages
