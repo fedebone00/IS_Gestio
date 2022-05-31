@@ -5,8 +5,6 @@ cache:
   directories:
   - node_modules
 script:
-- npm
-- npm run lint
 - npm run build
 after_success:
   git config --global user.name 'Automated CICD'
