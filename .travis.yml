@@ -6,12 +6,13 @@ cache:
   - node_modules
 script:
 - npm run build
+- next export
 after_success:
   - git config --global user.name 'Automated CICD'
   - git config --global user.email noreply@noone.com
   - git rm -r --ignore-unmatch */*
   - git checkout -b frontend_build
-  - git add -f .next
+  - git add -f .
   - git commit -m "Automatically generated build"
   - git remote add origin-pages https://${GH_TOKEN}@github.com/fedebone00/IS_Gestio.git
   - git push origin-pages frontend_build
