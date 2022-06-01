@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
 
+
 function parseJwt(token) {
   if (!token) {
     return;
@@ -17,28 +18,36 @@ export default function rimuoviDipendente() {
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
   const [base, setBase] = useState(
-    //"https://gestio-is.herokuapp.com/api/v1/dipendente/"
-    "http://localhost:8080/api/v1/dipendente/"
+    //"https://gestio-is.herokuapp.com/api/v1/dipendente"
+    "http://localhost:8080/api/v1/dipendente"
   );
   const [slash, setSlash] = useState("/");
   const [id, setId] = useState("");
   const [error, setError] = useState(false);
   const [token, setToken] = useState("");
+  const [variabileProva, setVariabileProva] = useState("")
+
+  
 
   async function handleRemove(e) {
     e.preventDefault();
-    // Default options are marked with *
+
+
+    
+
+
 
     try {
       const axios = require("axios");
 
-      let url = base + email;
-
       let response = await axios({
         method: "DELETE",
-        url: url,
+        url: base,
         headers: {
           "x-access-token": jwt,
+        },
+        data: {
+          email,
         },
       }).then(function (response) {
         let token = response.data;
@@ -50,15 +59,17 @@ export default function rimuoviDipendente() {
       } else {
       }
     } finally {
+      //setVariabileProva("Rimosso con successo")
     }
   }
 
   useEffect(() => {
     setTimeout(() => {
+      if(set == 1){
       setJwt(localStorage.getItem("jwt"));
       setRt(localStorage.getItem("rt"));
-      //console.log("JWT-->", jwt);
-      setSet(0);
+      console.log("JWT-->", jwt);
+      setSet(0);}
     }, 50);
   }, []);
 
@@ -88,12 +99,14 @@ export default function rimuoviDipendente() {
                 placeholder="Username Dipendente"
                 onChange={(e) => setUsername(e.target.value)}
               />
+              
               <button
                 type="submit"
                 className="relative  py-2 inline-block px-6 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-700 active:shadow-lg transition duration-150 ease-in-out"
               >
                 Rimuovi
               </button>
+              <h1 dangerouslySetInnerHTML={{ __html: variabileProva }} /> 
             </div>
           </form>
         </div>
