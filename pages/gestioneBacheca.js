@@ -102,7 +102,7 @@ export default function gestioneBacheca() {
           </div>
           <div className="border  rounded flex flex-row    ">
             <input
-            className='p-10'
+            className='px-10 py-5'
               type="text"
               placeholder="Data Annuncio"
               onChange={(e) => setData(e.target.value)}
