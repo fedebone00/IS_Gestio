@@ -19,6 +19,34 @@ app.post('/api/v1/timbratura', isAuthenticated, isAuthorized,check('data').notEm
         .catch(() => res.status(500).send(`Error checking ${req.body.tipo}`));
 });
 
+//=======================================================================================
+
+app.post('/api/v2/timbratura', isAuthenticated, check('tipo').notEmpty(), (req,res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+    }
+    
+    var datona = new Date();
+    var dd = String(datona.getDate()).padStart(2, "0");
+    var mm = String(datona.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = datona.getFullYear();
+
+    var orona = new String;
+    var orona = datona.getHours()+"-"+datona.getMinutes();
+
+    datona = String(yyyy + "/" + mm + "/" + dd);
+    console.log(datona);
+
+    let c = new Cartellino({data: datona,tipo: req.body['tipo'], ora: orona, smartworking: req.body['smartworking']});
+    c.save()
+        .then(() => res.status(201).send(`Succesfully checked ${req.body.tipo}`))
+        .catch(() => res.status(500).send(`Error checking ${req.body.tipo}`));
+});
+
+//=======================================================================================
+
+
 app.delete('/api/v1/timbratura/:id', isAuthenticated, isAuthorized , (req,res) => {
 
     Cartellino.findByIdAndRemove(req.params.id)
