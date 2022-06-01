@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const cartellinoSchema = new mongoose.Schema({
-    id:{
-        type: String,
-        required:true
-    },
     data:{
         type: Date,
         required: true
