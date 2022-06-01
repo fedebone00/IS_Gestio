@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cartellinoSchema = new mongoose.Schema({
     data:{
         type: Date,
-        required: true
+        required: false
     },  
     tipo:{
         type: String,
@@ -11,7 +11,7 @@ const cartellinoSchema = new mongoose.Schema({
     },
     ora:{
         type: String,
-        required: true
+        required: false
     } , 
     smartworking:{
         type: Boolean,
