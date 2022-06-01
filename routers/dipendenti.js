@@ -15,6 +15,12 @@ app.get('/api/v1/dipendentespecifico', isAuthenticated, isAuthorized, async (req
     if(cartellino) return res.status(201).send(cartellino);
 });
 
+app.get('/api/v2/dipendentespecifico', isAuthenticated, isAuthorized, async (req,res) =>{
+    const dipendente = await Dipendente.findOne({email: req.body.email});
+    if(dipendente) return res.status(201).send(dipendente);
+});
+
+
 app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , check('email').notEmpty(),check('nome').notEmpty(),check('cognome').notEmpty(),check('livello').notEmpty(),async (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
