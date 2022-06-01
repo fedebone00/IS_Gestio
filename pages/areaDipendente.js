@@ -16,6 +16,8 @@ function parseJwt(token) {
 export default function areaDipendente() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
+  const [primo, setPrimo] = useState("");
+  const [secondo, setSecondo] = useState("");
   const [set, setSet] = useState(1);
   var [user_id, setUser_id] = useState("");
 
@@ -77,23 +79,32 @@ export default function areaDipendente() {
       try {
         const axios = require("axios");
 
+        var datona = new Date();
+        var dd = String(datona.getDate()).padStart(2, "0");
+        var mm = String(datona.getMonth() + 1).padStart(2, "0"); //January is 0!
+        var yyyy = datona.getFullYear();
+        datona = String(yyyy + "/" + mm + "/" + dd);
+        console.log(datona);
+
         let response = axios({
           method: "GET",
-          url: "https://gestio-is.herokuapp.com/api/v1/menu/",
+          url: "https://gestio-is.herokuapp.com/api/v2/menu/",
           headers: {
             "x-access-token": jwt,
           },
+          body: {
+            data:datona,
+          },
         }).then(function (response) {
           let token = response.data;
-          console.log(token);
-          // var found = data.filter(function (item) {
-          //   return item.data === "2022/05/22";
-          // });
-          // console.log("FOUND-->"+found[0]);
+          console.log("TOKENNNNNNN",token);
+          setPrimo(token.primo);
+          setSecondo(token.secondo);
         });
       } catch (error) {
         console.log(error);
       } finally {
+
       }
 
       return (
@@ -104,8 +115,9 @@ export default function areaDipendente() {
             <h1 className=" font-semibold text-lg py-3">Menù del giorno</h1>
             <div className=" border border-gray-200 shadow-md text-gray-700   rounded bg-white p-3 ">
               <h2 className="font-medium py-2">primo: </h2>
-
+              <h1 dangerouslySetInnerHTML={{ __html: primo }} />
               <h2 className="font-medium py-2">secondo: </h2>
+              <h1 dangerouslySetInnerHTML={{ __html: secondo }} />
             </div>
             <button
               onClick={handlePrenota}
