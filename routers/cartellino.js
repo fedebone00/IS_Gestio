@@ -7,7 +7,19 @@ app.get('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) =>{
     Cartellino.find().then((cartellino) => res.send(cartellino))
 });
 
-app.post('/api/v1/timbratura', isAuthenticated, isAuthorized, check('tipo').notEmpty(), (req,res) => {
+app.post('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) => {
+    let errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+    }
+    
+    let c = new Cartellino({data: req.body['data'],tipo: req.body['tipo'], ora: req.body['ora'], smartworking: req.body['smartworking']});
+    c.save()
+        .then(() => res.status(201).send(`Succesfully checked ${req.body.tipo}`))
+        .catch(() => res.status(500).send(`Error checking ${req.body.tipo}`));
+});
+
+app.post('/api/v2/timbratura', isAuthenticated, isAuthorized, check('tipo').notEmpty(), (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
