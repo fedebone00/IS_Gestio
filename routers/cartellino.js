@@ -7,13 +7,22 @@ app.get('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) =>{
     Cartellino.find().then((cartellino) => res.send(cartellino))
 });
 
-app.post('/api/v1/timbratura', isAuthenticated, isAuthorized,check('data').notEmpty(), check('tipo').notEmpty(),check('ora').notEmpty(), (req,res) => {
+app.post('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
     }
-    
-    let c = new Cartellino({data: req.body['data'],tipo: req.body['tipo'], ora: req.body['ora'], smartworking: req.body['smartworking']});
+
+    var data = new Date();
+    var dd = String(data.getDate()).padStart(2, "0");
+    var mm = String(data.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = data.getFullYear();
+    var ora = data.getHours() + ":" + data.getMinutes();
+    data = yyyy+"/"+mm + "/" + dd  ;
+
+    console.log(data+"T"+ora);
+    var prova = new String("camion");
+    let c = new Cartellino({ data: data,tipo: prova, ora: ora, smartworking: req.body['smartworking'] });
     c.save()
         .then(() => res.status(201).send(`Succesfully checked ${req.body.tipo}`))
         .catch(() => res.status(500).send(`Error checking ${req.body.tipo}`));

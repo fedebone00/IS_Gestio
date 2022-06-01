@@ -7,15 +7,15 @@ const cartellinoSchema = new mongoose.Schema({
     },
     data:{
         type: Date,
-        required: true
+        required: false
     },  
     tipo:{
         type: String,
-        required: true
+        required: false
     },
     ora:{
         type: String,
-        required: true
+        required: false
     } , 
     smartworking:{
         type: Boolean,
