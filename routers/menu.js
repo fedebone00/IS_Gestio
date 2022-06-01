@@ -7,6 +7,16 @@ app.get('/api/v1/menu', isAuthenticated, isAuthorized, (req,res) =>{
     Menu.find().then((ferie) => res.send(ferie))
 });
 
+//=================================================================================
+
+app.get('/api/v2/menu', isAuthenticated, isAuthorized, async (req,res) =>{
+    const menu = await Menu.findOne({data: req.body.data});
+    if(menu) return res.status(201).send(menu);
+});
+
+//=================================================================================
+
+
 app.post('/api/v1/menu', isAuthenticated, isAuthorized,check('data').notEmpty(),check('primo').notEmpty(),check('secondo').notEmpty() , async (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
@@ -23,6 +33,7 @@ app.post('/api/v1/menu', isAuthenticated, isAuthorized,check('data').notEmpty(),
         .then(() => res.status(201).send('Succesfully add menu'))
         .catch(() => res.status(500).send('Error saving Menu'));
 });
+
 
 app.delete('/api/v1/menu/:id', isAuthenticated, isAuthorized, check('id').notEmpty(), (req,res) => {
     Menu.findByIdAndRemove(req.params.id)
