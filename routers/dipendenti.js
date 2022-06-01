@@ -11,7 +11,7 @@ app.get('/api/v1/dipendente', isAuthenticated, isAuthorized, (req,res) =>{
 
 //find specific worker and get check-in
 app.get('/api/v1/dipendentespecifico', isAuthenticated, isAuthorized, async (req,res) =>{
-    const cartellino = await Cartellino.findOne({email: req.body.email});
+    const cartellino = await Cartellino.findOne({email: req.headers['email']});
     if(cartellino) return res.status(201).send(cartellino);
 });
 
@@ -48,7 +48,7 @@ app.delete('/api/v1/dipendente/:id', isAuthenticated, isAuthorized,  (req,res) =
 
 app.patch('/api/v1/dipendente/:id', isAuthenticated, isAuthorized, async (req, res) => {
 
-    const dipendente = await Dipendente.findOne({email: req.body.email});
+    const dipendente = await Dipendente.findOne({email: req.headers['email']});
     if(dipendente) return res.status(400).send('Email already exists');
 
     Dipendente.findByIdAndUpdate({
