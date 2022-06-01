@@ -83,24 +83,41 @@ export default function areaDipendente() {
         var dd = String(datona.getDate()).padStart(2, "0");
         var mm = String(datona.getMonth() + 1).padStart(2, "0"); //January is 0!
         var yyyy = datona.getFullYear();
-        datona = String(yyyy + "/" + mm + "/" + dd);
-        console.log(datona);
+        var data = yyyy + "/" + mm + "/" + dd;
+        console.log(data);
+        axios
 
-        let response = axios({
-          method: "GET",
-          url: "https://gestio-is.herokuapp.com/api/v2/menu/",
+        let res = axios.get("https://gestio-is.herokuapp.com/api/v2/menu/", {
           headers: {
             "x-access-token": jwt,
           },
-          body: {
-            data:datona,
-          },
+          params: {
+            data: data
+          }
         }).then(function (response) {
+          console.log(response)
           let token = response.data;
           console.log("TOKENNNNNNN",token);
           setPrimo(token.primo);
           setSecondo(token.secondo);
         });
+
+        // let response = axios({
+        //   method: "GET",
+        //   url: "https://gestio-is.herokuapp.com/api/v2/menu/",
+        //   headers: {
+        //     "x-access-token": jwt,
+        //   },
+        //   body: {
+        //     data:data,
+        //   },
+        // },{},{data:data}).then(function (response) {
+        //   console.log(response)
+        //   let token = response.data;
+        //   console.log("TOKENNNNNNN",token);
+        //   setPrimo(token.primo);
+        //   setSecondo(token.secondo);
+        // });
       } catch (error) {
         console.log(error);
       } finally {
@@ -115,9 +132,9 @@ export default function areaDipendente() {
             <h1 className=" font-semibold text-lg py-3">Menù del giorno</h1>
             <div className=" border border-gray-200 shadow-md text-gray-700   rounded bg-white p-3 ">
               <h2 className="font-medium py-2">primo: </h2>
-              <h1 dangerouslySetInnerHTML={{ __html: primo }} />
+              <h1 >{primo}</h1>
               <h2 className="font-medium py-2">secondo: </h2>
-              <h1 dangerouslySetInnerHTML={{ __html: secondo }} />
+              <h1 >{secondo}</h1>
             </div>
             <button
               onClick={handlePrenota}
