@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const prenotamensaSchema = mongoose.Schema({
     user_id:{
         type: String,
-        required:true
+        required:false
     },
     prenotazione:{
         type: Boolean,
