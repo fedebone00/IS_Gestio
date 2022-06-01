@@ -15,6 +15,7 @@ function parseJwt(token) {
 export default function Home() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
+  const [data, setData] = useState("");
   const [set, setSet] = useState(1);
   const [smartworking, setSmartworking] = useState(false);
   var [errore, setErrore] = useState("");
@@ -24,6 +25,29 @@ export default function Home() {
     let isChecked = e.target.checked;
     console.log("CHECKED-->", isChecked);
     setSmartworking(isChecked);
+  }
+
+  async function handleStorico(e) {
+    e.preventDefault();
+    console.log("Storico");
+
+    try {
+      const axios = require(`axios`);
+      
+      let response = await axios({
+        method: "GET",
+        url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
+        headers: {
+          "x-access-token": jwt,
+        }
+      }).then(function (response) {
+        console.log(response.data)
+        // localStorage.setItem("data",response.data);
+        setData(response.data);
+      });
+    } catch(error){
+      console.log(error)
+    }
   }
 
   async function handleTimbraPresenza(e) {
@@ -227,13 +251,14 @@ export default function Home() {
     setTimeout(() => {
       setJwt(localStorage.getItem("jwt"));
       setRt(localStorage.getItem("rt"));
-      //console.log("JWT-->", jwt);
       setSet(0);
     }, 50);
-  }, []);
+  }, [])
 
   if (set) {
-    return <div></div>;
+    return <div>
+      
+    </div>;
   } else {
     console.log("JWT-->", jwt);
 
@@ -249,7 +274,6 @@ export default function Home() {
       return (
         <div>
           <SidebarDip />
-
           <TopBar />
           <div className=" flex flex-row px-96 h-20   justify-between ">
             <button
@@ -277,6 +301,13 @@ export default function Home() {
                 Smart-Working
               </label>
             </div>
+          </div>
+          <div className=" flex px-80 py-20"> 
+            <h1 className="border  rounded  flex-row  justify-center items-center px-80 py-20"
+                onClick={handleStorico} 
+                dangerouslySetInnerHTML={{ __html: data }}
+                >
+            </h1>
           </div>
         </div>
       );
