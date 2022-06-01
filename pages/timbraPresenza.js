@@ -31,25 +31,16 @@ export default function Home() {
 
     console.log("Timbra");
 
-    var data = new Date();
-    var dd = String(data.getDate()).padStart(2, "0");
-    var mm = String(data.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = data.getFullYear();
-    var ora = data.getHours() + ":" + data.getMinutes();
-    data = mm + "/" + dd + "/" + yyyy;
-
     try {
       const axios = require("axios");
 
       let response = await axios({
         method: "POST",
-        url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
+        url: "https://gestio-is.herokuapp.com/api/v2/timbratura",
         headers: {
           "x-access-token": jwt,
         },
         data: {
-          data,
-          ora,
           tipo: "ingresso",
           smartworking,
         },
@@ -61,9 +52,6 @@ export default function Home() {
       if (error.response) {
         // Request made and server responded
         console.log("RESPONSE");
-        //console.log("NAME-->",error.response.name);
-        //console.log(error.response.status);
-        //setErrore(error.response.status);
         errore = error.response.status;
         console.log(errore);
         //console.log(error.response.headers);
@@ -142,13 +130,11 @@ export default function Home() {
 
       let response = await axios({
         method: "POST",
-        url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
+        url: "https://gestio-is.herokuapp.com/api/v2/timbratura",
         headers: {
           "x-access-token": jwt,
         },
         data: {
-          data,
-          ora,
           tipo: "uscita",
           smartworking,
         },
@@ -158,11 +144,7 @@ export default function Home() {
       });
     } catch (error) {
       if (error.response) {
-        // Request made and server responded
         console.log("RESPONSE");
-        //console.log("NAME-->",error.response.name);
-        //console.log(error.response.status);
-        //setErrore(error.response.status);
         errore = error.response.status;
         console.log(errore);
         //console.log(error.response.headers);
