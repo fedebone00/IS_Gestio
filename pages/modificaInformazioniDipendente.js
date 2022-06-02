@@ -7,6 +7,7 @@ import React, { Component, useEffect, useState } from 'react';
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
 import cookieCutter from 'cookie-cutter'
+import { MdEmail } from 'react-icons/md'
 
 
 function parseJwt(token) {
@@ -44,7 +45,7 @@ export default function rimuoviDipendente() {
         url: "http://localhost:8080/api/v2/dipendentespecifico",
         headers: {
           "x-access-token": jwt,
-          email: newEmail,
+          email: email,
         },
       }).then(function (response) {
         let risposta = response.data;
@@ -63,7 +64,7 @@ export default function rimuoviDipendente() {
     }
   }
 
-  async function handleRimuovi(e) {
+  async function handleModifica(e) {
     e.preventDefault();
     let url = "http://localhost:8080/api/v1/dipendente/" + id;
     console.log(url);
@@ -77,7 +78,9 @@ export default function rimuoviDipendente() {
         url: url,
         headers: {
           "x-access-token": jwt,
-          email,
+        },
+        data: {
+          "email": newEmail,
         },
       }).then(function (response) {
         let risposta = response.data;
@@ -170,7 +173,7 @@ export default function rimuoviDipendente() {
               />
               <button
                 className="relative  py-2 inline-block px-6 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-700 active:shadow-lg transition duration-150 ease-in-out"
-                onClick={handleRimuovi}
+                onClick={handleModifica}
               >
                 {rimuovi}
               </button>
