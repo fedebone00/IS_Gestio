@@ -32,22 +32,36 @@ app.post(
 
 //=====================================================================
 
-app.post("/api/v2/prenotamensa", isAuthenticated, isAuthorized, (req, res) => {
-  let errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+app.post(
+    "/api/v2/prenotamensa",
+    isAuthenticated,
+    isAuthorized,
+    check("user_id").notEmpty(),
+    (req, res) => {
+      let errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
 
-
-  let p = new PrenotaMensa({
-    prenota: req.body["prenotazione"],
-  });
-  p.save()
-    .then(() =>
-      res.status(201).send(`Successfully booked, id ${req.params.id}`)
-    )
-    .catch(() => res.status(500).send("Error while booking"));
-});
+      var datona = new Date();
+      var dd = String(datona.getDate()).padStart(2, "0");
+      var mm = String(datona.getMonth() + 1).padStart(2, "0"); //January is 0!
+      var yyyy = datona.getFullYear();
+  
+      datona = String(yyyy + "/" + mm + "/" + dd);
+      console.log(datona);
+  
+      let p = new PrenotaMensa({
+        user_id: req.body["user_id"],
+        data: datona,
+      });
+      p.save()
+        .then(() =>
+          res.status(201).send(`Successfully booked, id ${req.params.user_id}`)
+        )
+        .catch(() => res.status(500).send("Error while booking"));
+    }
+  );
 
 //=====================================================================
 
