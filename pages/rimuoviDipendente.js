@@ -29,6 +29,13 @@ export default function rimuoviDipendente() {
 
   async function handleGet(e) {
     e.preventDefault();
+
+    setNome("");
+    setCognome("");
+    setLivello("");
+    setData("");
+    setId("");
+
     try {
       const axios = require("axios");
 
@@ -75,7 +82,6 @@ export default function rimuoviDipendente() {
     } catch (error) {
       setRimuovi("Errore nella rimozione!!");
     } finally {
-      
     }
   }
 
