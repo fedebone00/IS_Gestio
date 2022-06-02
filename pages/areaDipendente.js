@@ -76,6 +76,8 @@ export default function areaDipendente() {
     } else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
       //delete localStorage.jwt;
 
+      //console.log(parseJwt(jwt))
+
       try {
         const axios = require("axios");
 
@@ -85,39 +87,25 @@ export default function areaDipendente() {
         var yyyy = datona.getFullYear();
         var data = yyyy + "/" + mm + "/" + dd;
         console.log(data);
-        axios
 
-        let res = axios.get("https://gestio-is.herokuapp.com/api/v2/menu/", {
-          headers: {
-            "x-access-token": jwt,
-          },
-          params: {
-            data: data
-          }
-        }).then(function (response) {
-          console.log(response)
-          let token = response.data;
-          console.log("TOKENNNNNNN",token);
-          setPrimo(token.primo);
-          setSecondo(token.secondo);
+
+         let response = axios({
+           method: "GET",
+           url: "https://gestio-is.herokuapp.com/api/v2/menu",
+           headers: {
+             "x-access-token": jwt,
+             "data": data,
+           },
+           body: {
+             data:data,
+           },
+         },{},{data:data}).then(function (response) {
+           console.log(response)
+           let token = response.data;
+           console.log("TOKENNNNNNN",token);
+           setPrimo(token.primo);
+           setSecondo(token.secondo);
         });
-
-        // let response = axios({
-        //   method: "GET",
-        //   url: "https://gestio-is.herokuapp.com/api/v2/menu/",
-        //   headers: {
-        //     "x-access-token": jwt,
-        //   },
-        //   body: {
-        //     data:data,
-        //   },
-        // },{},{data:data}).then(function (response) {
-        //   console.log(response)
-        //   let token = response.data;
-        //   console.log("TOKENNNNNNN",token);
-        //   setPrimo(token.primo);
-        //   setSecondo(token.secondo);
-        // });
       } catch (error) {
         console.log(error);
       } finally {
