@@ -5,7 +5,7 @@ const companySchema = new mongoose.Schema({
         type: Buffer, // TODO fix me pls
         required: true
     },  
-    partiaiva:{
+    partitaiva:{
         type: String,
         required: true
     },
@@ -16,4 +16,4 @@ const companySchema = new mongoose.Schema({
 });
 
 const Azienda = mongoose.model("azienda",companySchema);
-module.exports= Azienda;
+module.exports = Azienda;
