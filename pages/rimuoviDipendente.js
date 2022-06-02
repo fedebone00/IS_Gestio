@@ -19,7 +19,6 @@ export default function rimuoviDipendente() {
   const [slash, setSlash] = useState("/");
   const [error, setError] = useState(false);
   const [token, setToken] = useState("");
-  const [variabileProva, setVariabileProva] = useState("");
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
   const [data, setData] = useState("");
