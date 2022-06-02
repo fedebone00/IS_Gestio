@@ -5,11 +5,10 @@ const prenotamensaSchema = mongoose.Schema({
         type: String,
         required:false
     },
-    prenotazione:{
-        type: Boolean,
-        required:false,
-        default: false
-    }
+    data:{
+        type: String,
+        required: false
+    } 
 });
 
 const PrenotaMensa = mongoose.model("prenotamensa", prenotamensaSchema);
