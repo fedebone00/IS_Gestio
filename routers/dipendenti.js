@@ -11,12 +11,13 @@ app.get('/api/v1/dipendente', isAuthenticated, isAuthorized, (req,res) =>{
 
 //find specific worker and get check-in
 app.get('/api/v1/dipendentespecifico', isAuthenticated, isAuthorized, async (req,res) =>{
-    const cartellino = await Cartellino.findOne({email: req.body.email});
+    const cartellino = await Cartellino.findOne({email: req.headers['email']});
     if(cartellino) return res.status(201).send(cartellino);
 });
 
+
 app.get('/api/v2/dipendentespecifico', isAuthenticated, isAuthorized, async (req,res) =>{
-    const dipendente = await Dipendente.findOne({email: req.body.email});
+    const dipendente = await Dipendente.findOne({email: req.headers['email']});
     if(dipendente) return res.status(201).send(dipendente);
 });
 
@@ -38,22 +39,13 @@ app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , check('email').no
         .catch(() => res.status(500).send(`Error saving ${req.body.email}`));
 });
 
-app.delete('/api/v1/dipendente', isAuthenticated, isAuthorized, async (req,res) => {
 
-    let user = await Dipendente.findOne({email: req.body['email']});
-    if(!user) {
-        return res.status(401).send('Email not found');
-    }else{
-        Dipendente.remove(user.id)
-            .then(() => res.status(201).send(`Successfully remove email ${req.params.email}`))
-            .catch(() => res.status(500).send('Error deleting user'));
-    }
-
-
-    Dipendente.findByIdAndRemove(user.params.id)
-        .then(() => res.status(201).send(`Successfully remove email ${req.params.email}`))
-        .catch(() => res.status(500).send('Error deleting user'));
+app.delete('/api/v1/dipendente/:id', isAuthenticated, isAuthorized,  (req,res) => {
+    Dipendente.findByIdAndRemove(req.params.id)
+        .then(() => res.status(201).send(`Succesfully removed: ${req.params.id}`))
+        .catch(() => res.status(500).send(`Error deleting: ${req.params.id}`));
 });
+
 
 app.patch('/api/v1/dipendente/:id', isAuthenticated, isAuthorized, async (req, res) => {
 
