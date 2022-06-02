@@ -42,7 +42,6 @@ export default function areaDipendente() {
         },
         data: {
           "user_id": parseJwt(jwt).user_id,
-          "prenotazione" : 'true',
         },
       }).then(function (response) {
         let token = response.data;
