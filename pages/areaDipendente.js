@@ -31,16 +31,18 @@ export default function areaDipendente() {
 
     try {
       const axios = require("axios");
+      
+      console.log("ID------->",parseJwt(jwt).user_id);
 
       let response = await axios({
         method: "POST",
-        url: "https://gestio-is.herokuapp.com/api/v1/prenotamensa",
+        url: "https://gestio-is.herokuapp.com/api/v2/prenotamensa",
         headers: {
           "x-access-token": jwt,
         },
         data: {
-          user_id: parseJwt(jwt).user_id,
-          //'prenotazione' : 'true',
+          "user_id": parseJwt(jwt).user_id,
+          "prenotazione" : 'true',
         },
       }).then(function (response) {
         let token = response.data;
@@ -119,9 +121,9 @@ export default function areaDipendente() {
           <div className="absolute top-40 left-72 flex flex-col gap">
             <h1 className=" font-semibold text-lg py-3">Menù del giorno</h1>
             <div className=" border border-gray-200 shadow-md text-gray-700   rounded bg-white p-3 ">
-              <h2 className="font-medium py-2">primo: </h2>
+              <h2 className="font-medium py-2">Primo: </h2>
               <h1 >{primo}</h1>
-              <h2 className="font-medium py-2">secondo: </h2>
+              <h2 className="font-medium py-2">Secondo: </h2>
               <h1 >{secondo}</h1>
             </div>
             <button
