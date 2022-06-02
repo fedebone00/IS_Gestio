@@ -10,7 +10,7 @@ app.get('/api/v1/menu', isAuthenticated, isAuthorized, (req,res) =>{
 //=================================================================================
 
 app.get('/api/v2/menu', isAuthenticated, isAuthorized, async (req,res) =>{
-    const menu = await Menu.findOne({data: req.body.data});
+    const menu = await Menu.findOne({data: req.headers['data']});
     if(menu) return res.status(201).send(menu);
 });
 
