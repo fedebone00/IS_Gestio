@@ -4,7 +4,7 @@ const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
 app.get('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) =>{
-    Cartellino.find().then((cartellino) => res.send(cartellino))
+    Cartellino.find().then((cartellino) => res.json(cartellino))
 });
 
 app.post('/api/v1/timbratura', isAuthenticated, isAuthorized,check('data').notEmpty(), check('tipo').notEmpty(),check('ora').notEmpty(), (req,res) => {
