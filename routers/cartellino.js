@@ -1,13 +1,14 @@
-const app = require('../app/app.js')
+const express = require('express')
+const router = express.Router()
 const Cartellino = require('../models/Cartellino.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
-app.get('/api/v1/timbratura', isAuthenticated, isAuthorized, (req,res) =>{
+router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
     Cartellino.find().then((cartellino) => res.json(cartellino))
 });
 
-app.post('/api/v1/timbratura', isAuthenticated, isAuthorized,check('data').notEmpty(), check('tipo').notEmpty(),check('ora').notEmpty(), (req,res) => {
+router.post('/', isAuthenticated, isAuthorized,check('data').notEmpty(), check('tipo').notEmpty(),check('ora').notEmpty(), (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
@@ -21,7 +22,7 @@ app.post('/api/v1/timbratura', isAuthenticated, isAuthorized,check('data').notEm
 
 //=======================================================================================
 
-app.post('/api/v2/timbratura', isAuthenticated, check('tipo').notEmpty(), (req,res) => {
+router.post('/api/v2/timbratura', isAuthenticated, check('tipo').notEmpty(), (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
@@ -47,14 +48,14 @@ app.post('/api/v2/timbratura', isAuthenticated, check('tipo').notEmpty(), (req,r
 //=======================================================================================
 
 
-app.delete('/api/v1/timbratura/:id', isAuthenticated, isAuthorized , (req,res) => {
+router.delete('//:id', isAuthenticated, isAuthorized , (req,res) => {
 
     Cartellino.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Succesfully removed: ${req.params.id}`))
         .catch(() => res.status(500).send(`Error deleting: ${req.params.id}`));
 });
 
-app.patch('/api/v1/timbratura/:id', isAuthenticated, isAuthorized, async (req, res) => {
+router.patch('//:id', isAuthenticated, isAuthorized, async (req, res) => {
 
     Cartellino.findByIdAndUpdate({
         _id:req.params.id
@@ -66,3 +67,5 @@ app.patch('/api/v1/timbratura/:id', isAuthenticated, isAuthorized, async (req, r
         res.status(500).send(err.message);
     });
 });
+
+module.exports = router;

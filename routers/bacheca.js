@@ -1,13 +1,14 @@
-const app = require('../app/app.js')
+const express = require('express')
+const router = express.Router()
 const Bacheca = require('../models/Bacheca.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
-app.get('/api/v1/bacheca', isAuthenticated, isAuthorized, (req,res) =>{
+router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
     Bacheca.find().then((bacheca) => res.send(bacheca))
 });
 
-app.post('/api/v1/bacheca', isAuthenticated, isAuthorized,check('testoAnnuncio').notEmpty(), check('scadenzaAnnuncio').notEmpty(), (req,res) => {
+router.post('/', isAuthenticated, isAuthorized,check('testoAnnuncio').notEmpty(), check('scadenzaAnnuncio').notEmpty(), (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
@@ -19,14 +20,14 @@ app.post('/api/v1/bacheca', isAuthenticated, isAuthorized,check('testoAnnuncio')
         .catch(() => res.status(500).send(`Error creation announcement ${req.body.tipo}`));
 });
 
-app.delete('/api/v1/bacheca/:id', isAuthenticated, isAuthorized , (req,res) => {
+router.delete('/:id', isAuthenticated, isAuthorized , (req,res) => {
 
     Bacheca.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Succesfully removed: ${req.params.id}`))
         .catch(() => res.status(500).send(`Error deleting: ${req.params.id}`));
 });
 
-app.patch('/api/v1/bacheca/:id', isAuthenticated, isAuthorized, async (req, res) => {
+router.patch('/:id', isAuthenticated, isAuthorized, async (req, res) => {
 
     Bacheca.findByIdAndUpdate({
         _id:req.params.id
@@ -38,3 +39,5 @@ app.patch('/api/v1/bacheca/:id', isAuthenticated, isAuthorized, async (req, res)
         res.status(500).send(err.message);
     });
 });
+
+module.exports = router;

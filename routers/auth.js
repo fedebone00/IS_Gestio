@@ -1,10 +1,11 @@
 const User = require('../models/User.js');
-const app = require('../app/app.js');
+const express = require('express');
+const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const crypto = require('node:crypto');
 
-app.post('/api/v1/login', body('email').isEmail(), async (req, res) => {
+router.post('/login', body('email').isEmail(), async (req, res) => {
     let errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -20,7 +21,7 @@ app.post('/api/v1/login', body('email').isEmail(), async (req, res) => {
     }
 });
 
-app.post('/api/v1/refresh', async (req, res) => {
+router.post('/refresh', async (req, res) => {
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
     if(req.body['rt'] && token) {
         try{
@@ -52,3 +53,5 @@ app.post('/api/v1/refresh', async (req, res) => {
         res.status(401).send('Refresh token and jwt needed');
     }
 });
+
+module.exports = router;

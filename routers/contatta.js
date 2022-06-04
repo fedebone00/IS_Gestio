@@ -1,4 +1,5 @@
-const app = require('../app/app.js')
+const express = require('express')
+const router = express.Router()
 const Dipendente = require('../models/Dipendenti.js')
 const Cartellino = require('../models/Cartellino.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
@@ -7,7 +8,7 @@ const Messaggio = require('../models/Messaggio.js')
 
 //get messaggi --> email here is the person who has received messages
 
-app.get('/api/v1/messaggi', isAuthenticated, isAuthorized, check('email').notEmpty(), async (req,res) =>{
+router.get('/messaggi', isAuthenticated, isAuthorized, check('email').notEmpty(), async (req,res) =>{
     
     let errors = validationResult(req)
     if(!errors.isEmpty()){
@@ -32,7 +33,7 @@ app.get('/api/v1/messaggi', isAuthenticated, isAuthorized, check('email').notEmp
 });
 
 //send messages to coworkers --> email here is the person who will receive the message
-app.post('/api/v1/contatta', isAuthenticated, isAuthorized, check('email').notEmpty,check('messaggio').notEmpty(),async (req,res) =>{
+router.post('/', isAuthenticated, isAuthorized, check('email').notEmpty,check('messaggio').notEmpty(),async (req,res) =>{
     
     let errors = validationResult(req)
     if(!errors.isEmpty()){
@@ -51,8 +52,10 @@ app.post('/api/v1/contatta', isAuthenticated, isAuthorized, check('email').notEm
 
 });
 
-app.delete('/api/v1/messaggi/:id', isAuthenticated, isAuthorized, (req,res) => {
+router.delete('/messaggi/:id', isAuthenticated, isAuthorized, (req,res) => {
     Messaggio.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Succesfully removed message`))
         .catch(() => res.status(500).send(`Error deleting message`));
 });
+
+module.exports = router;
