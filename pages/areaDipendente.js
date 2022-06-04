@@ -22,8 +22,7 @@ export default function areaDipendente() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
-
-  //const [jwt, setJwt] = useState("");
+  const [risposta, setRisposta] = useState("");
 
   useEffect(() => {
     setTimeout(() => {
@@ -54,7 +53,27 @@ export default function areaDipendente() {
     }
 
     else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
-      //delete localStorage.jwt;
+      try {
+        const axios = require(`axios`);
+        
+        axios({
+          method: "GET",
+          url: "https://gestio-is.herokuapp.com/api/v1/infoazienda/bypiva",
+          headers: {
+            "x-access-token": jwt,
+          }
+        }).then(function (response) {
+          // console.log(response.data)
+          let token = response.data
+          // let ostia = JSON.stringify(token)
+          // console.log(ostia.match("data"))
+           setRisposta(token)
+          // setOra(token.ora)
+          // console.log(ora)
+        });
+      } catch(error){
+        console.log(error)
+      }
       return (
         <div>
           <SidebarDip/>
