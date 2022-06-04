@@ -27,7 +27,7 @@ export default function gestioneFerie() {
 
       axios({
         method: "POST",
-        url: "http://localhost:8080/api/v1/ferie",
+        url: "http://gestio-is.herokuapp.com/api/v1/ferie",
         headers: {
           "x-access-token": jwt,
         },

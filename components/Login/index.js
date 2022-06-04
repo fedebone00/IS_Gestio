@@ -27,7 +27,7 @@ export function LoginForm() {
 
       axios({
         method: "POST",
-        url: "http://localhost:8080/api/v1/login",
+        url: "http://gestio-is.herokuapp.com/api/v1/auth/login",
         data: {
           email,
           password,
