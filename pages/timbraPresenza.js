@@ -2,6 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import { SidebarDip } from "../components/sidebarDip";
 import TopBar from "../components/topBar";
 import Router from "next/router";
+import { MdAccessAlarm } from "react-icons/md";
 
 function parseJwt(token) {
   if (!token) {
@@ -15,6 +16,10 @@ function parseJwt(token) {
 export default function Home() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
+  const [risposta, setRisposta] = useState("");
+  const [data, setData] = useState("");
+  const [ora, setOra] = useState("");
+  const [tipo, setTipo] = useState("");
   const [set, setSet] = useState(1);
   const [smartworking, setSmartworking] = useState(false);
   var [errore, setErrore] = useState("");
@@ -160,12 +165,8 @@ export default function Home() {
       if (error.response) {
         // Request made and server responded
         console.log("RESPONSE");
-        //console.log("NAME-->",error.response.name);
-        //console.log(error.response.status);
-        //setErrore(error.response.status);
         errore = error.response.status;
         console.log(errore);
-        //console.log(error.response.headers);
       } else if (error.request) {
         errore = 400;
         console.log(error.request);
@@ -227,13 +228,14 @@ export default function Home() {
     setTimeout(() => {
       setJwt(localStorage.getItem("jwt"));
       setRt(localStorage.getItem("rt"));
-      //console.log("JWT-->", jwt);
       setSet(0);
     }, 50);
-  }, []);
+  }, [])
 
   if (set) {
-    return <div></div>;
+    return <div>
+      
+    </div>;
   } else {
     console.log("JWT-->", jwt);
 
@@ -245,22 +247,43 @@ export default function Home() {
         </div>
       );
     } else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
-      //delete localStorage.jwt;
+      
+      try {
+        const axios = require(`axios`);
+        
+        axios({
+          method: "GET",
+          url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
+          headers: {
+            "x-access-token": jwt,
+          }
+        }).then(function (response) {
+          // console.log(response.data)
+          let token = response.data
+          // let ostia = JSON.stringify(token)
+          // console.log(ostia.match("data"))
+           setRisposta(token)
+          // setOra(token.ora)
+          // console.log(ora)
+        });
+      } catch(error){
+        console.log(error)
+      }
+
       return (
         <div>
           <SidebarDip />
-
           <TopBar />
           <div className=" flex flex-row px-96 h-20   justify-between ">
             <button
-              className="flex px-4 inline-block items-center bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+              className="flex px-4  items-center bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
               onClick={handleTimbraPresenza}
             >
               timbra presenza
             </button>
 
             <button
-              className="flex px-4 inline-block  items-center bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+              className="flex px-4   items-center bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
               onClick={handleTimbraUscita}
             >
               timbra uscita
@@ -278,6 +301,20 @@ export default function Home() {
               </label>
             </div>
           </div>
+          <div className="px-10 py-20 text-xl leading-tigh"> 
+            <table>
+              <tr>
+                <th>STORICO PRESENZE</th>
+              </tr>
+              <tr>
+                  <div className="px-80 py-20 font-medium "> 
+                    {risposta ? risposta.map((elemento) =>{
+                      return ((<tr><td>{elemento.data}{" "}{elemento.ora}{" "}{elemento.tipo}</td></tr>)
+                    )}) : ""}
+                  </div>
+              </tr>
+            </table> 
+          </div> 
         </div>
       );
     } else {
