@@ -18,6 +18,7 @@ export default function notificaMalattia() {
   const [certificato, setMotivazione] = useState("");
   const [dateInizio, setDateInizio] = useState("");
   const [dateFine, setDateFine] = useState("");
+  const [risposta, setRisposta] = useState("");
 
   async function handleAdd(e) {
     e.preventDefault();
@@ -81,9 +82,46 @@ export default function notificaMalattia() {
     }
 
     if (parseJwt(jwt).role == "DIP0") {
-      //delete localStorage.jwt;
+
+      try {
+        const axios = require(`axios`);
+        
+        axios({
+          method: "GET",
+          url: "https://gestio-is.herokuapp.com/api/v1/malattia",
+          headers: {
+            "x-access-token": jwt,
+          }
+        }).then(function (response) {
+          // console.log(response.data)
+          let token = response.data
+          // let ostia = JSON.stringify(token)
+          // console.log(ostia.match("data"))
+           setRisposta(token)
+          // setOra(token.ora)
+          // console.log(ora)
+        });
+      } catch(error){
+        console.log(error)
+      }
+
       return (
         <div>
+          <TopBar />
+          <div className="px-10 py-10 text-xl leading-tigh"> 
+            <table>
+              <tr>
+                <th>STORICO MALATTIA</th>
+              </tr>
+              <tr>
+                  <div className="px-80 py-0 font-medium "> 
+                    {risposta ? risposta.map((elemento) =>{
+                      return ((<tr><td>{elemento.dataInizio}{" "}{elemento.dataFine}{" "}</td></tr>)
+                    )}) : ""}
+                  </div>
+              </tr>
+            </table> 
+          </div>
           <SidebarDip />
           <form onSubmit={handleAdd}>
             <fieldset className="  relative z-1  p-3 flex flex-col space-y-3 justify-center items-center  h-screen">
@@ -116,15 +154,48 @@ export default function notificaMalattia() {
               </div>
             </fieldset>
           </form>
-          <TopBar />
         </div>
       );
     } else if (parseJwt(jwt).role == "DIP1") {
+      try {
+        const axios = require(`axios`);
+        
+        axios({
+          method: "GET",
+          url: "https://gestio-is.herokuapp.com/api/v1/malattia",
+          headers: {
+            "x-access-token": jwt,
+          }
+        }).then(function (response) {
+          // console.log(response.data)
+          let token = response.data
+          // let ostia = JSON.stringify(token)
+          // console.log(ostia.match("data"))
+           setRisposta(token)
+          // setOra(token.ora)
+          // console.log(ora)
+        });
+      } catch(error){
+        console.log(error)
+      }
       return (
         <div>
-          <SidebarDip />
-
           <TopBar />
+          <SidebarDip />
+          <div className="px-10 py-10 text-xl leading-tigh"> 
+            <table>
+              <tr>
+                <th>STORICO MALATTIA</th>
+              </tr>
+              <tr>
+                <div className="px-80 py-0 font-medium "> 
+                  {risposta ? risposta.map((elemento) =>{
+                    return ((<tr><td>{elemento.dataInizio}{" "}{elemento.dataFine}{" "}</td></tr>)
+                  )}) : ""}
+                </div>
+              </tr>
+            </table> 
+          </div>
         </div>
       );
     } else {
