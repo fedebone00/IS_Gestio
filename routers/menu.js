@@ -1,23 +1,18 @@
-const app = require('../app/app.js')
+const express = require('express')
+const router = express.Router()
 const Menu = require('../models/Menu.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
-app.get('/api/v1/menu', isAuthenticated, isAuthorized, (req,res) =>{
-    Menu.find().then((ferie) => res.send(ferie))
-});
 
-//=================================================================================
-
-app.get('/api/v2/menu', isAuthenticated, isAuthorized, async (req,res) =>{
+router.get('/', isAuthenticated, isAuthorized, async (req,res) =>{
     const menu = await Menu.findOne({data: req.headers['data']});
     if(menu) return res.status(201).send(menu);
+    else return res.status(404);
 });
 
-//=================================================================================
 
-
-app.post('/api/v1/menu', isAuthenticated, isAuthorized,check('data').notEmpty(),check('primo').notEmpty(),check('secondo').notEmpty() , async (req,res) => {
+router.post('/', isAuthenticated, isAuthorized,check('data').notEmpty(),check('primo').notEmpty(),check('secondo').notEmpty() , async (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
@@ -35,13 +30,13 @@ app.post('/api/v1/menu', isAuthenticated, isAuthorized,check('data').notEmpty(),
 });
 
 
-app.delete('/api/v1/menu/:id', isAuthenticated, isAuthorized, check('id').notEmpty(), (req,res) => {
+router.delete('/:id', isAuthenticated, isAuthorized, check('id').notEmpty(), (req,res) => {
     Menu.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send('Succesfully deleted menu'))
         .catch(() => res.status(500).send('Error deleted Menu'));
 });
 
-app.patch('/api/v1/menu/:id', isAuthenticated, isAuthorized, async (req, res) => {
+router.patch('/:id', isAuthenticated, isAuthorized, async (req, res) => {
     
     const menu = await Menu.findOne({data: req.body.data});
     if(menu) return res.status(400).send('Menu for this date already exists, delete it first');
@@ -56,3 +51,5 @@ app.patch('/api/v1/menu/:id', isAuthenticated, isAuthorized, async (req, res) =>
         res.status(500).send(err.message);
     });
 });
+
+module.exports = router;

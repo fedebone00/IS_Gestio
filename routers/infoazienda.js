@@ -1,23 +1,24 @@
-const app = require('../app/app.js')
+const express = require('express')
+const router = express.Router()
 const Azienda = require('../models/Azienda.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
 
 //retrieve info company
-app.get('/api/v1/infoazienda', isAuthenticated, isAuthorized, (req,res) =>{
+router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
     Azienda.find().then((azienda) => res.send(azienda))
 });
 
 
 //find specific company by partitaiva
-app.get('/api/v2/infoazienda', isAuthenticated, isAuthorized, async (req,res) =>{
+router.get('/bypiva', isAuthenticated, isAuthorized, async (req,res) =>{
     const azienda = await Azienda.findOne({partitaiva: req.headers['partitaiva']});
     if(azienda) return res.status(201).send(azienda);
 });
 
 //post info company
-app.post('/api/v1/infoazienda', isAuthenticated, isAuthorized , check('logo').notEmpty(),check('partitaiva').notEmpty(),check('contatto').notEmpty(), async (req,res) => {
+router.post('/', isAuthenticated, isAuthorized , check('logo').notEmpty(),check('partitaiva').notEmpty(),check('contatto').notEmpty(), async (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
@@ -34,13 +35,13 @@ app.post('/api/v1/infoazienda', isAuthenticated, isAuthorized , check('logo').no
         .catch(() => res.status(500).send(`Error saving ${req.body.partitaiva}`));
 });
 
-app.delete('/api/v1/infoazienda/:id', isAuthenticated, isAuthorized, (req,res) => {
+router.delete('/:id', isAuthenticated, isAuthorized, (req,res) => {
     Azienda.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Succesfully removed: ${req.body.partitaiva}`))
         .catch(() => res.status(500).send(`Error deleting: ${req.body.partitaiva}`));
 });
 
-app.patch('/api/v1/infoazienda/:id', isAuthenticated, isAuthorized, async (req, res) => {
+router.patch('/:id', isAuthenticated, isAuthorized, async (req, res) => {
 
     /*const azienda = await Azienda.findOne({partitaiva: req.body.partitaiva});
     if(!azienda) return res.status(400).send('Company not found');*/
@@ -55,3 +56,5 @@ app.patch('/api/v1/infoazienda/:id', isAuthenticated, isAuthorized, async (req, 
         res.status(500).send(err.message);
     });
 });
+
+module.exports = router;

@@ -1,11 +1,12 @@
-const app = require('../app/app.js');
+const express = require('express');
+const router = express.Router();
 const { body, query, validationResult } = require('express-validator');
 const User = require('../models/User.js');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const crypto = require('node:crypto');
 
-app.post('/api/v1/recuperocredenziali', body('email').isEmail(), async (req, res) => {
+router.post('/', body('email').isEmail(), async (req, res) => {
     let errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -53,7 +54,7 @@ app.post('/api/v1/recuperocredenziali', body('email').isEmail(), async (req, res
     });    
 });
 
-app.put('/api/v1/recuperocredenziali', query('t').isJWT(), body('password').isLength({min: 8}), async (req, res) => {
+router.put('/', query('t').isJWT(), body('password').isLength({min: 8}), async (req, res) => {
     let errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -77,3 +78,5 @@ app.put('/api/v1/recuperocredenziali', query('t').isJWT(), body('password').isLe
         .then(() => res.status(201).send('Successfully changed user password'))
         .catch(() => res.status(500).send('Error updating user password'));
 })
+
+module.exports = router;

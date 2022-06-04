@@ -1,28 +1,23 @@
-const app = require('../app/app.js')
+const express = require('express')
+const router = express.Router()
 const Dipendente = require('../models/Dipendenti.js')
 const Cartellino = require('../models/Cartellino.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
 //find every workers
-app.get('/api/v1/dipendente', isAuthenticated, isAuthorized, (req,res) =>{
+router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
     Dipendente.find().then((dipendente) => res.send(dipendente))
 });
 
-//find specific worker and get check-in
-app.get('/api/v1/dipendentespecifico', isAuthenticated, isAuthorized, async (req,res) =>{
-    const cartellino = await Cartellino.findOne({email: req.headers['email']});
-    if(cartellino) return res.status(201).send(cartellino);
-});
 
-
-app.get('/api/v2/dipendentespecifico', isAuthenticated, isAuthorized, async (req,res) =>{
+router.get('/byemail', isAuthenticated, isAuthorized, async (req,res) =>{
     const dipendente = await Dipendente.findOne({email: req.headers['email']});
     if(dipendente) return res.status(201).send(dipendente);
 });
 
 
-app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , check('email').notEmpty(),check('nome').notEmpty(),check('cognome').notEmpty(),check('livello').notEmpty(),async (req,res) => {
+router.post('/', isAuthenticated, isAuthorized , check('email').notEmpty(),check('nome').notEmpty(),check('cognome').notEmpty(),check('livello').notEmpty(),async (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
@@ -40,14 +35,14 @@ app.post('/api/v1/dipendente', isAuthenticated, isAuthorized , check('email').no
 });
 
 
-app.delete('/api/v1/dipendente/:id', isAuthenticated, isAuthorized,  (req,res) => {
+router.delete('/:id', isAuthenticated, isAuthorized,  (req,res) => {
     Dipendente.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send(`Succesfully removed: ${req.params.id}`))
         .catch(() => res.status(500).send(`Error deleting: ${req.params.id}`));
 });
 
 
-app.patch('/api/v1/dipendente/:id', isAuthenticated, isAuthorized, async (req, res) => {
+router.patch('/:id', isAuthenticated, isAuthorized, async (req, res) => {
 
     const dipendente = await Dipendente.findOne({email: req.body.email});
     if(dipendente) return res.status(400).send('Email already exists');
@@ -62,3 +57,5 @@ app.patch('/api/v1/dipendente/:id', isAuthenticated, isAuthorized, async (req, r
         res.status(500).send(err.message);
     });
 });
+
+module.exports = router;

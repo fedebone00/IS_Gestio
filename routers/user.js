@@ -1,16 +1,17 @@
-const app = require('../app/app.js');
+const express = require('express');
+const router = express.Router();
 const User = require('../models/User.js');
 const { check,body, validationResult } = require('express-validator');
 const { isAuthenticated, isAuthorized } = require('../middlewares/auth.js');
 const crypto = require('node:crypto');
 
-app.get('/api/v1/users', isAuthenticated, isAuthorized, (req, res) => {
+router.get('/', isAuthenticated, isAuthorized, (req, res) => {
     User.find().select(['-password_hash', '-salt'])
         .then((users) => res.status(201).json({users: users}))
         .catch((error) => res.status(500).json({error: error}));
 });
 
-app.post('/api/v1/users', isAuthenticated, isAuthorized, body('email').isEmail(), body('password').isLength({min: 8}), async (req, res) => {
+router.post('/', isAuthenticated, isAuthorized, body('email').isEmail(), body('password').isLength({min: 8}), async (req, res) => {
     let errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -29,7 +30,7 @@ app.post('/api/v1/users', isAuthenticated, isAuthorized, body('email').isEmail()
         .catch(() => res.status(500).send('Error saving user'));
 });
 
-app.delete('/api/v1/users', isAuthenticated, isAuthorized, check('email').notEmpty(), async (req, res) => {
+router.delete('/', isAuthenticated, isAuthorized, check('email').notEmpty(), async (req, res) => {
 
     let user = await User.findOne({email: req.body['email']});
     if(!user) {
@@ -41,7 +42,7 @@ app.delete('/api/v1/users', isAuthenticated, isAuthorized, check('email').notEmp
         .catch(() => res.status(500).send('Error deleting user'));
 });
 
-app.put('/api/v1/users/:id', isAuthenticated, isAuthorized, async (req, res) => {
+router.put('/api/v1/users/:id', isAuthenticated, isAuthorized, async (req, res) => {
     let user = await User.findById(req.params.id);
     if(user) {
         user.email = req.body['email'];
@@ -52,3 +53,5 @@ app.put('/api/v1/users/:id', isAuthenticated, isAuthorized, async (req, res) => 
         res.status(404).send('User not found');
     }
 });
+
+module.exports = router;
