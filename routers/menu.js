@@ -4,13 +4,26 @@ const Menu = require('../models/Menu.js')
 const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
-
+//get by date
 router.get('/', isAuthenticated, isAuthorized, async (req,res) =>{
     const menu = await Menu.findOne({data: req.headers['data']});
     if(menu) return res.status(201).send(menu);
     else return res.status(404);
 });
 
+//get all
+router.get('/all', isAuthenticated, isAuthorized, async (req,res) =>{
+    const menu = await Menu.find().then((menu) => res.json(menu));
+    if(menu) return res.status(201).send(menu);
+    else return res.status(404);
+});
+
+//get by id
+router.get('/specifico/:id', isAuthenticated, isAuthorized, async (req,res) =>{
+    const menu = await Menu.findOne({_id:req.params.id});
+    if(menu) return res.status(201).send(menu);
+    else return res.status(404);
+});
 
 router.post('/', isAuthenticated, isAuthorized,check('data').notEmpty(),check('primo').notEmpty(),check('secondo').notEmpty() , async (req,res) => {
     let errors = validationResult(req)
