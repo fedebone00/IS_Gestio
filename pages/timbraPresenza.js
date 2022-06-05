@@ -37,20 +37,20 @@ export default function Home() {
 
     try {
       const axios = require(`axios`);
-      
+
       let response = await axios({
         method: "GET",
         url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
         headers: {
           "x-access-token": jwt,
-        }
+        },
       }).then(function (response) {
-        console.log(response.data)
+        console.log(response.data);
         // localStorage.setItem("data",response.data);
         setData(response.data);
       });
-    } catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -139,7 +139,6 @@ export default function Home() {
       Router.push("/");
     }
   }
-
 
   async function handleTimbraUscita(e) {
     e.preventDefault();
@@ -238,12 +237,10 @@ export default function Home() {
       setRt(localStorage.getItem("rt"));
       setSet(0);
     }, 50);
-  }, [])
+  }, []);
 
   if (set) {
-    return <div>
-      
-    </div>;
+    return <div></div>;
   } else {
     console.log("JWT-->", jwt);
 
@@ -255,27 +252,26 @@ export default function Home() {
         </div>
       );
     } else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
-      
       try {
         const axios = require(`axios`);
-        
+
         axios({
           method: "GET",
           url: "https://gestio-is.herokuapp.com/api/v1/timbratura",
           headers: {
             "x-access-token": jwt,
-          }
+          },
         }).then(function (response) {
           // console.log(response.data)
-          let token = response.data
+          let token = response.data;
           // let ostia = JSON.stringify(token)
           // console.log(ostia.match("data"))
-           setRisposta(token)
+          setRisposta(token);
           // setOra(token.ora)
           // console.log(ora)
         });
-      } catch(error){
-        console.log(error)
+      } catch (error) {
+        console.log(error);
       }
 
       return (
@@ -309,30 +305,29 @@ export default function Home() {
               </label>
             </div>
           </div>
-<<<<<<< HEAD
-          <div className=" flex px-80 py-20"> 
-            <h1 className="border  rounded  flex-row  justify-center items-center px-80 py-20"
-                onClick={handleStorico} 
-                dangerouslySetInnerHTML={{ __html: data }}
-                >
-            </h1>
-          </div>
-=======
-          <div className="px-10 py-20 text-xl leading-tigh"> 
+
+          <div className="px-10 py-20 text-xl leading-tigh">
             <table>
               <tr>
                 <th>STORICO PRESENZE</th>
               </tr>
               <tr>
-                  <div className="px-80 py-20 font-medium "> 
-                    {risposta ? risposta.map((elemento) =>{
-                      return ((<tr><td>{elemento.data}{" "}{elemento.ora}{" "}{elemento.tipo}</td></tr>)
-                    )}) : ""}
-                  </div>
+                <div className="px-80 py-20 font-medium ">
+                  {risposta
+                    ? risposta.map((elemento) => {
+                        return (
+                          <tr>
+                            <td>
+                              {elemento.data} {elemento.ora} {elemento.tipo}
+                            </td>
+                          </tr>
+                        );
+                      })
+                    : ""}
+                </div>
               </tr>
-            </table> 
-          </div> 
->>>>>>> a4930dffdc43c7b914fda1d54149e234a520465b
+            </table>
+          </div>
         </div>
       );
     } else {
