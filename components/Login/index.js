@@ -11,6 +11,14 @@ function parseJwt(token) {
   return JSON.parse(window.atob(base64));
 }
 
+const imageBg = ({}) => {
+  return `https://i.imgur.com/sq2VUkO.png`;
+};
+
+const imageLogo = ({}) => {
+  return `https://i.imgur.com/2F03Lao.png`;
+};
+
 export function LoginForm() {
   const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -76,19 +84,27 @@ export function LoginForm() {
   return (
     <div>
       <Image
+        loader={imageBg}
         layout="fill"
+        src="image-src"
         className="object-center object-cover pointer-events-none"
-        src="/../public/bg.png"
+        //src="/../public/bg.png"
         alt="title"
       />
+
       <form onSubmit={handleSubmit}>
         <fieldset className="  relative z-1  p-3 flex flex-col space-y-3 justify-center items-center  h-screen">
+
           <Image
-            src="/../public/logo1.png"
+            loader={imageLogo}
+            src="image-src"
+            className="object-center object-cover pointer-events-none"
+            //src="/../public/bg.png"
             alt="GESTIO"
             width={155}
             height={130}
           />
+
           <div className=" p-2 border  rounded flex flex-row  justify-center items-center">
             <input
               type="text"
@@ -110,12 +126,12 @@ export function LoginForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="flex py-2 inline-block px-28 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+              className="flex py-2  px-28 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md  hover:bg-gray-400 hover:shadow-lg focus:bg-gray-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
             >
               LOGIN
             </button>
             <a href="/recuperoCredenziali">
-            <h6 className="text-right">Password dimenticata?</h6>
+              <h6 className="text-right">Password dimenticata?</h6>
             </a>
           </div>
         </fieldset>
