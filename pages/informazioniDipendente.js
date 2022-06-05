@@ -21,35 +21,6 @@ export default function informazioniDipendente() {
   const [id, setId] = useState("");
   const [rimuovi, setRimuovi] = useState("");
 
-  async function handleGet(e) {
-    e.preventDefault();
-    try {
-      const axios = require("axios");
-
-      let response = await axios({
-        method: "GET",
-        url: "https://gestio-is.herokuapp.com/api/v2/dipendentespecifico",
-        headers: {
-          "x-access-token": jwt,
-          email: email,
-        },
-      }).then(function (response) {
-        let risposta = response.data;
-        console.log("RESPONSE-->", risposta);
-        setNome(risposta.nome);
-        setCognome(risposta.cognome);
-        setLivello(risposta.livello);
-        setData(risposta.data);
-        setId(risposta._id);
-        console.log("ID-->", id);
-        setRimuovi("Aggiorna il dipendente selezionato");
-      });
-    } catch (error) {
-      setRimuovi("Errore nella ricerca!!");
-    } finally {
-    }
-  }
-
   useEffect(() => {
     setTimeout(() => {
       setJwt(localStorage.getItem("jwt"));
@@ -71,23 +42,43 @@ export default function informazioniDipendente() {
           <a href="/">Vai alla pagina di login</a>
         </div>
       );
-    } else if (parseJwt(jwt).role == "AA") {
+    } else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
+      try {
+        const axios = require("axios");
+
+        let response = axios({
+          method: "GET",
+          url: "https://gestio-is.herokuapp.com/api/v1/dipendente/byemail",
+          headers: {
+            "x-access-token": jwt,
+            email: email,
+          },
+        }).then(function (response) {
+          let risposta = response.data;
+          console.log("RESPONSE-->", risposta);
+          setNome(risposta.nome);
+          console.log(nome);
+          setCognome(risposta.cognome);
+          setLivello(risposta.livello);
+          setData(risposta.data);
+          setId(risposta._id);
+          console.log("ID-->", id);
+          setRimuovi("Aggiorna il dipendente selezionato");
+        });
+      } catch (error) {
+        setRimuovi("Errore nella ricerca!!");
+      } finally {
+      }
+
       return (
         <div>
           <SidebarAA />
-          <div className="  flex flex-col gap-5 justify-center items-center">
-            <h1 className="font-bold text-3xl">
-              {nome}
-            </h1>
-            <h1 className="font-bold text-3xl">
-              {cognome}
-            </h1>
-            <h1 className="font-bold text-3xl">
-              {email}
-            </h1>
-          </div>
-
           <TopBar />
+          <div className="  flex flex-col gap-5 justify-center items-center">
+            <h1 className="font-bold text-3xl">{nome}</h1>
+            <h1 className="font-bold text-3xl">{cognome}</h1>
+            <h1 className="font-bold text-3xl">{email}</h1>
+          </div>
         </div>
       );
     } else {
