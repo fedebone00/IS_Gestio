@@ -1,4 +1,3 @@
-
 import {
   MdSearch,
   MdMenu,
@@ -10,14 +9,10 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Router from "next/router";
 
-
-
 export function TopBar({ title }) {
-
-
   async function clearSession(e) {
     e.preventDefault();
-    
+
     console.log("Dentro Funzione");
 
     localStorage.removeItem("jwt");
@@ -51,26 +46,33 @@ export function TopBar({ title }) {
               <div className="px-1 py-1 ">
                 <Menu.Item>
                   <h1 className="group flex w-full items-center rounded-md px-3 py-3 ">
-                    {" "}
-                    Informazioni dipendente <MdChevronRight />
+                    <a href="/informazioniDipendente">
+                      Informazioni dipendente
+                    </a>
                   </h1>
                 </Menu.Item>
                 <Menu.Item>
                   <h1 className="group flex w-full items-center rounded-md px-3 py-3 ">
                     {" "}
-                    Sito aziendale <MdChevronRight />
+                    <a href="https://zoom.us">
+                      Sito aziendale <MdChevronRight />
+                    </a>
                   </h1>
                 </Menu.Item>
                 <Menu.Item>
                   <h1 className="group flex w-full items-center rounded-md px-3 py-3 ">
                     {" "}
-                    Link utile 1 <MdChevronRight />
+                    <a href="https://id.atlassian.com/login?continue=https%3A%2F%2Fstart.atlassian.com%2F&application=start">
+                      Link utile 1 <MdChevronRight />
+                    </a>
                   </h1>
                 </Menu.Item>
                 <Menu.Item>
                   <h1 className="group flex w-full items-center rounded-md px-3 py-3 ">
                     {" "}
-                    link utile 2 <MdChevronRight />
+                    <a href="https://confluence.atlassian.com/alldoc/atlassian-documentation-32243719.html">
+                      link utile 2 <MdChevronRight />
+                    </a>
                   </h1>
                 </Menu.Item>
                 <Menu.Item disabled>
