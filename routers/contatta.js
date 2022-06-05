@@ -23,7 +23,7 @@ router.get('/messaggi', isAuthenticated, isAuthorized, check('email').notEmpty()
     const messaggio = await Messaggio.findOne({email: req.body.email});
     if(messaggio){ 
         if(messaggio.messaggio.isEmpty()){
-            return res.status(401).send(`No new message`);
+            return res.status(402).send(`No new message`);
         }
         return res.status(201).send(messaggio)
     }else {

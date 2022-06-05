@@ -42,7 +42,7 @@ router.delete('/', isAuthenticated, isAuthorized, check('email').notEmpty(), asy
         .catch(() => res.status(500).send('Error deleting user'));
 });
 
-router.put('/api/v1/users/:id', isAuthenticated, isAuthorized, async (req, res) => {
+router.put('/:id', isAuthenticated, isAuthorized, async (req, res) => {
     let user = await User.findById(req.params.id);
     if(user) {
         user.email = req.body['email'];

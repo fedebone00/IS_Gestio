@@ -8,12 +8,7 @@ router.get("/", isAuthenticated, isAuthorized, (req, res) => {
   PrenotaMensa.find().then((prenotamensa) => res.send(prenotamensa));
 });
 
-router.post(
-    "/",
-    isAuthenticated,
-    isAuthorized,
-    check("user_id").notEmpty(),
-    (req, res) => {
+router.post("/", isAuthenticated,isAuthorized, check("user_id").notEmpty(), (req, res) => {
       let errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -27,10 +22,7 @@ router.post(
       datona = String(yyyy + "/" + mm + "/" + dd);
       console.log(datona);
   
-      let p = new PrenotaMensa({
-        user_id: req.body["user_id"],
-        data: datona,
-      });
+      let p = new PrenotaMensa({user_id: req.body["user_id"],data: datona});
       p.save()
         .then(() =>
           res.status(201).send(`Successfully booked, id ${req.params.user_id}`)
@@ -39,36 +31,19 @@ router.post(
     }
   );
 
-router.delete(
-  "/:id",
-  isAuthenticated,
-  isAuthorized,
-  (req, res) => {
+router.delete("/:id",isAuthenticated,isAuthorized,(req, res) => {
+
     PrenotaMensa.findByIdAndRemove(req.params.id)
       .then(() => res.status(201).send(`Successfully remove id ${req.body.id}`))
       .catch(() => res.status(500).send(`Error deleting id ${req.body.id} `));
   }
 );
 
-router.patch(
-  "/:id",
-  isAuthenticated,
-  isAuthorized,
-  async (req, res) => {
-    PrenotaMensa.findByIdAndUpdate(
-      {
-        _id: req.params.id,
-      },
-      {
-        $set: req.body,
-      }
-    )
-      .then(() => {
-        res.status(201).json({ message: "success" });
-      })
-      .catch((err) => {
-        res.status(500).send(err.message);
-      });
+router.patch("/:id",isAuthenticated,isAuthorized, async (req, res) => {
+
+    PrenotaMensa.findByIdAndUpdate({_id: req.params.id},{$set: req.body})
+      .then(() => {res.status(201).json({ message: "success" });})
+      .catch((err) => {res.status(500).send(err.message);});
   }
 );
 
