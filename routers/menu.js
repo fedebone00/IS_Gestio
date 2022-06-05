@@ -45,10 +45,10 @@ router.post('/', isAuthenticated, isAuthorized,check('data').notEmpty(),check('p
 
 router.delete('/:id', isAuthenticated, isAuthorized, check('id').notEmpty(), (req,res) => {
 
-    let errors = validationResult(req)
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()})
-    }
+    // let errors = validationResult(req)
+    // if(!errors.isEmpty()){
+    //     return res.status(400).json({errors: errors.array()})
+    // }
 
     Menu.findByIdAndRemove(req.params.id)
         .then(() => res.status(201).send('Succesfully deleted menu'))
