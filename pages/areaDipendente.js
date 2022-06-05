@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { SidebarDip } from "../components/sidebarDip";
-import TopBar from "../components/topBar";
-import DatePicker from "sassy-datepicker";
-import { data } from "autoprefixer";
+import React, { Component, useEffect, useState } from 'react';
+import { SidebarDip } from '../components/sidebarDip'
+import TopBar from '../components/topBar'
+import DatePicker from 'sassy-datepicker'
 
 function parseJwt(token) {
   if (!token) {

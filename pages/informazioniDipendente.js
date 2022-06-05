@@ -1,6 +1,7 @@
 import React, { Component, useEffect, useState } from 'react';
-import { SidebarDip } from "../components/sidebarDip";
-import TopBar from '../components/topBar'
+import { SidebarAA } from "../components/sidebarAA";
+import { TopBar } from "../components/topBar";
+
 
 function parseJwt(token) {
   if (!token) { return; }
@@ -9,7 +10,9 @@ function parseJwt(token) {
   return JSON.parse(window.atob(base64));
 }
 
-export default function visualizzaInformazioniPersonali() {
+
+export default function modificaInformazioniDipendnete() {
+
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
@@ -42,11 +45,11 @@ export default function visualizzaInformazioniPersonali() {
       );
     }
 
-    else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
+    else if (parseJwt(jwt).role == "AA") {
       return (
         <div>
-          <SidebarDip/>
-          <TopBar/>
+          <SidebarAA />
+          <TopBar />
         </div>
       );
     }
