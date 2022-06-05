@@ -20,7 +20,6 @@ export default function informazioniDipendente() {
   const [email, setEmail] = useState("Email");
   const [id, setId] = useState("");
   const [rimuovi, setRimuovi] = useState("");
-  const [newEmail, setNewEmail] = useState("");
 
   async function handleGet(e) {
     e.preventDefault();
