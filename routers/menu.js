@@ -13,9 +13,7 @@ router.get('/', isAuthenticated, isAuthorized, async (req,res) =>{
 
 //get all
 router.get('/all', isAuthenticated, isAuthorized, async (req,res) =>{
-    const menu = await Menu.find().then((menu) => res.json(menu));
-    if(menu) return res.status(201).json(menu);
-    else return res.status(404);
+    const menu = await Menu.find().then((menu) => res.status(201).send(menu));
 });
 
 //get by id
@@ -28,7 +26,7 @@ router.get('/specifico/:id', isAuthenticated, isAuthorized, async (req,res) =>{
 router.post('/', isAuthenticated, isAuthorized,check('data').notEmpty(),check('primo').notEmpty(),check('secondo').notEmpty() , async (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()})
+        return res.status(400).send({errors: errors.array()})
     }
 
     let date =  await Menu.findOne({data: req.body.data});
@@ -57,19 +55,19 @@ router.delete('/:id', isAuthenticated, isAuthorized, check('id').notEmpty(), (re
 
 router.patch('/:id', isAuthenticated, isAuthorized, async (req, res) => {
     
-    const menu = await Menu.findOne({data: req.body.data});
-    if(menu) return res.status(400).send('Menu for this date already exists, delete it first');
+    // const menu = await Menu.findOne({data: req.body.data});
+    // if(menu) return res.status(400).send('Menu for this date already exists, delete it first');
 
     try {
         const menu = await Menu.findById({_id: req.params.id})
         if(!menu){
-            return res.status(404).json("id not found")
+            return res.status(404).send("id not found")
         }else{
             Menu.updateOne({_id: req.params.id},{$set:req.body}).exec()
-            res.status(200).json({ message: 'success' })
+            res.status(200).send({ message: 'success' })
         }
     }catch(err){
-        res.status(500).json({ message: err.message })
+        res.status(500).send({ message: err.message })
     }
 
 });

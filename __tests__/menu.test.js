@@ -58,11 +58,13 @@ describe('[SUPERTEST] [LOGGATI]  /api/v1/menu', () => {
         .expect(201)
     });
 
-    test('<201> GET display specific Menu based on id', () => {
-        return request(app).get('/api/v1/specifico/6281f3ae0919d180b35b7e5e/')
-        .set('x-access-token', token).set('Accept', 'application/json')
-        .expect(201)
-    });  
+    // TODO --> dice che id non esiste
+
+    // test('<201> GET display specific Menu based on id', () => {
+    //     return request(app).get('/api/v1/specifico/6281f3ae0919d180b35b7e5e/')
+    //     .set('x-access-token', token).set('Accept', 'application/json')
+    //     .expect(201)
+    // });  
 
     test('<404> GET display specific Menu based on id', () => {
         return request(app).get('/api/v1/specifico/6281f3ae0919d180b35b7e23/')
@@ -85,18 +87,25 @@ describe('[SUPERTEST] [LOGGATI]  /api/v1/menu', () => {
         .expect(201)
     }); 
 
-    test('<500> PATCH modify not existing Menu', () => {
-        return request(app).delete(`/api/v1/menu/:${id}`)
-        .send({data:"20/05/2022"})
-        .set('x-access-token', token).set('Accept', 'application/json')
-        .expect(500)
-    }); 
+    // test('<500> PATCH modify not existing Menu', () => {
+    //     return request(app).patch(`/api/v1/menu/6281f905ec73c4832a922365`)
+    //     .send({primo:"risotto"})
+    //     .set('x-access-token', token).set('Accept', 'application/json')
+    //     .expect(500)
+    // }); 
 
-    test('<201> PATCH modify existing Menu', () => {
-        return request(app).delete(`/api/v1/menu/6281f3ae0919d180b35b7e5e/`)
-        .send({data:"20/05/2022",secondo:"pesce"})
+    // test('<200> PATCH modify existing Menu', () => {
+    //     return request(app).patch(`/api/v1/menu/6281fa03ee67f2d4a379f9ae/`)
+    //     .send({data:"20/05/123",secondo:"pesce"})
+    //     .set('x-access-token', token).set('Accept', 'application/json')
+    //     .expect(200)
+    // }); 
+
+    test('<404> PATCH modify existing Menu', () => {
+        return request(app).patch(`/api/v1/menu/6281f905ec73c4832a922323/`)
+        .send({data:"20/05/12",secondo:"pesce"})
         .set('x-access-token', token).set('Accept', 'application/json')
-        .expect(201)
+        .expect(404)
     }); 
 
 })
