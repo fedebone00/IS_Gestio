@@ -29,15 +29,18 @@ router.delete('/:id', isAuthenticated, isAuthorized , (req,res) => {
 
 router.patch('/:id', isAuthenticated, isAuthorized, async (req, res) => {
 
-    Bacheca.findByIdAndUpdate({
-        _id:req.params.id
-    },{
-        $set:req.body
-    }).then(()=> {
-        res.status(201).json({message:"success"});
-    }).catch(err =>{
-        res.status(500).send(err.message);
-    });
+    try {
+        const bac = await Bacheca.findById({_id: req.params.id})
+        if(!bac){
+            return res.status(404).json("id not found")
+        }else{
+            Bacheca.updateOne({_id: req.params.id},{$set:req.body}).exec()
+            res.status(200).json({ message: 'success' })
+        }
+    }catch(err){
+        res.status(500).json({ message: err.message })
+    }
+    
 });
 
 module.exports = router;

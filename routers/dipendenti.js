@@ -47,15 +47,18 @@ router.patch('/:id', isAuthenticated, isAuthorized, async (req, res) => {
     const dipendente = await Dipendente.findOne({email: req.body.email});
     if(dipendente) return res.status(400).send('Email already exists');
 
-    Dipendente.findByIdAndUpdate({
-        _id:req.params.id
-    },{
-        $set:req.body
-    }).then(()=> {
-        res.status(201).json({message:"success"});
-    }).catch(err =>{
-        res.status(500).send(err.message);
-    });
+    try {
+        const dip = await Dipendente.findById({_id: req.params.id})
+        if(!dip){
+            return res.status(404).json("id not found")
+        }else{
+            Dipendente.updateOne({_id: req.params.id},{$set:req.body}).exec()
+            res.status(200).json({ message: 'success' })
+        }
+    }catch(err){
+        res.status(500).json({ message: err.message })
+    }
+
 });
 
 module.exports = router;
