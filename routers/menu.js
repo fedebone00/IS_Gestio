@@ -25,7 +25,6 @@ router.get('/specifico/:id', isAuthenticated, isAuthorized, async (req,res) =>{
     else return res.status(404);
 });
 
-
 router.post('/', isAuthenticated, isAuthorized,check('data').notEmpty(),check('primo').notEmpty(),check('secondo').notEmpty() , async (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
