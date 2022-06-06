@@ -6,15 +6,15 @@ const malattiaSchema = mongoose.Schema({
         required:true
     },
     certificato:{
-        type: Buffer,
+        type: String,
         required:true
     },
     dataInizio:{
-        type: Date,
+        type: String,
         required:true
     },
     dataFine:{
-        type: Date,
+        type: String,
         required:true
     } 
 });
