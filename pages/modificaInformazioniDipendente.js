@@ -1,13 +1,8 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Link from 'next/link'
-import home from '../public/home-outline.png'
 import React, { Component, useEffect, useState } from 'react';
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
-import cookieCutter from 'cookie-cutter'
-import { MdEmail } from 'react-icons/md'
+import Router from "next/router";
+
 
 
 function parseJwt(token) {
@@ -182,11 +177,7 @@ export default function rimuoviDipendente() {
         </div>
       );
     } else {
-      return (
-        <div>
-          <h1>ERROR!!</h1>
-        </div>
-      );
+      Router.push("/404");
     }
   }
 }

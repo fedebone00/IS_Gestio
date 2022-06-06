@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import { SidebarDip } from "../components/sidebarDip";
 import TopBar from "../components/topBar";
 import Router from "next/router";
-import { MdAccessAlarm } from "react-icons/md";
+
 
 function parseJwt(token) {
   if (!token) {
@@ -330,11 +330,8 @@ export default function Home() {
         </div>
       );
     } else {
-      return (
-        <div>
-          <h1>ERROR!!</h1>
-        </div>
-      );
+      Router.push("/404");
+
     }
   }
 }

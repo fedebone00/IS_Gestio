@@ -1,6 +1,8 @@
 import React, { Component, useEffect, useState } from 'react';
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
+import Router from "next/router";
+
 
 
 function parseJwt(token) {
@@ -169,11 +171,7 @@ export default function rimuoviDipendente() {
         </div>
       );
     } else {
-      return (
-        <div>
-          <h1>ERROR!!</h1>
-        </div>
-      );
+      Router.push("/404");
     }
   }
 }

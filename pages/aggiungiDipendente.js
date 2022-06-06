@@ -1,6 +1,8 @@
 import React, { Component, useEffect, useState } from "react";
 import { SidebarAA } from "../components/sidebarAA";
 import { TopBar } from "../components/topBar";
+import Router from "next/router";
+
 
 const people = [
   { id: 1, name: "DIP0", unavailable: false },
@@ -110,11 +112,7 @@ export default function aggiungiDipendente() {
         </div>
       );
     } else {
-      return (
-        <div>
-          <h1>ERROR!!</h1>
-        </div>
-      );
+      Router.push("/404");
     }
   }
 }

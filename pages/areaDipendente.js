@@ -1,7 +1,9 @@
-import React, { Component, useEffect, useState } from 'react';
-import { SidebarDip } from '../components/sidebarDip'
-import TopBar from '../components/topBar'
-import DatePicker from 'sassy-datepicker'
+import React, { Component, useEffect, useState } from "react";
+import { SidebarDip } from "../components/sidebarDip";
+import TopBar from "../components/topBar";
+import DatePicker from "sassy-datepicker";
+import Router from "next/router";
+
 
 function parseJwt(token) {
   if (!token) {
@@ -23,15 +25,15 @@ export default function areaDipendente() {
   async function handlePrenota(e) {
     e.preventDefault();
 
-    console.log("PARSED TOKEN",parseJwt(jwt));
+    console.log("PARSED TOKEN", parseJwt(jwt));
 
     setUser_id(parseJwt(jwt).user_id);
     console.log("ID-->", user_id);
 
     try {
       const axios = require("axios");
-      
-      console.log("ID------->",parseJwt(jwt).user_id);
+
+      console.log("ID------->", parseJwt(jwt).user_id);
 
       let response = await axios({
         method: "POST",
@@ -40,7 +42,7 @@ export default function areaDipendente() {
           "x-access-token": jwt,
         },
         data: {
-          "user_id": parseJwt(jwt).user_id,
+          user_id: parseJwt(jwt).user_id,
         },
       }).then(function (response) {
         let token = response.data;
@@ -88,28 +90,30 @@ export default function areaDipendente() {
         var data = yyyy + "/" + mm + "/" + dd;
         console.log(data);
 
-
-         let response = axios({
-           method: "GET",
-           url: "https://gestio-is.herokuapp.com/api/v1/menu/",
-           headers: {
-             "x-access-token": jwt,
-             "data": data,
-           },
-           body: {
-             data:data,
-           },
-         },{},{data:data}).then(function (response) {
-           console.log(response)
-           let token = response.data;
-           console.log("TOKENNNNNNN",token);
-           setPrimo(token.primo);
-           setSecondo(token.secondo);
+        let response = axios(
+          {
+            method: "GET",
+            url: "https://gestio-is.herokuapp.com/api/v1/menu/",
+            headers: {
+              "x-access-token": jwt,
+              data: data,
+            },
+            body: {
+              data: data,
+            },
+          },
+          {},
+          { data: data }
+        ).then(function (response) {
+          console.log(response);
+          let token = response.data;
+          console.log("TOKENNNNNNN", token);
+          setPrimo(token.primo);
+          setSecondo(token.secondo);
         });
       } catch (error) {
         console.log(error);
       } finally {
-
       }
 
       return (
@@ -120,9 +124,9 @@ export default function areaDipendente() {
             <h1 className=" font-semibold text-lg py-3">Menù del giorno</h1>
             <div className=" border border-gray-200 shadow-md text-gray-700   rounded bg-white p-3 ">
               <h2 className="font-medium py-2">Primo: </h2>
-              <h1 >{primo}</h1>
+              <h1>{primo}</h1>
               <h2 className="font-medium py-2">Secondo: </h2>
-              <h1 >{secondo}</h1>
+              <h1>{secondo}</h1>
             </div>
             <button
               onClick={handlePrenota}
@@ -135,11 +139,7 @@ export default function areaDipendente() {
         </div>
       );
     } else {
-      return (
-        <div>
-          <h1>ERROR!!</h1>
-        </div>
-      );
+      Router.push("/404");
     }
   }
 }
