@@ -5,7 +5,7 @@ const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
 router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
-    Ferie.find().then((ferie) => res.send(ferie))
+    Ferie.find().then((ferie) => res.status(200).send(ferie))
 });
 
 router.post('/', isAuthenticated, isAuthorized, check('dataFine').notEmpty(),check('dataInizio').notEmpty(),check('motivazione').notEmpty(),(req,res) => {
