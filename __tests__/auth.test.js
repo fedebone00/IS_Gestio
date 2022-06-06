@@ -83,4 +83,25 @@ describe('Login TESTS', () => {
 
         expect(String(rt.user_id)).toStrictEqual(String(userDIP1._id))
     })
+
+    it('Unsuccessfull login - Wrong Password', async () => {
+        var res = await request(app).post('/api/v1/auth/login')
+            .send({email: userAA.email, password: "akjnckakjsca"});
+
+        expect(res.status).toBe(404);
+    })
+
+    it('Unsuccessfull login - Unexisting Email', async () => {
+        var res = await request(app).post('/api/v1/auth/login')
+            .send({email: "ajkscnak@akjscnaks.com", password: "akjnscjkanscka"});
+
+        expect(res.status).toBe(404);
+    })
+
+    it('Unsuccessfull login - Email not an Email', async () => {
+        var res = await request(app).post('/api/v1/auth/login')
+            .send({email: "ajkscnak", password: "akjnscjkanscka"});
+
+        expect(res.status).toBe(400);
+    })
 })
