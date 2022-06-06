@@ -42,7 +42,7 @@ export default function rimuoviDipendente() {
 
       let response = await axios({
         method: "GET",
-        url: "http://localhost:8080/api/v2/dipendentespecifico",
+        url: "https://gestio-is.herokuapp.com/api/v1/dipendente/byemail",
         headers: {
           "x-access-token": jwt,
           email: email,
@@ -66,7 +66,7 @@ export default function rimuoviDipendente() {
 
   async function handleModifica(e) {
     e.preventDefault();
-    let url = "http://localhost:8080/api/v1/dipendente/" + id;
+    let url = "https://gestio-is.herokuapp.com/api/v1/dipendente/" + id;
     console.log(url);
     console.log("Email", email)
     console.log("NewEmail", newEmail)

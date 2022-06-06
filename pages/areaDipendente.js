@@ -91,7 +91,7 @@ export default function areaDipendente() {
 
          let response = axios({
            method: "GET",
-           url: "https://gestio-is.herokuapp.com/api/v2/menu",
+           url: "https://gestio-is.herokuapp.com/api/v1/menu/",
            headers: {
              "x-access-token": jwt,
              "data": data,

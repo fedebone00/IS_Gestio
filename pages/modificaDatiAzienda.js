@@ -37,7 +37,7 @@ export default function rimuoviDipendente() {
 
       let response = await axios({
         method: "GET",
-        url: "https://gestio-is.herokuapp.com/api/v2/infoazienda",
+        url: "https://gestio-is.herokuapp.com/api/v1/infoazienda/bypiva",
         headers: {
           "x-access-token": jwt,
           partitaiva,

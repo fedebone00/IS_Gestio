@@ -16,9 +16,7 @@ export default function rimuoviDipendente() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
-  const [slash, setSlash] = useState("/");
   const [error, setError] = useState(false);
-  const [token, setToken] = useState("");
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
   const [data, setData] = useState("");
@@ -40,7 +38,7 @@ export default function rimuoviDipendente() {
 
       let response = await axios({
         method: "GET",
-        url: "http://localhost:8080/api/v2/dipendentespecifico",
+        url: "https://gestio-is.herokuapp.com/api/v1/dipendente/byemail",
         headers: {
           "x-access-token": jwt,
           email: email,
@@ -63,7 +61,7 @@ export default function rimuoviDipendente() {
 
   async function handleRimuovi(e) {
     e.preventDefault();
-    let url = "http://localhost:8080/api/v1/dipendente/" + id;
+    let url = "https://gestio-is.herokuapp.com/api/v1/dipendente/" + id;
     try {
       const axios = require("axios");
 

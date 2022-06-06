@@ -192,7 +192,7 @@ export default function Home() {
 
         let response = await axios({
           method: "POST",
-          url: "https://gestio-is.herokuapp.com/api/v1/refresh",
+          url: "https://gestio-is.herokuapp.com/api/v1/auth/refresh",
           headers: {
             "x-access-token": jwt,
           },
@@ -264,7 +264,6 @@ export default function Home() {
         }).then(function (response) {
           // console.log(response.data)
           let token = response.data;
-          // let ostia = JSON.stringify(token)
           // console.log(ostia.match("data"))
           setRisposta(token);
           // setOra(token.ora)

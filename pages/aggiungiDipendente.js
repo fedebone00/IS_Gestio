@@ -22,11 +22,6 @@ export default function aggiungiDipendente() {
   const [jwt, setJwt] = useState("");
   const [rt, setRt] = useState("");
   const [set, setSet] = useState(1);
-  const [base, setBase] = useState("https://gestio-is.herokuapp.com/api/v1/users");
-  const [slash, setSlash] = useState("/");
-  const [id, setId] = useState("");
-  const [error, setError] = useState(false);
-  const [token, setToken] = useState("");
   const [password, setPassword] = useState('password');
 
   async function handleAdd(e) {
