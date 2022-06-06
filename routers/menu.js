@@ -13,7 +13,7 @@ router.get('/', isAuthenticated, isAuthorized, async (req,res) =>{
 
 //get all
 router.get('/all', isAuthenticated, isAuthorized, async (req,res) =>{
-    const menu = await Menu.find().then((menu) => res.status(201).send(menu));
+    const menu = await Menu.find().then((menu) => res.status(201).json(menu));
 });
 
 //get by id

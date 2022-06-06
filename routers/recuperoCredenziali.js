@@ -44,12 +44,9 @@ router.post('/', body('email').isEmail(), async (req, res) => {
         
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-        console.log(error);
-        res.status(401).send('Error');
+            res.status(401).send('Error');
         } else {
-        console.log('Email sent: ' + info.response);
-        console.log(`token: ${token}`);
-        res.status(201).send('Succesfully notified user');
+            res.status(201).send('Succesfully notified user');
         }
     });    
 });
