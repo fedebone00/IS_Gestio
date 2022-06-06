@@ -7,11 +7,11 @@ const isAuthenticated = (req, res, next) => {
             let payload = jwt.verify(token, process.env.JWT_SIGN_KEY ? process.env.JWT_SIGN_KEY : '2386TRUFBJCKIOF2398YUVBHWECJNIASCIJjsnvk');
             req.loggedUser = payload;
         } catch(error) {
-            res.status(400).json({error: error});
+            res.status(401).json({error: error});
             return;
         }
     } else {
-        res.status(400).send('Missing jwt');
+        res.status(401).send('Missing jwt');
         return;
     }
     next();
