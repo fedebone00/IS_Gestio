@@ -8,7 +8,7 @@ router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
     Cartellino.find().then((cartellino) => res.json(cartellino))
 });
 
-router.post('/', isAuthenticated, isAuthorized,check('data').notEmpty(), check('tipo').notEmpty(),check('ora').notEmpty(), (req,res) => {
+router.post('/', isAuthenticated, isAuthorized, check('tipo').notEmpty(), (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
