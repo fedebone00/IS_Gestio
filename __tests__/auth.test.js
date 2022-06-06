@@ -104,4 +104,111 @@ describe('Login TESTS', () => {
 
         expect(res.status).toBe(400);
     })
+
+    it('Valid refresh token - AA', async () => {
+        let send_token = jwt.sign({user_id: userAA._id, role: userAA.role}, process.env.JWT_SIGN_KEY, {expiresIn: 0});
+        let send_rt = jwt.sign({user_id: userAA._id}, process.env.JWT_SIGN_KEY, {expiresIn: 86400});
+
+        var res = await request(app).post('/api/v1/auth/refresh')
+            .set('x-access-token', send_token)
+            .send({rt: send_rt});
+
+        expect(res.status).toBe(201);
+        expect(res.body['jwt']).not.toBeNull();
+        expect(res.body['rt']).not.toBeNull();
+
+        let token = jwt.verify(res.body['jwt'], process.env.JWT_SIGN_KEY);
+        let rt = jwt.verify(res.body['rt'], process.env.JWT_SIGN_KEY);
+
+        expect(String(token.user_id)).toStrictEqual(String(userAA._id))
+        expect(token.role).toBe(userAA.role)
+
+        expect(String(rt.user_id)).toStrictEqual(String(userAA._id))
+    })
+
+    it('Valid refresh token - DIP0', async () => {
+        let send_token = jwt.sign({user_id: userDIP0._id, role: userDIP0.role}, process.env.JWT_SIGN_KEY, {expiresIn: 0});
+        let send_rt = jwt.sign({user_id: userDIP0._id}, process.env.JWT_SIGN_KEY, {expiresIn: 86400});
+
+        var res = await request(app).post('/api/v1/auth/refresh')
+            .set('x-access-token', send_token)
+            .send({rt: send_rt});
+
+        expect(res.status).toBe(201);
+        expect(res.body['jwt']).not.toBeNull();
+        expect(res.body['rt']).not.toBeNull();
+
+        let token = jwt.verify(res.body['jwt'], process.env.JWT_SIGN_KEY);
+        let rt = jwt.verify(res.body['rt'], process.env.JWT_SIGN_KEY);
+
+        expect(String(token.user_id)).toStrictEqual(String(userDIP0._id))
+        expect(token.role).toBe(userDIP0.role)
+
+        expect(String(rt.user_id)).toStrictEqual(String(userDIP0._id))
+    })
+
+    it('Valid refresh token - DIP1', async () => {
+        let send_token = jwt.sign({user_id: userDIP1._id, role: userDIP1.role}, process.env.JWT_SIGN_KEY, {expiresIn: 0});
+        let send_rt = jwt.sign({user_id: userDIP1._id}, process.env.JWT_SIGN_KEY, {expiresIn: 86400});
+
+        var res = await request(app).post('/api/v1/auth/refresh')
+            .set('x-access-token', send_token)
+            .send({rt: send_rt});
+
+        expect(res.status).toBe(201);
+        expect(res.body['jwt']).not.toBeNull();
+        expect(res.body['rt']).not.toBeNull();
+
+        let token = jwt.verify(res.body['jwt'], process.env.JWT_SIGN_KEY);
+        let rt = jwt.verify(res.body['rt'], process.env.JWT_SIGN_KEY);
+
+        expect(String(token.user_id)).toStrictEqual(String(userDIP1._id))
+        expect(token.role).toBe(userDIP1.role)
+
+        expect(String(rt.user_id)).toStrictEqual(String(userDIP1._id))
+    })
+
+    it('Invalid refresh token - Expired rt', async () => {
+        let send_token = jwt.sign({user_id: userDIP1._id, role: userDIP1.role}, process.env.JWT_SIGN_KEY, {expiresIn: 0});
+        let send_rt = jwt.sign({user_id: userDIP1._id}, process.env.JWT_SIGN_KEY, {expiresIn: 0});
+
+        var res = await request(app).post('/api/v1/auth/refresh')
+            .set('x-access-token', send_token)
+            .send({rt: send_rt});
+
+        expect(res.status).toBe(401);
+    })
+
+    it('Invalid jwt', async () => {
+        let send_token = "odsjvjsdkvnjskldvnsdv.aiohsbihabscijabscakscbakjscba.sidbajlkbvskjabcs";
+        let send_rt = jwt.sign({user_id: userDIP1._id}, process.env.JWT_SIGN_KEY, {expiresIn: 86400});
+
+        var res = await request(app).post('/api/v1/auth/refresh')
+            .set('x-access-token', send_token)
+            .send({rt: send_rt});
+
+        expect(res.status).toBe(401);
+    })
+
+    it('Invalid refresh token - Different user_id in rt and jwt', async () => {
+        let send_token = jwt.sign({user_id: userAA._id, role: userDIP1.role}, process.env.JWT_SIGN_KEY, {expiresIn: 0});
+        let send_rt = jwt.sign({user_id: userDIP1._id}, process.env.JWT_SIGN_KEY, {expiresIn: 86400});
+
+        var res = await request(app).post('/api/v1/auth/refresh')
+            .set('x-access-token', send_token)
+            .send({rt: send_rt});
+
+        expect(res.status).toBe(401);
+    })
+
+    it('Invalid refresh token - user_id not found', async () => {
+        let send_token = jwt.sign({user_id: "aaaaaaaaaaaaaaaaaaaaaaaa", role: userDIP1.role}, process.env.JWT_SIGN_KEY, {expiresIn: 0});
+        let send_rt = jwt.sign({user_id: "aaaaaaaaaaaaaaaaaaaaaaaa"}, process.env.JWT_SIGN_KEY, {expiresIn: 0});
+
+        var res = await request(app).post('/api/v1/auth/refresh')
+            .set('x-access-token', send_token)
+            .send({rt: send_rt});
+
+        expect(res.status).toBe(401);
+    })
 })
