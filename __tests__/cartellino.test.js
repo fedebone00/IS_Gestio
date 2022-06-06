@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require("mongoose");
 require("dotenv").config();
 const cartellino = require("../models/Cartellino.js")
+require('../index.js')
 
 jest.setTimeout(5000);
 
