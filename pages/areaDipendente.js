@@ -69,12 +69,7 @@ export default function areaDipendente() {
     console.log("1JWT-->", jwt);
 
     if (jwt == undefined) {
-      return (
-        <div>
-          <h1>Devi prima effettuare il login!</h1>
-          <a href="/">Vai alla pagina di login</a>
-        </div>
-      );
+      Router.push("/index");
     } else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
       //delete localStorage.jwt;
 

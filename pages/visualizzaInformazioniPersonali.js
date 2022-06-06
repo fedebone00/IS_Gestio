@@ -1,13 +1,14 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useEffect, useState } from "react";
 import { SidebarDip } from "../components/sidebarDip";
-import TopBar from '../components/topBar'
+import TopBar from "../components/topBar";
 import Router from "next/router";
 
-
 function parseJwt(token) {
-  if (!token) { return; }
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace('-', '+').replace('_', '/');
+  if (!token) {
+    return;
+  }
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace("-", "+").replace("_", "/");
   return JSON.parse(window.atob(base64));
 }
 
@@ -18,44 +19,29 @@ export default function visualizzaInformazioniPersonali() {
 
   useEffect(() => {
     setTimeout(() => {
-      setJwt(localStorage.getItem('jwt'));
-      setRt(localStorage.getItem('rt'));
+      setJwt(localStorage.getItem("jwt"));
+      setRt(localStorage.getItem("rt"));
       console.log("JWT-->", jwt);
       setSet(0);
     }, 50);
   }, []);
 
   if (set) {
-    return (
-      <div>
-      </div>
-    );
-  }
-
-  else {
+    return <div></div>;
+  } else {
     console.log("JWT-->", jwt);
 
     if (jwt == undefined) {
+      Router.push("/index");
+    } else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
       return (
         <div>
-          <h1>Devi prima effettuare il login!</h1>
-          <a href='/'>Vai alla pagina di login</a>
+          <SidebarDip />
+          <TopBar />
         </div>
       );
-    }
-
-    else if (parseJwt(jwt).role == "DIP0" || parseJwt(jwt).role == "DIP1") {
-      return (
-        <div>
-          <SidebarDip/>
-          <TopBar/>
-        </div>
-      );
-    }
-
-    else {
+    } else {
       Router.push("/404");
-
     }
   }
 }

@@ -75,12 +75,8 @@ export default function notificaMalattia() {
     console.log("JWT-->", jwt);
 
     if (jwt == undefined) {
-      return (
-        <div>
-          <h1>Devi prima effettuare il login!</h1>
-          <a href="/">Vai alla pagina di login</a>
-        </div>
-      );
+      Router.push("/index");
+
     }
 
     if (parseJwt(jwt).role == "DIP0") {
