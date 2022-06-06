@@ -37,7 +37,7 @@ router.post('/refresh', async (req, res) => {
         }
 
         if(jwt_payload.user_id == refresh_payload.user_id) {
-            let user = User.findById(refresh_payload.user_id);
+            let user = await User.findById(refresh_payload.user_id);
 
             if(!user) {
                 res.status(401).send('No user found with this id');
