@@ -8,12 +8,12 @@ router.get('/', isAuthenticated, isAuthorized, (req, res) => {
     Malattia.find().then((malattia) => res.send(malattia));
 });
 
-router.post('/', isAuthenticated, isAuthorized, check('certificato').notEmpty(),check('dataInizio').notEmpty(),check('dataFine').notEmpty(),check('email').notEmpty(), (req, res) => {
+router.post('/', isAuthenticated, isAuthorized, check('dataInizio').notEmpty(),check('dataFine').notEmpty(),check('email').notEmpty(), (req, res) => {
     let errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
     } else {
-        let m = new Malattia({ certificato: req.body['certificato'], dataInizio: req.body['dataInizio'],dataFine: req.body['dataFine'], email: req.body['email'] });
+        let m = new Malattia({dataInizio: req.body['dataInizio'],dataFine: req.body['dataFine'], email: req.body['email'] });
         m.save()
             .then(() => res.status(201).send(`Successfully uploaded`))
             .catch(() => res.status(500).send('Error while uploading'));
