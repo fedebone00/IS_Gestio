@@ -5,7 +5,7 @@ const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
 router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
-    Bacheca.find().then((bacheca) => res.send(bacheca))
+    Bacheca.find().then((bacheca) => res.status(201).send(bacheca))
 });
 
 router.post('/', isAuthenticated, isAuthorized,check('testoAnnuncio').notEmpty(), check('scadenzaAnnuncio').notEmpty(), (req,res) => {
