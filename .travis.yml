@@ -1,0 +1,10 @@
+cache:
+  directories:
+    - node_modules
+script:
+  - git clone https://www.github.com/fedebone00/gestio-frontend
+  - cp -r ./!gestio-frontend gestio-frontend
+  - cd gestio-frontend
+  - git remote add cred https://fedebone00:${GH_KEY}@github.com/fedebone00/gestio-frontend
+  - git commit -m "Automatic push"
+  - git push origin master
