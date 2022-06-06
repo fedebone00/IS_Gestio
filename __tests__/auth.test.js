@@ -31,7 +31,7 @@ afterAll( async ()  =>{
     mongoose.connection.close(true);
 })
 
-describe('Login TESTS', () => {
+describe('Login TESTS - /login endpoint', () => {
 
     it('Successfull login - AA', async () => {
         var res = await request(app).post('/api/v1/auth/login')
@@ -104,6 +104,9 @@ describe('Login TESTS', () => {
 
         expect(res.status).toBe(400);
     })
+})
+
+describe('Login TESTS - /refresh endpoint', () => {
 
     it('Valid refresh token - AA', async () => {
         let send_token = jwt.sign({user_id: userAA._id, role: userAA.role}, process.env.JWT_SIGN_KEY, {expiresIn: 0});
