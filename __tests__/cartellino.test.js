@@ -2,20 +2,22 @@ const app = require('../app/app');
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const mongoose = require("mongoose");
-require("dotenv").config();
-const cartellino = require("../models/Cartellino.js")
+const Cartellino = require("../models/Cartellino.js")
 
 jest.setTimeout(5000);
 
-let dbBACKUPUSER;
+let cart;
 beforeAll( async () => {
     jest.setTimeout(8000);
     app.locals.db = await mongoose.connect(process.env.MONGO_URL);
-    dbBACKUPUSER= await cartellino.find({}).exec()
+
+    cart = new Cartellino({tipo:"entrata",ora:"18.18",data:2001/24/12,smartworking:true})
+    await cart.save();
+
 })
 afterAll( async ()  =>{
-    await cartellino.deleteMany({});
-    await cartellino.insertMany(dbBACKUPUSER)
+
+    Cartellino.findByIdAndDelete(cart._id);
     mongoose.connection.close(true);
 })
 
@@ -26,29 +28,23 @@ describe('[SUPERTEST] [LOGGATI]  /api/v1/timbratura', () => {
 
     test('<201> POST create new timbratura with right body', () => {
         return request(app).post('/api/v1/timbratura')
-        .send({tipo:"entrata", smartworking:"false"})
-        .set('x-access-token', token).set('Accept', 'application/json')
-        .expect(201)
+            .send({tipo:cart.tipo, smartworking:cart.smartworking})
+            .set('x-access-token', token).set('Accept', 'application/json')
+            .expect(201)
     });
 
     test('<400> POST create new timbratura with wrong/missing body', () => {
         return request(app).post('/api/v1/timbratura')
-        .send({ora:"18.18", smartworking:true,data:"20/05/2022"})
+        .send({ora:cart.ora, smartworking:cart.smartworking,data:cart.data})
         .set('x-access-token', token).set('Accept', 'application/json')
         .expect(400)
     });       
 
-    test('<200> GET all timbrature', () => {
+    test('<201> GET all timbrature', () => {
         return request(app).get('/api/v1/timbratura/')
         .set('x-access-token', token).set('Accept', 'application/json')
-        .expect(200)
-    });
-
-    test('<200> Delete timbrature/:id', () => {
-        return request(app).delete('/api/v1/timbratura/628ae214fc6e8c45c735ab8f/')
-        .set('x-access-token', token).set('Accept', 'application/json')
         .expect(201)
-    });    
+    });
 
     test('<404> PATCH modify not existing Menu', () => {
         return request(app).patch(`/api/v1/timbratura/628ae214fc6e8c45c735ab22/}`)
@@ -57,14 +53,18 @@ describe('[SUPERTEST] [LOGGATI]  /api/v1/timbratura', () => {
         .expect(404)
     }); 
 
-    // TODO --> non trova l'id anche se nel db c'è
+    test('<200> PATCH modify existing Menu', () => {
+        return request(app).patch(`/api/v1/timbratura/`+cart._id+`/`)
+        .send({tipo:"entrata"})
+        .set('x-access-token', token).set('Accept', 'application/json')
+        .expect(200)
+    }); 
 
-    // test('<200> PATCH modify existing Menu', () => {
-    //     return request(app).patch(`/api/v1/timbratura/62978ba03936295d70c2861c/}`)
-    //     .send({tipo:"entrata"})
-    //     .set('x-access-token', token).set('Accept', 'application/json')
-    //     .expect(200)
-    // }); 
+    test('<201> Delete timbrature/:id', () => {
+        return request(app).delete('/api/v1/timbratura/'+cart._id+'/')
+        .set('x-access-token', token).set('Accept', 'application/json')
+        .expect(201)
+    });    
 
 })
 
