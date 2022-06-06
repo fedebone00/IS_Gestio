@@ -5,7 +5,7 @@ const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
 router.get('/', isAuthenticated, isAuthorized, (req, res) => {
-    Malattia.find().then((malattia) => res.send(malattia));
+    Malattia.find().then((malattia) => res.status(201).send(malattia));
 });
 
 router.post('/', isAuthenticated, isAuthorized, check('dataInizio').notEmpty(),check('dataFine').notEmpty(),check('email').notEmpty(), (req, res) => {
