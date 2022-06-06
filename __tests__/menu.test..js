@@ -2,12 +2,13 @@ const app = require('../app/app');
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const mongoose = require("mongoose");
-// require("dotenv").config();
 const Menu = require('../models/Menu.js');
+
 
 jest.setTimeout(5000);
 
-var menus, userDIP0;
+var menus 
+let wrongId ="629e1d3d275a728f3eed4923";
 beforeAll( async () => {
     jest.setTimeout(8000);
     app.locals.db = await mongoose.connect(process.env.MONGO_URL);
@@ -18,15 +19,16 @@ beforeAll( async () => {
 })
 afterAll( async ()  =>{
 
+    Menu.findByIdAndDelete(menus._id);
     mongoose.connection.close(true);
 })
 
 describe('Menu TESTS', () => {
 
-    let token = jwt.sign({email:"carlo@carletto.it",password:"password"},process.env.JWT_SIGN_KEY, {expiresIn: 89000})
+    let token = jwt.sign({email:"carlo@carletto.it"},process.env.JWT_SIGN_KEY, {expiresIn: 89000})
     
     it('<201> POST create new Menu', async () => {
-        console.log(menus.primo)
+
         var res = await request(app).post('/api/v1/menu')
             .set('x-access-token', token).set('Accept', 'application/json')
             .send({primo:menus.primo,secondo:menus.secondo, dolce:menus.dolce,data:"1234/12/34"});
@@ -61,18 +63,10 @@ describe('Menu TESTS', () => {
         .expect(201)
     });
 
-    // TODO --> dice che id non esiste
-
-    // test('<201> GET display specific Menu based on id', () => {
-    //     return request(app).get('/api/v1/specifico/6281f9837c0e28530a26604a')
-    //     .set('x-access-token', token).set('Accept', 'application/json')
-    //     .expect(201)
-    // });  
-
-    test('<404> GET display specific Menu based on id', () => {
-        return request(app).get('/api/v1/specifico/6281f3ae0919d180b35b7e23/')
+    test('<201> GET display specific Menu based on id', () => {
+        return request(app).get('/api/v1/menu/specifico/'+menus._id+'/')
         .set('x-access-token', token).set('Accept', 'application/json')
-        .expect(404)
+        .expect(201)
     });  
 
     test('<500> DELETE not existing menu', () => {
@@ -95,12 +89,14 @@ describe('Menu TESTS', () => {
         .expect(404)
     }); 
 
-    // test('<200> PATCH modify existing Menu', () => {
-    //     return request(app).patch(`/api/v1/menu/6281f8bd7a155cae5036c951/`)
-    //     .send({secondo:"pesce"})
-    //     .set('x-access-token', token).set('Accept', 'application/json')
-    //     .expect(200)
-    // }); 
+    test('<200> PATCH modify existing Menu', () => {
+        return request(app).patch(`/api/v1/menu/`+menus._id+`/`)
+        .send({secondo:"pesce"})
+        .set('x-access-token', token).set('Accept', 'application/json')
+        .expect(200)
+    }); 
+
+
 
 })
 
