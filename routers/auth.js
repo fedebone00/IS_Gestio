@@ -31,7 +31,7 @@ router.post('/refresh', async (req, res) => {
         }
 
         try {
-            var jwt_payload = jwt.decode(token, process.env.JWT_SIGN_KEY);
+            var jwt_payload = jwt.verify(token, process.env.JWT_SIGN_KEY, {ignoreExpiration: true});
         } catch(error) {
             return res.status(401).send('Error decoding jwt');
         }
