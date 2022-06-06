@@ -7,7 +7,7 @@ const {check, validationResult} = require('express-validator')
 
 //retrieve info company
 router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
-    Azienda.find().then((azienda) => res.send(azienda))
+    Azienda.find().then((azienda) => res.status(201).send(azienda))
 });
 
 
