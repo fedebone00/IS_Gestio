@@ -5,10 +5,10 @@ const {isAuthenticated, isAuthorized} = require('../middlewares/auth.js')
 const {check, validationResult} = require('express-validator')
 
 router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
-    Cartellino.find().then((cartellino) => res.json(cartellino))
+    Cartellino.find().then((cartellino) => res.status(201).json(cartellino))
 });
 
-router.post('/', isAuthenticated, isAuthorized,check('data').notEmpty(), check('tipo').notEmpty(),check('ora').notEmpty(), (req,res) => {
+router.post('/', isAuthenticated, isAuthorized, check('tipo').notEmpty(), (req,res) => {
     let errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})

@@ -7,7 +7,7 @@ const malattiaSchema = mongoose.Schema({
     },
     certificato:{
         type: String,
-        required:true
+        required:false
     },
     dataInizio:{
         type: String,
