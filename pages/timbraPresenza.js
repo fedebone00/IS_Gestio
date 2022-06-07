@@ -294,13 +294,13 @@ export default function Home() {
                 id="Smart-working"
                 onChange={handleCheckbox}
               />
-              <label className="form-check-label inline-block text-gray-800">
+              <label className="form-check-label  inline-block text-gray-800">
                 Smart-Working
               </label>
             </div>
           </div>
 
-          <div className="px-10 py-20 text-xl leading-tigh">
+          <div className="px-10 py-20 text-xl leading-tigh ">
             <table>
               <tr>
                 <th>STORICO PRESENZE</th>

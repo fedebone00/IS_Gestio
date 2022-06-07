@@ -106,6 +106,7 @@ export default function notificaMalattia() {
       return (
         <div>
           <TopBar />
+          <SidebarDip />
           <div className="px-10 py-10 text-xl leading-tigh"> 
             <table>
               <tr>
@@ -120,9 +121,9 @@ export default function notificaMalattia() {
               </tr>
             </table> 
           </div>
-          <SidebarDip />
+          
           <form onSubmit={handleAdd}>
-            <fieldset className="  relative z-1  p-3 flex flex-col space-y-3 justify-center items-center  h-screen">
+            <fieldset className="  relative z-1  p-3 flex flex-col space-y-3 justify-center items-center ml-40">
               <div className=" p-2 border  rounded flex flex-row  justify-center items-center">
                 <input type="file" name="file" id="certificato"></input>
               </div>

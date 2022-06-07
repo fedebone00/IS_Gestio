@@ -76,7 +76,7 @@ export default function gestioneFerie() {
           <SidebarDip />
           <TopBar />
           <form onSubmit={handleAdd}>
-            <fieldset className="  relative z-1  p-3 flex flex-col space-y-3 justify-center items-center  h-screen">
+            <fieldset className="  relative z-1  p-3 flex flex-col space-y-3 justify-center items-center ml-40 h-screen">
               <div className=" p-2 border  rounded flex flex-row  justify-center items-center">
                 <input
                   type="text"
