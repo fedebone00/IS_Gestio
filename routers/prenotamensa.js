@@ -5,7 +5,7 @@ const { isAuthenticated, isAuthorized } = require("../middlewares/auth.js");
 const { check, validationResult } = require("express-validator");
 
 router.get("/", isAuthenticated, isAuthorized, (req, res) => {
-  PrenotaMensa.find().then((prenotamensa) => res.send(prenotamensa));
+  PrenotaMensa.find().then((prenotamensa) => res.status(201).send(prenotamensa));
 });
 
 router.post("/", isAuthenticated,isAuthorized, check("user_id").notEmpty(), (req, res) => {

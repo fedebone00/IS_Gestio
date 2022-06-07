@@ -7,12 +7,12 @@ const {check, validationResult} = require('express-validator')
 
 //find every workers
 router.get('/', isAuthenticated, isAuthorized, (req,res) =>{
-    Dipendente.find().then((dipendente) => res.send(dipendente))
+    Dipendente.find().then((dipendente) => res.status(201).send(dipendente))
 });
 
 
 router.get('/byemail', isAuthenticated, isAuthorized, async (req,res) =>{
-    const dipendente = await Dipendente.findOne({email: req.headers['email']});
+    const dipendente = await Dipendente.findOne({email: req.body['email']});
     if(dipendente) return res.status(201).send(dipendente);
 });
 
