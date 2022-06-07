@@ -7,6 +7,17 @@ const userSchema = new mongoose.Schema({
     role: String
 });
 
+userSchema.set('toJSON', {
+    transform: function(doc, ret, options) {
+        var retJson = {
+            _id: ret._id,
+            email: ret.email,
+            role: ret.role,
+        };
+        return retJson;
+    }
+});
+
 const User = mongoose.model("user", userSchema);
 
 module.exports = User;
